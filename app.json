@@ -1,0 +1,12 @@
+{
+  "name": "where-is-my-car",
+  "displayName": "where-is-my-car",
+  "expo": {
+    "name": "where-is-my-car",
+    "slug": "where-is-my-car",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
