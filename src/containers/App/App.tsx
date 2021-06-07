@@ -9,16 +9,23 @@ import {
   IconRegistry,
   Layout,
 } from "@ui-kitten/components";
+import { persistor, store } from "../../store/Store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   return (
-    <ApplicationProvider {...eva} theme={eva.dark}>
-      <IconRegistry icons={EvaIconsPack} />
-      <TopNavigation />
-      <Layout style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-      </Layout>
-    </ApplicationProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ApplicationProvider {...eva} theme={eva.dark}>
+          <IconRegistry icons={EvaIconsPack} />
+          <TopNavigation />
+          <Layout style={styles.container}>
+            <Text>Open up App.tsx to start working on your app!</Text>
+          </Layout>
+        </ApplicationProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
