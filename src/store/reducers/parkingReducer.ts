@@ -1,9 +1,9 @@
+import { ParkingsActionType } from "../actions/types";
 import {
   PARKING_ADD,
   PARKING_UPDATE,
   PARKING_DELETE,
 } from "../constants/parkingConstants";
-import { ParkingsActionType } from "./actionTypes";
 
 export type Parking = {
   id: number;

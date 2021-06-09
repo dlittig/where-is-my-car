@@ -1,8 +1,8 @@
+import { SettingsActionType } from "../actions/types";
 import {
   SETTINGS_APPLY_THEME,
   SETTINGS_SEEN_TIP_FASTEST,
 } from "../constants/settingsConstants";
-import { SettingsActionType } from "./actionTypes";
 
 export type SettingsState = {
   theme: "light" | "dark";
@@ -26,9 +26,6 @@ export const settingsReducer = (
       theme = action.payload;
       newState = { ...state, theme };
 
-      return newState;
-    case SETTINGS_SEEN_TIP_FASTEST:
-      newState = { ...state, tipFastestSeen: true };
       return newState;
     default:
       return state;

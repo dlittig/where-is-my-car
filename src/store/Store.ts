@@ -1,13 +1,14 @@
-import { createStore } from "redux";
+import { combineReducers, createStore, Store } from "redux";
 import {
   persistStore,
-  persistCombineReducers,
-  createMigrate,
+  // createMigrate,
+  persistReducer,
 } from "redux-persist";
 import ExpoFileSystemStorage from "redux-persist-expo-filesystem";
 
-import reducers, { RootReducerType } from "./reducers";
+import reducers, { RootReducerType } from "./reducers"; // , { RootReducerType }
 import { SettingsState } from "./reducers/settingsReducer";
+// import { SettingsState } from "./reducers/settingsReducer";
 
 const migrations = {};
 
@@ -18,14 +19,17 @@ const persistConfig = {
   // migrate: createMigrate(migrations, { debug: true }),
 };
 
-const persistedReducer = persistCombineReducers(persistConfig, reducers);
+const persistedReducer = persistReducer(
+  persistConfig,
+  combineReducers(reducers)
+);
 
-const initialState: RootReducerType = {
-  parkingsReducer: { parkings: {} },
-  settingsReducer: {} as SettingsState,
-};
+// const initialState: RootReducerType = {
+//   parkingsReducer: { parkings: {} },
+//   settingsReducer: {} as SettingsState,
+// };
 
-const store = createStore(persistedReducer, initialState);
+const store: Store = createStore(persistedReducer);
 const persistor = persistStore(store);
 
 export { store, persistor };

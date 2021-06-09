@@ -1,13 +1,20 @@
+import {
+  PARKING_ADD,
+  PARKING_DELETE,
+  PARKING_UPDATE,
+} from "../constants/parkingConstants";
+import { SETTINGS_APPLY_THEME } from "../constants/settingsConstants";
 import { Parking } from "../reducers/parkingReducer";
 
-interface ParkingActionType {
-  type: string;
+type ApplyThemeAction = {
+  type: typeof SETTINGS_APPLY_THEME;
+  payload: "light" | "dark";
+};
+
+export type SettingsActionType = ApplyThemeAction;
+
+export type ParkingsActionType = {
+  type: typeof PARKING_ADD | typeof PARKING_UPDATE | typeof PARKING_DELETE;
   payload: Parking;
-}
-
-interface SettingsActionType {
-  type: string;
-  payload?: unknown;
-}
-
-export type ActionType = ParkingActionType | SettingsActionType;
+};
+export type ActionType = ParkingsActionType | SettingsActionType;

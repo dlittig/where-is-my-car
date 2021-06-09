@@ -6,15 +6,14 @@ import {
   TopNavigationAction,
 } from "@ui-kitten/components";
 
-const BackIcon = (props: any) => <Icon {...props} name="arrow-back" />;
+const SettingsIcon = (props: any) => (
+  <Icon {...props} name="settings-outline" />
+);
 
-const BackAction = () => <TopNavigationAction icon={BackIcon} />;
+const SettingsAction = () => <TopNavigationAction icon={SettingsIcon} />;
 
 const TopNavigation = () => (
-  <UIKTopNavigation
-    accessoryLeft={BackAction}
-    title="Eva Application"
-  />
+  <UIKTopNavigation accessoryRight={SettingsAction} title="Yo, where is my car?" />
 );
 
 export default TopNavigation;
