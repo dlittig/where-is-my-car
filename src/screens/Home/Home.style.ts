@@ -1,12 +1,8 @@
 import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  center: {
-    alignItems: "center",
-    justifyContent: "center",
+  tabBar: {
+    backgroundColor: "#ff0000",
   },
 });
 

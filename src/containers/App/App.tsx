@@ -21,7 +21,6 @@ export default function App() {
           <IconRegistry icons={EvaIconsPack} />
           <StatusBar animated backgroundColor={"#000"} />
           <TopNavigation />
-
           <Navigator />
         </ApplicationProvider>
       </PersistGate>
