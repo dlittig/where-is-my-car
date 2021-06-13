@@ -1,0 +1,3 @@
+type ListComponentType = {
+  spacer?: boolean;
+};
