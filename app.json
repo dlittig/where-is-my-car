@@ -8,5 +8,12 @@
     "assetBundlePatterns": [
       "**/*"
     ]
+  },
+  "android": {
+    "config": {
+      "googlemaps": {
+        "apiKey": "abc"
+      }
+    }
   }
 }
