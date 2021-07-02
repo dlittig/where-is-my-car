@@ -7,7 +7,13 @@ import { Card } from "@ui-kitten/components";
 const BaseCard: FC<BaseCardComponentType> & { Content: typeof Content } = ({
   children,
   type,
-}) => <Card status={type}>{children}</Card>;
+  appearance,
+  footer,
+}) => (
+  <Card status={type} appearance={appearance} footer={footer}>
+    {children}
+  </Card>
+);
 
 BaseCard.Content = Content;
 

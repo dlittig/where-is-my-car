@@ -5,4 +5,6 @@ export enum MAP_VIEW_SIZE {
 
 export type MapViewComponentType = {
   size: MAP_VIEW_SIZE;
+  latitude: number,
+  longitude: number,
 };

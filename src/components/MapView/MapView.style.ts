@@ -2,8 +2,13 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   container: {
-    width: "100%",
+    width: "120%",
     height: 150,
+  },
+  card: {
+    marginHorizontal: -24,
+    marginTop: -15,
+    marginBottom: 10,
   },
   map: {
     width: "100%",

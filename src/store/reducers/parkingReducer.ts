@@ -12,8 +12,8 @@ export type Parking = {
   reminderTime: number;
   car: string;
   paid: number;
-  longitude: string;
-  latitude: string;
+  longitude: number;
+  latitude: number;
   locationName: string;
   photos: string[];
   [k: string]: unknown;

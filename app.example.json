@@ -3,7 +3,6 @@
     "name": "where-is-my-car",
     "slug": "where-is-my-car",
     "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -23,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "de.dlittig.whereismycar"
     },
     "web": {
       "favicon": "./assets/favicon.png"

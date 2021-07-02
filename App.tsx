@@ -1,6 +1,6 @@
-import React from 'react';
-import App from "./src/containers/App"
+import React from "react";
+import App from "./src/containers/App";
 
-const Entry = () => <App />
+const Entry = () => <App />;
 
-export default Entry
+export default Entry;

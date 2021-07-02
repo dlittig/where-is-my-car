@@ -1,39 +1,28 @@
 import React, { FC } from "react";
-import ReactNativeMapView from "react-native-maps";
+import ReactNativeMapView, { Marker } from "react-native-maps";
 import NoInteraction from "../NoInteraction";
 import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
 import styles, { mapStyle } from "./MapView.style";
 
-const MapView: FC<MapViewComponentType> = ({ size, children }) => {
-  //   let mapProps = {};
-
-  //   if (size === MAP_VIEW_SIZE.CARD) {
-  //     mapProps = {
-  //       zoomEnabled: false,
-  //       zoomTabEnabled: false,
-  //       pitchEnabled: false,
-  //       rotateEnabled: false,
-  //       toolbarEnabled: false,
-  //     };
-  //   }
-
-  //   console.log(mapProps);
-
-  return (
-    <NoInteraction
-      condition={size === MAP_VIEW_SIZE.CARD}
-      style={styles.container}
+const MapView: FC<MapViewComponentType> = ({ size, longitude, latitude }) => (
+  <NoInteraction
+    condition={size === MAP_VIEW_SIZE.CARD}
+    style={[styles.container, size === MAP_VIEW_SIZE.CARD && styles.card]}
+  >
+    <ReactNativeMapView
+      customMapStyle={mapStyle}
+      region={{
+        latitude,
+        longitude,
+        latitudeDelta: 0.003,
+        longitudeDelta: 0.005,
+      }}
+      style={styles.map}
     >
-      <ReactNativeMapView
-        // {...mapProps}
-        customMapStyle={mapStyle}
-        style={styles.map}
-      >
-        {children}
-      </ReactNativeMapView>
-    </NoInteraction>
-  );
-};
+      <Marker coordinate={{ latitude, longitude }} pinColor="linen" />
+    </ReactNativeMapView>
+  </NoInteraction>
+);
 
 export default MapView;

@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 export enum CARD_TYPE {
   PRIMARY = "primary",
   SUCCESS = "success",
@@ -9,4 +11,6 @@ export enum CARD_TYPE {
 
 export type BaseCardComponentType = {
   type: CARD_TYPE;
+  appearance?: "filled" | "outline";
+  footer?: any;
 };
