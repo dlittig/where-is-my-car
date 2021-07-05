@@ -27,6 +27,7 @@ const options = {
 
 const Navigator: FC = () => {
   const { t } = useTranslation();
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={t(APP_HOME)}>

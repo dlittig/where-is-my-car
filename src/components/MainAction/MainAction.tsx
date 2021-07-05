@@ -1,19 +1,12 @@
-import React from "react";
-import { Button, Icon, Layout } from "@ui-kitten/components";
+import React, { FC } from "react";
+import { Layout } from "@ui-kitten/components";
 
 import style from "./MainAction.style";
 
-const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
 
-const onPress = () => {
-  
-};
-
-const MainAction = () => (
+const MainAction: FC = ({ children }) => (
   <Layout level="1" style={style.container}>
-    <Button accessoryLeft={AddIcon} onPress={onPress}>
-      CREATE NEW
-    </Button>
+    {children}
   </Layout>
 );
 

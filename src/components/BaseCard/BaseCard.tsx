@@ -9,8 +9,14 @@ const BaseCard: FC<BaseCardComponentType> & { Content: typeof Content } = ({
   type,
   appearance,
   footer,
+  touchableOpacityProps,
 }) => (
-  <Card status={type} appearance={appearance} footer={footer}>
+  <Card
+    status={type}
+    appearance={appearance}
+    footer={footer}
+    {...touchableOpacityProps}
+  >
     {children}
   </Card>
 );

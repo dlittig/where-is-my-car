@@ -1,68 +1,76 @@
 import React, { FC } from "react";
-import { Text, Button, Icon } from "@ui-kitten/components";
+import { Text, Icon, Layout } from "@ui-kitten/components";
+import ParkingCardFooter from "./footer";
+import MapView from "../MapView";
 import BaseCard from "../BaseCard";
 import { CARD_TYPE } from "../BaseCard/types";
-import MapView from "../MapView";
 import { MAP_VIEW_SIZE } from "../MapView/types";
 import { ParkingCardComponentType } from "./types";
+import { humanReadableTime, humanReadableMoney } from "../../utils";
 
 import style from "./ParkingCard.style";
-import { Linking, Share } from "react-native";
-import { showLocation } from "react-native-map-link";
+import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
+import { APP_LOCATION_EDIT } from "../Navigator/Routes";
+import { TouchableNativeFeedback, TouchableOpacity } from "react-native";
 
-const MapIcon = (props: any) => <Icon {...props} name="map-outline" />;
+const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
+  const navigation = useNavigation();
+  const { t } = useTranslation();
 
-const shareLocation = (latitude: number, longitude: number) => {
-  showLocation({
-    latitude,
-    longitude,
-    dialogTitle: "Navigate to your parking", // optional (default: 'Open in Maps')
-    dialogMessage: "What app would you like to use?", // optional (default: 'What app would you like to use?')
-    cancelText: "Cancel", // optional (default: 'Cancel')
-    naverCallerName: "de.dlittig.whereismycar", // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
-  });
-};
+  const shouldShake = () =>
+    parking.reminderTime && parking.reminderTime < Date.now();
 
-type ParkingCardFooterComponentType = {
-  longitude: number;
-  latitude: number;
-};
+  const onPress = () => {
+    console.log("press");
+    navigation.navigate(t(APP_LOCATION_EDIT));
+  };
 
-const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({
-  longitude,
-  latitude,
-}) => (
-  <Button
-    style={style.button}
-    size="small"
-    appearance="outline"
-    accessoryLeft={MapIcon}
-    onPress={() => shareLocation(latitude, longitude)}
-  >
-    Navigate to...
-  </Button>
-);
-
-const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => (
-  <BaseCard
-    type={CARD_TYPE.INFO}
-    appearance="outline"
-    footer={() => (
-      <ParkingCardFooter
-        longitude={parking.longitude}
+  return (
+    <BaseCard
+      type={CARD_TYPE.INFO}
+      appearance="outline"
+      footer={() => (
+        <ParkingCardFooter
+          longitude={parking.longitude}
+          latitude={parking.latitude}
+        />
+      )}
+      touchableOpacityProps={{ onPress }}
+    >
+      <MapView
+        size={MAP_VIEW_SIZE.CARD}
         latitude={parking.latitude}
+        longitude={parking.longitude}
       />
-    )}
-  >
-    <MapView
-      size={MAP_VIEW_SIZE.CARD}
-      latitude={parking.latitude}
-      longitude={parking.longitude}
-    />
-    <BaseCard.Content>
-      <Text>{parking.name}</Text>
-    </BaseCard.Content>
-  </BaseCard>
-);
+      <BaseCard.Content>
+        <Text category="h6" style={style.parkingName}>
+          {parking.name}
+        </Text>
+        <Layout style={style.detailsContainer}>
+          <Text style={style.detailsItems}>
+            <Icon style={style.icons} fill="#fff" name="credit-card-outline" />
+            {humanReadableMoney(parking.paid, parking.unit)}
+          </Text>
+          <Text style={[style.detailsItems]}>
+            <Icon style={style.icons} fill="#fff" name="pin-outline" />
+            {humanReadableTime(parking.time)}
+          </Text>
+          {parking.reminderTime && (
+            <Text style={style.detailsItems}>
+              <Icon
+                style={style.icons}
+                animation={shouldShake() ? "shake" : undefined}
+                fill="#fff"
+                name="clock-outline"
+              />
+              {humanReadableTime(parking.reminderTime)}
+            </Text>
+          )}
+        </Layout>
+      </BaseCard.Content>
+    </BaseCard>
+  );
+};
 
 export default ParkingCard;

@@ -9,13 +9,14 @@ export type Parking = {
   id: number;
   name: string;
   time: number;
-  reminderTime: number;
+  reminderTime?: number;
   car: string;
   paid: number;
   longitude: number;
   latitude: number;
   locationName: string;
   photos: string[];
+  unit: "$" | "€" | "CHF" | "¥" | "£";
   [k: string]: unknown;
 };
 

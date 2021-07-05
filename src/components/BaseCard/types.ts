@@ -13,4 +13,5 @@ export type BaseCardComponentType = {
   type: CARD_TYPE;
   appearance?: "filled" | "outline";
   footer?: any;
+  touchableOpacityProps: Record<string, any>;
 };
