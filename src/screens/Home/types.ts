@@ -1,4 +1,4 @@
-export type HomeComponentType = {
+export type HomeScreenType = {
   navigation: any;
   state: {
     index: number;

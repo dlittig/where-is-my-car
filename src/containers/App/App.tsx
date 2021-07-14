@@ -3,7 +3,6 @@ import { StatusBar, StyleSheet, Text } from "react-native";
 
 import * as eva from "@eva-design/eva";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
-import TopNavigation from "../../components/TopBar/TopBar";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { persistor, store } from "../../store/Store";
 import { Provider } from "react-redux";
@@ -20,7 +19,6 @@ export default function App() {
         <ApplicationProvider {...eva} theme={eva.dark}>
           <IconRegistry icons={EvaIconsPack} />
           <StatusBar animated backgroundColor={"#000"} />
-          <TopNavigation />
           <Navigator />
         </ApplicationProvider>
       </PersistGate>

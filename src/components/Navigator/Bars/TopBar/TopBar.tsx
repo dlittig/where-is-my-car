@@ -12,11 +12,11 @@ const SettingsIcon = (props: any) => (
 
 const SettingsAction = () => <TopNavigationAction icon={SettingsIcon} />;
 
-const TopNavigation = () => (
+const TopBar = () => (
   <UIKTopNavigation
     accessoryRight={SettingsAction}
     title="Yo, where is my car?"
   />
 );
 
-export default TopNavigation;
+export default TopBar;
