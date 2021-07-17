@@ -8,9 +8,14 @@ const BaseLayout: FC<BaseLayoutComponentType> = ({
   level,
   children,
   center,
+  padded,
 }) => (
   <Layout
-    style={[BaseLayoutStyle.container, center && BaseLayoutStyle.center]}
+    style={[
+      BaseLayoutStyle.container,
+      center && BaseLayoutStyle.center,
+      padded && BaseLayoutStyle.padded,
+    ]}
     level={level}
   >
     {children}

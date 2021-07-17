@@ -10,6 +10,9 @@ export default StyleSheet.create({
     marginTop: -15,
     marginBottom: 10,
   },
+  normal: {
+    width: "100%",
+  },
   map: {
     width: "100%",
     height: "100%",

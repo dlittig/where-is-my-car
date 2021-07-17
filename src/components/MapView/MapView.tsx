@@ -7,8 +7,12 @@ import styles, { mapStyle } from "./MapView.style";
 
 const MapView: FC<MapViewComponentType> = ({ size, longitude, latitude }) => (
   <NoInteraction
-    condition={size === MAP_VIEW_SIZE.CARD}
-    style={[styles.container, size === MAP_VIEW_SIZE.CARD && styles.card]}
+    condition={size !== MAP_VIEW_SIZE.FULL}
+    style={[
+      styles.container,
+      size === MAP_VIEW_SIZE.CARD && styles.card,
+      size === MAP_VIEW_SIZE.NORMAL && styles.normal,
+    ]}
   >
     <ReactNativeMapView
       customMapStyle={mapStyle}

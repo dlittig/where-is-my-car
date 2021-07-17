@@ -8,6 +8,9 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  padded: {
+    padding: 18,
+  },
 });
 
 export default style;
