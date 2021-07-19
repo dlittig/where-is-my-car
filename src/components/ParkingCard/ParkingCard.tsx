@@ -1,18 +1,18 @@
 import React, { FC } from "react";
-import { Text, Icon, Layout } from "@ui-kitten/components";
+import { Text, Layout } from "@ui-kitten/components";
 import ParkingCardFooter from "./footer";
 import MapView from "../MapView";
 import BaseCard from "../BaseCard";
 import { CARD_TYPE } from "../BaseCard/types";
 import { MAP_VIEW_SIZE } from "../MapView/types";
 import { ParkingCardComponentType } from "./types";
-import { humanReadableTime, humanReadableMoney } from "../../utils";
+import { humanReadableTime } from "../../utils";
 
 import style from "./ParkingCard.style";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { APP_LOCATION_EDIT } from "../Navigator/Routes";
-import { TouchableNativeFeedback, TouchableOpacity } from "react-native";
+import { APP_LOCATION_VIEW } from "../Navigator/Routes";
+import Icons from "../Icons";
 
 const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const navigation = useNavigation();
@@ -23,7 +23,7 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
 
   const onPress = () => {
     console.log("press");
-    navigation.navigate(t(APP_LOCATION_EDIT));
+    navigation.navigate(t(APP_LOCATION_VIEW), { id: parking.id });
   };
 
   return (
@@ -49,20 +49,19 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
         </Text>
         <Layout style={style.detailsContainer}>
           <Text style={style.detailsItems}>
-            <Icon style={style.icons} fill="#fff" name="credit-card-outline" />
-            {humanReadableMoney(parking.paid, parking.unit)}
+            <Icons.CreditCard style={style.icons} fill="#fff" />
+            {`${parking.unit} ${parking.paid}`}
           </Text>
           <Text style={[style.detailsItems]}>
-            <Icon style={style.icons} fill="#fff" name="pin-outline" />
+            <Icons.Localize style={style.icons} fill="#fff" />
             {humanReadableTime(parking.time)}
           </Text>
           {parking.reminderTime && (
             <Text style={style.detailsItems}>
-              <Icon
+              <Icons.Clock
                 style={style.icons}
                 animation={shouldShake() ? "shake" : undefined}
                 fill="#fff"
-                name="clock-outline"
               />
               {humanReadableTime(parking.reminderTime)}
             </Text>

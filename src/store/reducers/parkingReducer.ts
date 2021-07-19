@@ -5,24 +5,26 @@ import {
   PARKING_DELETE,
 } from "../constants/parkingConstants";
 
+export type PaymentUnitType = "$" | "€" | "CHF" | "¥" | "£";
+
 export type Parking = {
-  id: number;
+  id: string;
   name: string;
   time: number;
   reminderTime?: number;
   car: string;
-  paid: number;
+  paid: string;
   longitude: number;
   latitude: number;
   locationName: string;
   photos: string[];
-  unit: "$" | "€" | "CHF" | "¥" | "£";
+  unit: PaymentUnitType;
   [k: string]: unknown;
 };
 
 export type ParkingsState = {
   parkings: {
-    [x: number]: Parking;
+    [x: string]: Parking;
   };
 };
 

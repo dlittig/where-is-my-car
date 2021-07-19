@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import i18n from "../../translations/i18n";
 import Navigator from "../../components/Navigator";
+import "react-native-get-random-values";
 
 i18n;
 

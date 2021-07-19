@@ -3,42 +3,40 @@ import { Button, Icon, Text } from "@ui-kitten/components";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import MainAction from "../../components/MainAction";
 import List from "../../components/List";
-import MapView from "../../components/MapView";
-import { MAP_VIEW_SIZE } from "../../components/MapView/types";
 import ParkingCard from "../../components/ParkingCard";
-import { Parking } from "../../store/reducers/parkingReducer";
+import { ParkingsState } from "../../store/reducers/parkingReducer";
 import { useNavigation } from "@react-navigation/native";
 import { APP_LOCATION_EDIT } from "../../components/Navigator/Routes";
 import { useTranslation } from "react-i18next";
-
-const parking: Parking = {
-  id: Date.now(),
-  time: Date.now(),
-  reminderTime: Date.now() + 3600,
-  car: "Toyota Auris",
-  latitude: 51.041546001417295,
-  longitude: 7.0415530865179425,
-  locationName: "Home",
-  name: "Home",
-  paid: 3.5,
-  unit: "€",
-  photos: [],
-};
-
-const AddIcon = (props: any) => <Icon {...props} name="plus-outline" />;
+import { useSelector } from "react-redux";
+import { RootReducerType } from "../../store/reducers";
+import { parkingsSelector } from "../../store/selectors";
+import Icons from "../../components/Icons";
 
 const Recent = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const parkingsReducer = useSelector<RootReducerType, ParkingsState>(
+    parkingsSelector
+  );
   const onPress = () => navigation.navigate(t(APP_LOCATION_EDIT));
+  const hasParkings = () => Object.keys(parkingsReducer.parkings).length > 0;
 
   return (
     <BaseLayout level={"2"}>
       <List spacer>
-        <ParkingCard parking={parking} />
+        {hasParkings() ? (
+          Object.values(parkingsReducer.parkings).map((parking) => (
+            <ParkingCard parking={parking} />
+          ))
+        ) : (
+          <Text>
+            No parking saved. You can create one with the button below
+          </Text>
+        )}
       </List>
       <MainAction>
-        <Button accessoryLeft={AddIcon} onPress={onPress}>
+        <Button accessoryLeft={Icons.Add} onPress={onPress}>
           CREATE NEW
         </Button>
       </MainAction>

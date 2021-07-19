@@ -1,16 +1,11 @@
 import React from "react";
 import {
-  Icon,
-  Text,
   TopNavigation as UIKTopNavigation,
   TopNavigationAction,
 } from "@ui-kitten/components";
+import Icons from "../../../Icons";
 
-const SettingsIcon = (props: any) => (
-  <Icon {...props} name="settings-outline" />
-);
-
-const SettingsAction = () => <TopNavigationAction icon={SettingsIcon} />;
+const SettingsAction = () => <TopNavigationAction icon={Icons.Settings} />;
 
 const TopBar = () => (
   <UIKTopNavigation

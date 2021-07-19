@@ -6,17 +6,17 @@ import {
 import { Parking } from "../reducers/parkingReducer";
 import { ActionType } from "./types";
 
-export const addDriver = (parking: Parking): ActionType => ({
+export const addParking = (parking: Parking): ActionType => ({
   type: PARKING_ADD,
   payload: parking,
 });
 
-export const deleteDriver = (parking: Parking): ActionType => ({
+export const deleteParking = (parking: Parking): ActionType => ({
   type: PARKING_DELETE,
   payload: parking,
 });
 
-export const updateDriver = (parking: Parking): ActionType => ({
+export const updateParking = (parking: Parking): ActionType => ({
   type: PARKING_UPDATE,
   payload: parking,
 });

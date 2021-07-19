@@ -1,14 +1,9 @@
 import React, { FC } from "react";
-import { Button, Icon } from "@ui-kitten/components";
+import { Button } from "@ui-kitten/components";
 import { showLocation } from "react-native-map-link";
 
 import style from "./Footer.style";
-
-const NavigationIcon = (props: any) => (
-  <Icon {...props} name="navigation-outline" />
-);
-
-const StopIcon = (props: any) => <Icon {...props} name="slash-outline" />;
+import Icons from "../../Icons";
 
 const shareLocation = (latitude: number, longitude: number) => {
   showLocation({
@@ -30,7 +25,7 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({
       style={style.button}
       size="small"
       appearance="outline"
-      accessoryLeft={NavigationIcon}
+      accessoryLeft={Icons.Navigation}
       onPress={() => shareLocation(latitude, longitude)}
     >
       Navigate to...
@@ -39,7 +34,7 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({
       style={style.button}
       size="small"
       appearance="outline"
-      accessoryLeft={StopIcon}
+      accessoryLeft={Icons.Stop}
       onPress={() => {}}
     >
       Stop parking

@@ -5,9 +5,6 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
-  layout: {
-    padding: 10,
-  },
   element: {
     marginVertical: 8,
   },
