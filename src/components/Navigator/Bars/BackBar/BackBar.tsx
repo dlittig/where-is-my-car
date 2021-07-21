@@ -20,6 +20,7 @@ const BackAction = () => {
 
 const BackBar: FC<BackBarComponentType> = ({ title, accessoryRight }) => (
   <UIKTopNavigation
+    alignment="center"
     accessoryLeft={BackAction}
     title={title}
     accessoryRight={accessoryRight}

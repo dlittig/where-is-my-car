@@ -1,4 +1,4 @@
-import { Parking } from "../../store/reducers/parkingReducer";
+import { Parking } from "../../store/types";
 
 export type ParkingCardComponentType = {
   parking: Parking;

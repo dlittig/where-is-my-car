@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import {
-  Icon,
   Text,
   Button,
   Input,
@@ -17,24 +16,22 @@ import { LocationEditScreenType } from "./types";
 import MapView from "../../../components/MapView";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { View } from "react-native";
-import { padd } from "../../../utils";
+import { padd, take } from "../../../utils";
 
 import styles from "./LocationEdit.style";
 import { useLocation } from "../../../hooks";
 import MainAction from "../../../components/MainAction";
 import List from "../../../components/List";
-import {
-  Parking,
-  PaymentUnitType,
-} from "../../../store/reducers/parkingReducer";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { updateParking } from "../../../store/actions";
+import { addParking, updateParking } from "../../../store/actions";
 import { useNavigation } from "@react-navigation/native";
 import { parkingsSelector } from "../../../store/selectors";
 import Icons from "../../../components/Icons";
+import { Parking, paymentUnits } from "../../../store/types";
 
-const paymentUnits: PaymentUnitType[] = ["€", "$", "CHF", "¥", "£"];
+const getHours = () => [...Array(24).keys()].map((key) => padd(key));
+const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
 
 const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   const parkingsReducer = useSelector(parkingsSelector);
@@ -44,46 +41,61 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       ? parkingsReducer.parkings[parkingId]
       : null;
 
-  const take = <T extends unknown>(key: string, fallback: T): T =>
-    typeof parkingId !== "undefined" &&
-    parking !== null &&
-    typeof parking[key] !== "undefined"
-      ? (parking[key] as T)
-      : fallback;
-
   const navigation = useNavigation();
   const { error: locationError, acquireLocation, location } = useLocation();
   const dispatch = useDispatch();
+
+  // States
+  const [name, setName] = useState<string>(take(parking, "name", ""));
   const [selectedIndexUnit, setSelectedIndexUnit] = useState<IndexPath>(
-    new IndexPath(0)
+    new IndexPath(paymentUnits.indexOf(take(parking, "unit", "€")))
   );
-  const [name, setName] = useState<string>(take("name", ""));
-  const [reminderDate, setReminderDate] = useState<Date>(new Date());
-  const [reminderTimeHours, setReminderTimeHours] = useState<string>(
-    padd(new Date().getHours())
+  const [paid, setPaid] = useState<string>(take(parking, "paid", ""));
+  const [reminderDate, setReminderDate] = useState<Date>(
+    new Date(take(parking, "reminderDate", Date.now()))
   );
-  const [reminderTimeMinutes, setReminderTimeMinutes] = useState<string>(
-    padd(new Date().getMinutes())
+  const [reminderTimeHours, setReminderTimeHours] = useState<IndexPath>(
+    new IndexPath(
+      new Date(take(parking, "reminderTime", Date.now())).getHours()
+    )
+  ); // TODO: fails if timer was set to `undefined` (not set)
+  const [reminderTimeMinutes, setReminderTimeMinutes] = useState<IndexPath>(
+    new IndexPath(
+      new Date(take(parking, "reminderTime", Date.now())).getMinutes()
+    )
+  ); // TODO: fails if timer was set to `undefined` (not set)
+  const [hasReminder, setHasReminder] = useState<boolean>(
+    take(parking, "hasReminder", false)
   );
-  const [paid, setPaid] = useState<string>(take("paid", ""));
-  const [hasReminder, setHasReminder] = useState<boolean>(false);
 
   const onSave = () => {
-    const parking: Parking = {
-      id: uuidv4(),
+    const reminderTime = new Date(
+      `1970-01-01T${getHours()[reminderTimeHours.row]}:${
+        getMinutes()[reminderTimeMinutes.row]
+      }:00`
+    ).getTime();
+
+    const parkingObject: Parking = {
+      id: take(parking, "id", uuidv4()),
       name,
-      car: "",
-      time: Date.now(),
-      reminderTime: hasReminder ? 0 : undefined,
+      car: "", // Not used for now
+      time: take(parking, "time", Date.now()),
+      reminderTime: hasReminder ? reminderTime : undefined,
+      reminderDate: hasReminder ? reminderDate.getTime() : undefined,
+      hasReminder,
       paid,
       unit: paymentUnits[selectedIndexUnit.row],
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      photos: [],
-      locationName: "",
+      photos: [], // Not used for now
+      locationName: "", // Not used for now
     };
 
-    dispatch(updateParking(parking));
+    if (typeof parkingId !== "undefined") {
+      dispatch(updateParking(parkingObject));
+    } else {
+      dispatch(addParking(parkingObject));
+    }
     navigation.goBack();
   };
 
@@ -131,20 +143,38 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
                 onSelect={(nextDate) => setReminderDate(nextDate)}
               />
               <View style={[styles.inline, styles.element]}>
-                <Input
+                <Select
                   label="Hours"
                   style={styles.hours}
-                  value={reminderTimeHours}
-                  onChangeText={(nextValue) => setReminderTimeHours(nextValue)}
-                />
-                <Input
+                  selectedIndex={reminderTimeHours}
+                  value={() => <Text>{getHours()[reminderTimeHours.row]}</Text>}
+                  onSelect={(index) => setReminderTimeHours(index as IndexPath)}
+                >
+                  {getHours().map((hour, index) => (
+                    <SelectItem
+                      key={`reminder-time-selectitem-hour-${index}`}
+                      title={hour}
+                    />
+                  ))}
+                </Select>
+                <Select
                   label="Minutes"
                   style={styles.minutes}
-                  value={reminderTimeMinutes}
-                  onChangeText={(nextValue) =>
-                    setReminderTimeMinutes(nextValue)
+                  selectedIndex={reminderTimeMinutes}
+                  value={() => (
+                    <Text>{getMinutes()[reminderTimeMinutes.row]}</Text>
+                  )}
+                  onSelect={(index) =>
+                    setReminderTimeMinutes(index as IndexPath)
                   }
-                />
+                >
+                  {getMinutes().map((minute, index) => (
+                    <SelectItem
+                      key={`reminder-time-selectitem-minute-${index}`}
+                      title={minute}
+                    />
+                  ))}
+                </Select>
               </View>
             </>
           )}

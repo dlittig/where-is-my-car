@@ -4,7 +4,6 @@ import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import MainAction from "../../components/MainAction";
 import List from "../../components/List";
 import ParkingCard from "../../components/ParkingCard";
-import { ParkingsState } from "../../store/reducers/parkingReducer";
 import { useNavigation } from "@react-navigation/native";
 import { APP_LOCATION_EDIT } from "../../components/Navigator/Routes";
 import { useTranslation } from "react-i18next";
@@ -12,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootReducerType } from "../../store/reducers";
 import { parkingsSelector } from "../../store/selectors";
 import Icons from "../../components/Icons";
+import { ParkingsState } from "../../store/types";
 
 const Recent = () => {
   const navigation = useNavigation();
@@ -26,8 +26,11 @@ const Recent = () => {
     <BaseLayout level={"2"}>
       <List spacer>
         {hasParkings() ? (
-          Object.values(parkingsReducer.parkings).map((parking) => (
-            <ParkingCard parking={parking} />
+          Object.values(parkingsReducer.parkings).map((parking, index) => (
+            <ParkingCard
+              parking={parking}
+              key={`recent-parking-card-${index}`}
+            />
           ))
         ) : (
           <Text>

@@ -14,6 +14,9 @@ import {
   APP_MAP,
   APP_SETTINGS,
 } from "./Routes";
+import { View } from "react-native";
+import { withStyles } from "@ui-kitten/components";
+import { NavigatorComponentType } from "./types";
 
 const Stack = createStackNavigator();
 
@@ -25,32 +28,38 @@ const options = {
   },
 };
 
-const Navigator: FC = () => {
+const Navigator: FC<NavigatorComponentType> = ({ eva }) => {
   const { t } = useTranslation();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={t(APP_HOME)}>
-        <Stack.Screen name={t(APP_HOME)} options={options} component={Home} />
-        <Stack.Screen
-          name={t(APP_LOCATION_EDIT)}
-          options={options}
-          component={LocationEdit}
-        />
-        <Stack.Screen
-          name={t(APP_LOCATION_VIEW)}
-          options={options}
-          component={LocationView}
-        />
-        <Stack.Screen name={t(APP_MAP)} options={options} component={Map} />
-        <Stack.Screen
-          name={t(APP_SETTINGS)}
-          options={options}
-          component={Settings}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={[{ flex: 1 }, eva?.style.container]}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={t(APP_HOME)}>
+          <Stack.Screen name={t(APP_HOME)} options={options} component={Home} />
+          <Stack.Screen
+            name={t(APP_LOCATION_EDIT)}
+            options={options}
+            component={LocationEdit}
+          />
+          <Stack.Screen
+            name={t(APP_LOCATION_VIEW)}
+            options={options}
+            component={LocationView}
+          />
+          <Stack.Screen name={t(APP_MAP)} options={options} component={Map} />
+          <Stack.Screen
+            name={t(APP_SETTINGS)}
+            options={options}
+            component={Settings}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 };
 
-export default Navigator;
+export default withStyles(Navigator, (theme) => ({
+  container: {
+    backgroundColor: theme["background-basic-color-3"],
+  },
+}));

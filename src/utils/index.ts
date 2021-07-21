@@ -32,3 +32,19 @@ export const humanReadableMoney = (value: number, unit: string): string => {
 
 export const padd = (elem: number): string =>
   elem < 10 ? `0${elem}` : `${elem}`;
+
+export const take = <T extends unknown>(
+  suspect: Record<string, any>,
+  key: string,
+  fallback: T
+): T =>
+  typeof suspect !== "undefined" &&
+  suspect !== null &&
+  typeof suspect[key] !== "undefined"
+    ? (suspect[key] as T)
+    : fallback;
+
+export const getHoursFromTimestamp = (date: Date) => new Date(date).getHours();
+
+export const getMinutesFromTimestamp = (date: Date) =>
+  new Date(date).getMinutes();

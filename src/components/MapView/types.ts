@@ -8,4 +8,5 @@ export type MapViewComponentType = {
   size: MAP_VIEW_SIZE;
   latitude: number;
   longitude: number;
+  render?: boolean;
 };

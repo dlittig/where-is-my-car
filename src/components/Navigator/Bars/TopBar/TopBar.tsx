@@ -9,6 +9,7 @@ const SettingsAction = () => <TopNavigationAction icon={Icons.Settings} />;
 
 const TopBar = () => (
   <UIKTopNavigation
+    alignment="center"
     accessoryRight={SettingsAction}
     title="Yo, where is my car?"
   />

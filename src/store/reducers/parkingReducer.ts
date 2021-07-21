@@ -4,29 +4,7 @@ import {
   PARKING_UPDATE,
   PARKING_DELETE,
 } from "../constants/parkingConstants";
-
-export type PaymentUnitType = "$" | "€" | "CHF" | "¥" | "£";
-
-export type Parking = {
-  id: string;
-  name: string;
-  time: number;
-  reminderTime?: number;
-  car: string;
-  paid: string;
-  longitude: number;
-  latitude: number;
-  locationName: string;
-  photos: string[];
-  unit: PaymentUnitType;
-  [k: string]: unknown;
-};
-
-export type ParkingsState = {
-  parkings: {
-    [x: string]: Parking;
-  };
-};
+import { ParkingsState } from "../types";
 
 const initialState: ParkingsState = {
   parkings: {},
