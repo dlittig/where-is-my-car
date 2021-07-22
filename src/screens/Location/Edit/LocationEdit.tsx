@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+
 import {
   Text,
   Button,
@@ -9,26 +10,25 @@ import {
   Datepicker,
   CheckBox,
 } from "@ui-kitten/components";
-import BaseLayout from "../../../components/BaseLayout";
-import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-import { LocationEditScreenType } from "./types";
-
-import MapView from "../../../components/MapView";
-import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
+import { v4 as uuidv4 } from "uuid";
 import { View } from "react-native";
-import { padd, take } from "../../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 import styles from "./LocationEdit.style";
-import { useLocation } from "../../../hooks";
-import MainAction from "../../../components/MainAction";
 import List from "../../../components/List";
-import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
-import { addParking, updateParking } from "../../../store/actions";
-import { useNavigation } from "@react-navigation/native";
-import { parkingsSelector } from "../../../store/selectors";
+import { padd, take } from "../../../utils";
+import { useLocation } from "../../../hooks";
 import Icons from "../../../components/Icons";
+import { LocationEditScreenType } from "./types";
+import MapView from "../../../components/MapView";
+import BaseLayout from "../../../components/BaseLayout";
+import MainAction from "../../../components/MainAction";
+import { parkingsSelector } from "../../../store/selectors";
 import { Parking, paymentUnits } from "../../../store/types";
+import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
+import { addParking, updateParking } from "../../../store/actions";
+import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
@@ -58,7 +58,10 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     new IndexPath(
       new Date(take(parking, "reminderTime", Date.now())).getHours()
     )
-  ); // TODO: fails if timer was set to `undefined` (not set)
+  );
+  // TODO: fails if timer was set to `undefined` (not set)
+  // TODO: There seems to be a timezone conversion that always adds 1h each render of that screen
+
   const [reminderTimeMinutes, setReminderTimeMinutes] = useState<IndexPath>(
     new IndexPath(
       new Date(take(parking, "reminderTime", Date.now())).getMinutes()
@@ -74,11 +77,13 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
         getMinutes()[reminderTimeMinutes.row]
       }:00`
     ).getTime();
+    // TODO: use date-fns to create localized dates
 
     const parkingObject: Parking = {
       id: take(parking, "id", uuidv4()),
       name,
-      car: "", // Not used for now
+      isActive: take(parking, "isActive", true),
+      car: "", // TODO: Not used for now
       time: take(parking, "time", Date.now()),
       reminderTime: hasReminder ? reminderTime : undefined,
       reminderDate: hasReminder ? reminderDate.getTime() : undefined,
@@ -87,8 +92,8 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       unit: paymentUnits[selectedIndexUnit.row],
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      photos: [], // Not used for now
-      locationName: "", // Not used for now
+      photos: [], // TODO: Not used for now
+      locationName: "", // TODO: Not used for now
     };
 
     if (typeof parkingId !== "undefined") {

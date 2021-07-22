@@ -9,6 +9,7 @@ const Icons = {
   Edit: (props: any) => <Icon {...props} name="edit-2-outline" />,
   Localize: (props: any) => <Icon {...props} name="pin-outline" />,
   Navigation: (props: any) => <Icon {...props} name="navigation-outline" />,
+  Park: (props: any) => <Icon {...props} name="flag-outline" />,
   Save: (props: any) => <Icon {...props} name="checkmark-outline" />,
   Settings: (props: any) => <Icon {...props} name="settings-outline" />,
   Stop: (props: any) => <Icon {...props} name="slash-outline" />,

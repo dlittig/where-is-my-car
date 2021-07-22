@@ -14,6 +14,7 @@ export type Parking = {
   locationName: string;
   photos: string[];
   unit: PaymentUnitType;
+  isActive: boolean;
   [k: string]: unknown;
 };
 

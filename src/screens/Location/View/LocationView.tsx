@@ -1,18 +1,34 @@
 import React, { FC } from "react";
-import BaseLayout from "../../../components/BaseLayout";
-import { LocationViewScreenType } from "./types";
-import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-import List from "../../../components/List";
-import MapView from "../../../components/MapView";
-import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
+
 import { useSelector } from "react-redux";
-import { parkingsSelector } from "../../../store/selectors";
-import MainAction from "../../../components/MainAction";
-import { Button } from "@ui-kitten/components";
-import Icons from "../../../components/Icons";
-import { useNavigation } from "@react-navigation/native";
-import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
+import { Button, Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
+
+import List from "../../../components/List";
+import Icons from "../../../components/Icons";
+import { LocationViewScreenType } from "./types";
+import MapView from "../../../components/MapView";
+import BaseLayout from "../../../components/BaseLayout";
+import MainAction from "../../../components/MainAction";
+import { parkingsSelector } from "../../../store/selectors";
+import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
+import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
+import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
+import { humanReadableDate, humanReadableTime } from "../../../utils";
+import { View } from "react-native";
+
+type FieldComponentType = {
+  description: string;
+  content: string;
+};
+
+const Field: FC<FieldComponentType> = ({ description, content }) => (
+  <View style={{ marginVertical: 10 }}>
+    <Text category="h6">{description}:</Text>
+    <Text>{content}</Text>
+  </View>
+);
 
 const LocationView: FC<LocationViewScreenType> = ({ route }) => {
   const parkingsReducer = useSelector(parkingsSelector);
@@ -35,6 +51,24 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
             latitude={parking.latitude}
             longitude={parking.longitude}
           />
+
+          <Field description="Name" content={parking.name} />
+          <Field
+            description="Parked"
+            content={humanReadableDate(parking.time)}
+          />
+          {parking.hasReminder && (
+            <Field
+              description="Reminder"
+              content={humanReadableTime(parking.reminderTime)}
+            />
+          )}
+          <Field description="Car" content={parking.car} />
+          <Field
+            description="Paid"
+            content={`${parking.unit} ${parking.paid}`}
+          />
+          <Field description="Photos" content="" />
         </List>
         <MainAction>
           <Button accessoryLeft={Icons.Edit} onPress={onEdit}>

@@ -1,4 +1,5 @@
-type ParkingCardFooterComponentType = {
-  longitude: number;
-  latitude: number;
+import { Parking } from "../../../store/types";
+
+export type ParkingCardFooterComponentType = {
+  parking: Parking;
 };

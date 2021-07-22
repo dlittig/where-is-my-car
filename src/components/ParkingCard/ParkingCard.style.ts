@@ -23,6 +23,9 @@ const style = StyleSheet.create({
   detailsItems: {
     flex: 1,
   },
+  container: {
+    marginVertical: 10,
+  },
 });
 
 export default style;

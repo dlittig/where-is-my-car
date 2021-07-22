@@ -3,6 +3,7 @@ import {
   PARKING_ADD,
   PARKING_UPDATE,
   PARKING_DELETE,
+  PARKING_TOGGLE_ACTIVE,
 } from "../constants/parkingConstants";
 import { ParkingsState } from "../types";
 
@@ -27,6 +28,13 @@ export const parkingsReducer = (
       parking = action.payload;
       newState = { ...state };
       newState.parkings[parking.id] = parking;
+
+      return newState;
+    case PARKING_TOGGLE_ACTIVE:
+      parking = action.payload;
+      newState = { ...state };
+      newState.parkings[parking.id].isActive =
+        !newState.parkings[parking.id].isActive;
 
       return newState;
     case PARKING_DELETE:
