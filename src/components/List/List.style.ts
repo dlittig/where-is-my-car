@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
   miniSpacer: {
     height: 50,
   },
+  middle: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+  },
 });
 
 export default styles;

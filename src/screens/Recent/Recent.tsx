@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 
+import style from "./Recent.style";
 import List from "../../components/List";
 import Icons from "../../components/Icons";
 import { ParkingsState } from "../../store/types";
@@ -22,25 +23,23 @@ const Recent = () => {
     parkingsSelector
   );
   const onPress = () => navigation.navigate(t(APP_LOCATION_EDIT));
-  const hasParkings = () =>
-    Object.values(parkingsReducer.parkings).filter(
-      (parking) => parking.isActive
-    ).length > 0;
+  const parkings = parkingsReducer.sortedParkings.filter(
+    (parking) => parking.isActive
+  );
+  const hasParkings = () => parkings.length > 0;
 
   return (
     <BaseLayout level={"2"}>
-      <List spacer>
+      <List spacer middle={!hasParkings()}>
         {hasParkings() ? (
-          Object.values(parkingsReducer.parkings)
-            .filter((parking) => parking.isActive)
-            .map((parking, index) => (
-              <ParkingCard
-                parking={parking}
-                key={`recent-parking-card-${index}`}
-              />
-            ))
+          parkings.map((parking, index) => (
+            <ParkingCard
+              parking={parking}
+              key={`recent-parking-card-${index}`}
+            />
+          ))
         ) : (
-          <Text>
+          <Text style={style.textCenter} appearance="hint">
             No parking saved. You can create one with the button below
           </Text>
         )}
