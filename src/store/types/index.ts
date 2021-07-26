@@ -26,3 +26,12 @@ export type ParkingsState = {
 };
 
 export const paymentUnits: PaymentUnitType[] = ["€", "$", "CHF", "¥", "£"];
+
+export type SettingsState = {
+  theme: string;
+  introSeen: boolean;
+  locationPermission: boolean;
+  locationPermissionAskAgain: boolean;
+  imagePermission: boolean;
+  imagePermissionAskAgain: boolean;
+};

@@ -4,15 +4,23 @@ import {
   PARKING_TOGGLE_ACTIVE,
   PARKING_UPDATE,
 } from "../constants/parkingConstants";
-import { SETTINGS_APPLY_THEME } from "../constants/settingsConstants";
+import {
+  SETTINGS_APPLY_THEME,
+  SETTINGS_SEEN_INTRO,
+} from "../constants/settingsConstants";
 import { Parking } from "../types";
 
 type ApplyThemeAction = {
   type: typeof SETTINGS_APPLY_THEME;
-  payload: "light" | "dark";
+  payload: string;
 };
 
-export type SettingsActionType = ApplyThemeAction;
+type SeenIntroAction = {
+  type: typeof SETTINGS_SEEN_INTRO;
+  payload: boolean;
+};
+
+export type SettingsActionType = ApplyThemeAction | SeenIntroAction;
 
 export type ParkingsActionType = {
   type:

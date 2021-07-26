@@ -11,6 +11,8 @@ import i18n from "../../translations/i18n";
 import Navigator from "../../components/Navigator";
 import "react-native-get-random-values";
 import { useState } from "react";
+import RenderConditionally from "../../components/RenderConditionally";
+import Intro from "../../components/Intro";
 
 i18n;
 
@@ -35,7 +37,7 @@ export default function App() {
           <ApplicationProvider {...eva} theme={getEvaTheme()}>
             <IconRegistry icons={EvaIconsPack} />
             <StatusBar animated backgroundColor={"#000"} />
-            <Navigator />
+            <RenderConditionally truthy={<Navigator />} falsy={<Intro />} />
           </ApplicationProvider>
         </AppThemeContext.Provider>
       </PersistGate>

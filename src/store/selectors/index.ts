@@ -1,5 +1,8 @@
 import { RootReducerType } from "../reducers";
-import { ParkingsState } from "../reducers/parkingReducer";
+import { ParkingsState, SettingsState } from "../types";
 
 export const parkingsSelector = (state: RootReducerType): ParkingsState =>
-    state.parkingsReducer;
+  state.parkingsReducer;
+
+export const settingsSelector = (state: RootReducerType): SettingsState =>
+  state.settingsReducer;

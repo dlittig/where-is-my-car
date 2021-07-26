@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   normal: {
     width: "100%",
+    height: 300,
   },
   map: {
     width: "100%",
