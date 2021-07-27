@@ -1,10 +1,12 @@
 import React, { FC } from "react";
-import { Button, Text } from "@ui-kitten/components";
-import BaseLayout from "../../BaseLayout";
 
-import style from "./Steps.style";
-import Icons from "../../Icons";
 import { useDispatch } from "react-redux";
+import { Button, Text } from "@ui-kitten/components";
+
+import Icons from "../../Icons";
+import style from "./Steps.style";
+import BaseLayout from "../../BaseLayout";
+import { StepsComponentType } from "./types";
 import { setSeenIntro } from "../../../store/actions";
 
 const BaseStep: FC = ({ children }) => (
@@ -13,7 +15,7 @@ const BaseStep: FC = ({ children }) => (
   </BaseLayout>
 );
 
-export const StepDescription = () => (
+export const StepDescription: FC<StepsComponentType> = () => (
   <BaseStep>
     <Text category="h5" style={[style.headline, style.text]}>
       Welcome to "Yo where is my car?"
@@ -27,8 +29,14 @@ export const StepDescription = () => (
   </BaseStep>
 );
 
-export const StepLocation = () => {
-  const getLocationPermission = () => {};
+export const StepLocation: FC<StepsComponentType> = ({
+  setStepLocks,
+  stepLocks,
+  currentStep,
+}) => {
+  const getLocationPermission = () => {
+    setStepLocks(stepLocks.filter((value) => value !== currentStep));
+  };
 
   return (
     <BaseStep>
@@ -49,15 +57,11 @@ export const StepLocation = () => {
       >
         Grant permission
       </Button>
-
-      <Text appearance="hint" style={style.text}>
-        You can grant the permission later in the settings, too.
-      </Text>
     </BaseStep>
   );
 };
 
-export const StepMediaLibrary = () => {
+export const StepMediaLibrary: FC<StepsComponentType> = () => {
   const getMediaPermission = () => {};
 
   return (
@@ -87,7 +91,7 @@ export const StepMediaLibrary = () => {
   );
 };
 
-export const StepLaunch = () => {
+export const StepLaunch: FC<StepsComponentType> = () => {
   const dispatch = useDispatch();
   const launch = () => {
     dispatch(setSeenIntro(true));

@@ -1,11 +1,22 @@
 import React from "react";
+
 import {
   TopNavigation as UIKTopNavigation,
   TopNavigationAction,
 } from "@ui-kitten/components";
-import Icons from "../../../Icons";
+import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
 
-const SettingsAction = () => <TopNavigationAction icon={Icons.Settings} />;
+import Icons from "../../../Icons";
+import { APP_SETTINGS } from "../../Routes";
+
+const SettingsAction = () => {
+  const navigation = useNavigation();
+  const { t } = useTranslation();
+  const onPress = () => navigation.navigate(t(APP_SETTINGS));
+
+  return <TopNavigationAction icon={Icons.Settings} onPress={onPress} />;
+};
 
 const TopBar = () => (
   <UIKTopNavigation
