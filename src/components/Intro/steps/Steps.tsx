@@ -8,6 +8,8 @@ import style from "./Steps.style";
 import BaseLayout from "../../BaseLayout";
 import { StepsComponentType } from "./types";
 import { setSeenIntro } from "../../../store/actions";
+import { requestLocationPermission } from "../../../utils";
+import { ToastAndroid } from "react-native";
 
 const BaseStep: FC = ({ children }) => (
   <BaseLayout level="1" center padded>
@@ -34,7 +36,20 @@ export const StepLocation: FC<StepsComponentType> = ({
   stepLocks,
   currentStep,
 }) => {
-  const getLocationPermission = () => {
+  const getLocationPermission = async () => {
+    const hasPermission = await requestLocationPermission();
+
+    if (!hasPermission) {
+      ToastAndroid.showWithGravityAndOffset(
+        "Something went wrong, please try again.",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM,
+        0,
+        100
+      );
+    }
+
+    // Unlock next step
     setStepLocks(stepLocks.filter((value) => value !== currentStep));
   };
 

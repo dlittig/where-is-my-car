@@ -1,3 +1,5 @@
+import * as Location from "expo-location";
+
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
   return `${padd(date.getHours())}:${padd(date.getMinutes())} ${padd(
@@ -48,3 +50,35 @@ export const getHoursFromTimestamp = (date: Date) => new Date(date).getHours();
 
 export const getMinutesFromTimestamp = (date: Date) =>
   new Date(date).getMinutes();
+
+export const acquireLocation =
+  async (): Promise<Location.LocationObject | null> => {
+    try {
+      return await Location.getCurrentPositionAsync({
+        accuracy: Location.LocationAccuracy.Highest,
+      });
+    } catch (e) {
+      console.error(`An error occured when acquiring location: ${e}`);
+      return null;
+    }
+  };
+
+export const requestLocationPermission = async (): Promise<boolean> => {
+  let locationStatus: Location.PermissionStatus;
+
+  try {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    locationStatus = status;
+  } catch (e) {
+    console.error(`An error occured when asking for location permission: ${e}`);
+
+    return false;
+  }
+
+  if (locationStatus !== "granted") {
+    console.warn(`Location permission was not granted: ${locationStatus}`);
+    return false;
+  }
+
+  return true;
+};

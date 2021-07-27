@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
+
 import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
 
-const LOCATION = {
-  ERROR_PERMISSION: "Permission to access location was denied",
-  ERROR_ACQUIRING: "Failed to acquire location",
-};
+import { CONFIGURATION } from "../config";
+import { acquireLocation } from "../utils";
 
-export const useLocation = () => {
+export const useLocation = (delay = true) => {
   const [location, setLocation] = useState<Location.LocationObject>({
     coords: {
       latitude: 0,
@@ -18,35 +17,23 @@ export const useLocation = () => {
 
   useEffect(() => {
     (async () => {
-      let locationStatus;
+      const executor = async () => {
+        const location = await acquireLocation();
 
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        locationStatus = status;
-      } catch (e) {
-        setError(LOCATION.ERROR_PERMISSION);
+        if (location !== null) {
+          setLocation(location);
+        } else {
+          setError("Failed to acquire location");
+        }
+      };
+
+      if (delay) {
+        setTimeout(executor, CONFIGURATION.MAP_DELAY);
+      } else {
+        executor();
       }
-
-      if (locationStatus !== "granted") {
-        setError(LOCATION.ERROR_PERMISSION);
-        return;
-      }
-
-      await acquireLocation();
     })();
   }, []);
-
-  const acquireLocation = async () => {
-    try {
-      setError("");
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.LocationAccuracy.Highest,
-      });
-      setLocation(location);
-    } catch (e) {
-      setError(LOCATION.ERROR_ACQUIRING);
-    }
-  };
 
   return {
     location,
