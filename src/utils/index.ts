@@ -1,4 +1,5 @@
 import * as Location from "expo-location";
+import { Parking } from "../store/types";
 
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
@@ -36,7 +37,7 @@ export const padd = (elem: number): string =>
   elem < 10 ? `0${elem}` : `${elem}`;
 
 export const take = <T extends unknown>(
-  suspect: Record<string, any>,
+  suspect: Parking,
   key: string,
   fallback: T
 ): T =>

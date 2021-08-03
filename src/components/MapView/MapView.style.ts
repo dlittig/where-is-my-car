@@ -11,7 +11,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   normal: {
-    width: "100%",
+    width: "120%",
     height: 300,
   },
   map: {

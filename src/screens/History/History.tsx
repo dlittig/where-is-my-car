@@ -15,9 +15,9 @@ const History = () => {
   const parkingsReducer = useSelector<RootReducerType, ParkingsState>(
     parkingsSelector
   );
-  const parkings = parkingsReducer.sortedParkings.filter(
-    (parking) => !parking.isActive
-  );
+  const parkings = parkingsReducer.sortedParkings
+    .map((id) => parkingsReducer.parkings[id])
+    .filter((parking) => !parking.isActive);
   const hasParkings = () => parkings.length > 0;
 
   return (

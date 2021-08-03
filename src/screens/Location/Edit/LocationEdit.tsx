@@ -16,9 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./LocationEdit.style";
+import * as Location from "expo-location";
 import List from "../../../components/List";
 import { padd, take } from "../../../utils";
-import { useLocation } from "../../../hooks";
 import Icons from "../../../components/Icons";
 import { LocationEditScreenType } from "./types";
 import MapView from "../../../components/MapView";
@@ -39,10 +39,9 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   const parking =
     typeof parkingId !== "undefined"
       ? parkingsReducer.parkings[parkingId]
-      : null;
+      : ({} as Parking);
 
   const navigation = useNavigation();
-  const { error: locationError, acquireLocation, location } = useLocation();
   const dispatch = useDispatch();
 
   // States
@@ -61,7 +60,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   );
   // TODO: fails if timer was set to `undefined` (not set)
   // TODO: There seems to be a timezone conversion that always adds 1h each render of that screen
-
+  const [location, setLocation] = useState<Location.LocationObject>();
   const [reminderTimeMinutes, setReminderTimeMinutes] = useState<IndexPath>(
     new IndexPath(
       new Date(take(parking, "reminderTime", Date.now())).getMinutes()
@@ -72,6 +71,11 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   );
 
   const onSave = () => {
+    // TODO Validate data before save
+    if(!location) {
+      return
+    }
+
     const reminderTime = new Date(
       `1970-01-01T${getHours()[reminderTimeHours.row]}:${
         getMinutes()[reminderTimeMinutes.row]
@@ -110,22 +114,12 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       <BaseLayout level="2">
         <List spacer>
           <View style={styles.element}>
-            {locationError.length !== 0 ? (
-              <Text>{locationError}</Text>
-            ) : (
-              <MapView
-                size={MAP_VIEW_SIZE.NORMAL}
-                latitude={location.coords.latitude}
-                longitude={location.coords.longitude}
-              />
-            )}
-            <Button
-              status="primary"
-              accessoryLeft={Icons.Localize}
-              onPress={acquireLocation}
-            >
-              Get location
-            </Button>
+            <MapView
+              mode="active"
+              withAction
+              onLocationAcquisition={setLocation}
+              size={MAP_VIEW_SIZE.NORMAL}
+            />
           </View>
           <Input
             label="Name"

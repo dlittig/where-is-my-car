@@ -1,3 +1,4 @@
-export const CONFIGURATION = {
-  MAP_DELAY: 600
+export enum CONFIGURATION {
+  LOCATION_DELAY = 600,
+  MAP_RENDER_DELAY = 1000,
 }

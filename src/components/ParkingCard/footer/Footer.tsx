@@ -40,7 +40,10 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
           size="small"
           appearance="outline"
           accessoryLeft={Icons.Stop}
-          onPress={() => dispatch(toggleActiveParking(parking))}
+          onPress={() => {
+            console.log("hi");
+            dispatch(toggleActiveParking(parking));
+          }}
         >
           Stop parking
         </Button>

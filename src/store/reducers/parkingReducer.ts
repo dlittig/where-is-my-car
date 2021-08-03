@@ -27,8 +27,10 @@ export const parkingsReducer = (
       newState.parkings[parking.id] = parking;
 
       // Add to list and sort
-      newState.sortedParkings.push(parking);
-      newState.sortedParkings.sort((a, b) => b.time - a.time);
+      newState.sortedParkings.push(parking.id);
+      newState.sortedParkings.sort(
+        (a, b) => newState.parkings[b].time - newState.parkings[a].time
+      );
 
       return newState;
     case PARKING_UPDATE:
@@ -38,11 +40,13 @@ export const parkingsReducer = (
 
       return newState;
     case PARKING_TOGGLE_ACTIVE:
+      console.log("old", state);
       parking = action.payload;
       newState = { ...state };
       newState.parkings[parking.id].isActive =
         !newState.parkings[parking.id].isActive;
 
+      console.log("new", newState);
       return newState;
     case PARKING_DELETE:
       parking = action.payload;
@@ -51,7 +55,7 @@ export const parkingsReducer = (
       };
 
       newState.sortedParkings = newState.sortedParkings.filter(
-        (item) => item.id !== parking.id
+        (item) => item !== parking.id
       );
       delete newState.parkings[parking.id];
 

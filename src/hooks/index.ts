@@ -16,6 +16,7 @@ export const useLocation = (delay = true) => {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     (async () => {
       const executor = async () => {
         const location = await acquireLocation();
@@ -28,11 +29,17 @@ export const useLocation = (delay = true) => {
       };
 
       if (delay) {
-        setTimeout(executor, CONFIGURATION.MAP_DELAY);
+        timeout = setTimeout(executor, CONFIGURATION.LOCATION_DELAY);
       } else {
         executor();
       }
     })();
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
   }, []);
 
   return {

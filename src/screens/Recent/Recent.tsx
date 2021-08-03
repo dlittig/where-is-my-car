@@ -23,9 +23,9 @@ const Recent = () => {
     parkingsSelector
   );
   const onPress = () => navigation.navigate(t(APP_LOCATION_EDIT));
-  const parkings = parkingsReducer.sortedParkings.filter(
-    (parking) => parking.isActive
-  );
+  const parkings = parkingsReducer.sortedParkings
+    .map((id) => parkingsReducer.parkings[id])
+    .filter((parking) => parking.isActive);
   const hasParkings = () => parkings.length > 0;
 
   return (

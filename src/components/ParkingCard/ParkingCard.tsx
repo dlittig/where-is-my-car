@@ -43,6 +43,7 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
         touchableOpacityProps={{ onPress, onLongPress: confirmDelete }}
       >
         <MapView
+          mode="passive"
           size={MAP_VIEW_SIZE.CARD}
           latitude={parking.latitude}
           longitude={parking.longitude}

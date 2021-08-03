@@ -47,6 +47,7 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
       <BaseLayout level="2">
         <List spacer>
           <MapView
+            mode="passive"
             size={MAP_VIEW_SIZE.NORMAL}
             latitude={parking.latitude}
             longitude={parking.longitude}
