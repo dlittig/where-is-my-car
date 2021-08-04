@@ -11,7 +11,8 @@ import {
   CheckBox,
 } from "@ui-kitten/components";
 import { v4 as uuidv4 } from "uuid";
-import { View } from "react-native";
+import { Image, Platform, View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
@@ -33,6 +34,7 @@ import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
 
+// TODO Refactor this component, it is waay to big
 const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   const parkingsReducer = useSelector(parkingsSelector);
   const parkingId = route.params ? (route.params["id"] as string) : undefined;
@@ -67,13 +69,32 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     )
   ); // TODO: fails if timer was set to `undefined` (not set)
   const [hasReminder, setHasReminder] = useState<boolean>(
-    take(parking, "hasReminder", false)
+    take(parking, "hasReminder", true)
   );
+
+  const [photos, setPhotos] = useState<string[]>(take(parking, "photos", []));
+
+  const selectPhotos = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+    } else {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        setPhotos([...photos, result.uri]);
+      }
+    }
+  };
 
   const onSave = () => {
     // TODO Validate data before save
-    if(!location) {
-      return
+    if (!location) {
+      return;
     }
 
     const reminderTime = new Date(
@@ -96,7 +117,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       unit: paymentUnits[selectedIndexUnit.row],
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      photos: [], // TODO: Not used for now
+      photos, // TODO: Not used for now
       locationName: "", // TODO: Not used for now
     };
 
@@ -197,6 +218,23 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               ))}
             </Select>
           </View>
+
+          {photos.map((photo, index) => (
+            // TODO: Delete on long press
+            // TODO: Show only thumbnails with preview on tap
+            <Image
+              key={`location-edit-photo-preview-${index}`}
+              source={{ uri: photo }}
+              style={{
+                width: 400,
+                height: 300,
+                resizeMode: "cover",
+              }}
+            />
+          ))}
+          <Button accessoryLeft={Icons.Add} onPress={selectPhotos}>
+            Add photos
+          </Button>
         </List>
         <MainAction>
           <Button accessoryLeft={Icons.Save} onPress={onSave}>

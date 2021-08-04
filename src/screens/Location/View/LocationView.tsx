@@ -16,7 +16,7 @@ import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 import { humanReadableDate, humanReadableTime } from "../../../utils";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 
 type FieldComponentType = {
   description: string;
@@ -70,6 +70,19 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
             content={`${parking.unit} ${parking.paid}`}
           />
           <Field description="Photos" content="" />
+          {parking.photos.map((photo, index) => (
+            // TODO: Show fullsize image on press.
+            // TODO: Show hint that preview tiles can be expanded
+            <Image
+              key={`location-view-photo-preview-${index}`}
+              source={{ uri: photo }}
+              style={{
+                width: 400,
+                height: 300,
+                resizeMode: "cover",
+              }}
+            />
+          ))}
         </List>
         <MainAction>
           <Button accessoryLeft={Icons.Edit} onPress={onEdit}>
