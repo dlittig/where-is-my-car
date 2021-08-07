@@ -12,20 +12,15 @@ import { ParkingsState } from "../../store/types";
 import MainAction from "../../components/MainAction";
 import { RootReducerType } from "../../store/reducers";
 import ParkingCard from "../../components/ParkingCard";
-import { parkingsSelector } from "../../store/selectors";
+import { parkingsActiveSortedSelector } from "../../store/selectors";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import { APP_LOCATION_EDIT } from "../../components/Navigator/Routes";
 
 const Recent = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const parkingsReducer = useSelector<RootReducerType, ParkingsState>(
-    parkingsSelector
-  );
   const onPress = () => navigation.navigate(t(APP_LOCATION_EDIT));
-  const parkings = parkingsReducer.sortedParkings
-    .map((id) => parkingsReducer.parkings[id])
-    .filter((parking) => parking.isActive);
+  const parkings = useSelector(parkingsActiveSortedSelector);
   const hasParkings = () => parkings.length > 0;
 
   return (

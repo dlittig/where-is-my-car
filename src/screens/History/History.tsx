@@ -5,19 +5,12 @@ import { Text } from "@ui-kitten/components";
 
 import style from "./History.style";
 import List from "../../components/List";
-import { ParkingsState } from "../../store/types";
-import { RootReducerType } from "../../store/reducers";
 import ParkingCard from "../../components/ParkingCard";
-import { parkingsSelector } from "../../store/selectors";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
+import { parkingsInactiveSortedSelector } from "../../store/selectors";
 
 const History = () => {
-  const parkingsReducer = useSelector<RootReducerType, ParkingsState>(
-    parkingsSelector
-  );
-  const parkings = parkingsReducer.sortedParkings
-    .map((id) => parkingsReducer.parkings[id])
-    .filter((parking) => !parking.isActive);
+  const parkings = useSelector(parkingsInactiveSortedSelector);
   const hasParkings = () => parkings.length > 0;
 
   return (

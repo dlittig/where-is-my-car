@@ -25,23 +25,22 @@ import { LocationEditScreenType } from "./types";
 import MapView from "../../../components/MapView";
 import BaseLayout from "../../../components/BaseLayout";
 import MainAction from "../../../components/MainAction";
-import { parkingsSelector } from "../../../store/selectors";
+import { parkingByIdSelector } from "../../../store/selectors";
 import { Parking, paymentUnits } from "../../../store/types";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
+import { RootReducerType } from "../../../store/reducers";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
 
 // TODO Refactor this component, it is waay to big
 const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
-  const parkingsReducer = useSelector(parkingsSelector);
-  const parkingId = route.params ? (route.params["id"] as string) : undefined;
-  const parking =
-    typeof parkingId !== "undefined"
-      ? parkingsReducer.parkings[parkingId]
-      : ({} as Parking);
+  const parkingId = route.params ? (route.params["id"] as string) : "";
+  const parking = useSelector((state: RootReducerType) =>
+    parkingByIdSelector(state, parkingId)
+  );
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -92,6 +91,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   };
 
   const onSave = () => {
+    console.log("save");
     // TODO Validate data before save
     if (!location) {
       return;
@@ -121,11 +121,13 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       locationName: "", // TODO: Not used for now
     };
 
-    if (typeof parkingId !== "undefined") {
+    if (parkingId.length > 0) {
       dispatch(updateParking(parkingObject));
     } else {
       dispatch(addParking(parkingObject));
     }
+
+    console.log("saved");
     navigation.goBack();
   };
 

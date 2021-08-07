@@ -1,3 +1,5 @@
+import ParkingCard from "../../components/ParkingCard";
+
 export type PaymentUnitType = "$" | "€" | "CHF" | "¥" | "£";
 
 export type Parking = {
@@ -20,7 +22,10 @@ export type Parking = {
 
 export type ParkingsState = {
   parkings: {
-    [x: string]: Parking;
+    byId: {
+      [x: string]: Parking;
+    };
+    allIds: Array<Parking["id"]>;
   };
   sortedParkings: string[];
 };

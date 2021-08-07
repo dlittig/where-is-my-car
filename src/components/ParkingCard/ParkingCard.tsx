@@ -78,4 +78,4 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   );
 };
 
-export default ParkingCard;
+export default React.memo(ParkingCard);
