@@ -1,9 +1,11 @@
-import { Modal } from "@ui-kitten/components";
 import React, { FC, useState, useCallback } from "react";
-import { useEffect } from "react";
+
+import { Modal } from "@ui-kitten/components";
 import { Dimensions, Image, TouchableOpacity, View } from "react-native";
-import { deleteImageAlert } from "../../alerts/DeleteImageAlert";
+
 import { ImageGalleryComponentType } from "./types";
+import MemoizedImage from "./MemoizedImage/MemoizedImage";
+import { deleteImageAlert } from "../../alerts/DeleteImageAlert";
 
 const ImageGallery: FC<ImageGalleryComponentType> = ({
   photos,
@@ -17,10 +19,6 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
       ),
     [photos]
   );
-
-  useEffect(() => {
-    console.log("image gallery updated", photos);
-  }, [photos]);
 
   const [previewVisible, setPreviewVisible] = useState(false);
   const [currentPhoto, setCurrentPhoto] = useState("");
@@ -67,8 +65,9 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
       </Modal>
 
       {photos.map((photo, index) => (
-        <TouchableOpacity
+        <MemoizedImage
           key={`image-gallery-photo-preview-${index}`}
+          photo={photo}
           onPress={() => {
             setCurrentPhoto(photo);
             setPreviewVisible(true);
@@ -78,22 +77,7 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
               deletePhoto(photo);
             }
           }}
-          style={{
-            width: "47%",
-            height: 200,
-            marginBottom: 20,
-          }}
-        >
-          <Image
-            source={{ uri: photo }}
-            style={{
-              width: "100%",
-              height: "100%",
-              resizeMode: "cover",
-              borderRadius: 5,
-            }}
-          />
-        </TouchableOpacity>
+        />
       ))}
     </View>
   );
