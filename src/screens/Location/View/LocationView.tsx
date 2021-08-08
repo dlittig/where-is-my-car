@@ -67,17 +67,27 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
               content={humanReadableTime(parking.reminderTime || 0)}
             />
           )}
-          <Field description="Car" content={parking.car} />
-          <Field
-            description="Paid"
-            content={`${parking.unit} ${parking.paid}`}
-          />
-          <Field description="Photos" content="" />
-          <Text appearance="hint">
-            You can see the photos in full size when tapping on them.
-          </Text>
+          {parking.car.length > 0 && (
+            <Field description="Car" content={parking.car} />
+          )}
 
-          <ImageGallery photos={parking.photos} />
+          {parking.paid.length > 0 && (
+            <Field
+              description="Paid"
+              content={`${parking.unit} ${parking.paid}`}
+            />
+          )}
+
+          {parking.photos.length > 0 && (
+            <>
+              <Field description="Photos" content="" />
+              <Text appearance="hint">
+                You can see the photos in full size when tapping on them.
+              </Text>
+
+              <ImageGallery photos={parking.photos} />
+            </>
+          )}
         </List>
         <MainAction>
           <Button accessoryLeft={Icons.Edit} onPress={onEdit}>

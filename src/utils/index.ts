@@ -3,7 +3,7 @@ import { Parking } from "../store/types";
 
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
-  return `${padd(date.getHours())}:${padd(date.getMinutes())} ${padd(
+  return `${padd(date.getHours())}:${padd(date.getMinutes())} - ${padd(
     date.getDate()
   )}.${padd(date.getMonth() + 1)}.${date.getFullYear()}`;
 };

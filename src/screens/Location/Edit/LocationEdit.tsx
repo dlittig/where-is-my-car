@@ -31,6 +31,8 @@ import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 import { RootReducerType } from "../../../store/reducers";
+import ImageGallery from "../../../components/ImageGallery";
+import { useEffect } from "react";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
@@ -90,8 +92,11 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
   };
 
+  useEffect(() => {
+    console.log("updating locationEdit", photos);
+  });
+
   const onSave = () => {
-    console.log("save");
     // TODO Validate data before save
     if (!location) {
       return;
@@ -127,7 +132,6 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       dispatch(addParking(parkingObject));
     }
 
-    console.log("saved");
     navigation.goBack();
   };
 
@@ -221,19 +225,8 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             </Select>
           </View>
 
-          {photos.map((photo, index) => (
-            // TODO: Delete on long press
-            // TODO: Show only thumbnails with preview on tap
-            <Image
-              key={`location-edit-photo-preview-${index}`}
-              source={{ uri: photo }}
-              style={{
-                width: 400,
-                height: 300,
-                resizeMode: "cover",
-              }}
-            />
-          ))}
+          <ImageGallery photos={photos} enableDelete onDelete={setPhotos} />
+
           <Button accessoryLeft={Icons.Add} onPress={selectPhotos}>
             Add photos
           </Button>

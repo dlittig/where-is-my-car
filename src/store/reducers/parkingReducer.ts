@@ -1,4 +1,5 @@
-import { ParkingsActionType } from "../actions/types";
+import { CommonActionType, ParkingsActionType } from "../actions/types";
+import { COMMON_RESET_STATE } from "../constants/commonConstants";
 import {
   PARKING_ADD,
   PARKING_UPDATE,
@@ -17,29 +18,25 @@ const initialState: ParkingsState = {
 
 export const parkingsReducer = (
   state = initialState,
-  action: ParkingsActionType
+  action: ParkingsActionType | CommonActionType
 ): ParkingsState => {
   let newState = {} as ParkingsState;
   let parking: Parking;
-  console.log("state", state, action);
 
   switch (action.type) {
     case PARKING_ADD:
       parking = action.payload;
       newState = { ...state };
-      console.log("adding to ids")
       // Add to overall list of parkings
       newState.parkings.byId[parking.id] = parking;
 
       // Add to list and sort
-      console.log("adding to lists")
       newState.parkings.allIds.push(parking.id);
       newState.sortedParkings.push(parking.id);
       newState.sortedParkings.sort(
         (a, b) =>
           newState.parkings.byId[b].time - newState.parkings.byId[a].time
       );
-      console.log("new state!", newState);
 
       return newState;
     case PARKING_UPDATE:
@@ -70,6 +67,8 @@ export const parkingsReducer = (
       delete newState.parkings.byId[parking.id];
 
       return newState;
+    case COMMON_RESET_STATE:
+      return initialState;
     default:
       return state;
   }

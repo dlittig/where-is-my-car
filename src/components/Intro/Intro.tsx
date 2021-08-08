@@ -13,10 +13,10 @@ import {
 import Icons from "../Icons";
 import style from "./Intro.style";
 import MainAction from "../MainAction";
-import { settingsSelector } from "../../store/selectors";
+import { settingsLocationPermissionSelector } from "../../store/selectors";
 
 const Intro: FC = () => {
-  const settingsReducer = useSelector(settingsSelector);
+  const locationPermission = useSelector(settingsLocationPermissionSelector);
   const [stepLocks, setStepLocks] = useState<number[]>([]);
   const [step, setStep] = useState(1);
   const steps = [
@@ -57,7 +57,7 @@ const Intro: FC = () => {
     // Check if permissions are there already
     // (for example if revisiting the tour)
 
-    if (!settingsReducer.locationPermission && !stepLocks.includes(2)) {
+    if (!locationPermission && !stepLocks.includes(2)) {
       setStepLocks([...stepLocks, 2]);
     }
   }, []);

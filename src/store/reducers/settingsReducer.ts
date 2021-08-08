@@ -1,4 +1,5 @@
-import { SettingsActionType } from "../actions/types";
+import { CommonActionType, SettingsActionType } from "../actions/types";
+import { COMMON_RESET_STATE } from "../constants/commonConstants";
 import {
   SETTINGS_APPLY_THEME,
   SETTINGS_SEEN_INTRO,
@@ -16,7 +17,7 @@ const initialState: SettingsState = {
 
 export const settingsReducer = (
   state = initialState,
-  action: SettingsActionType
+  action: SettingsActionType | CommonActionType
 ): SettingsState => {
   let newState = {} as SettingsState;
   let theme;
@@ -33,6 +34,8 @@ export const settingsReducer = (
       newState = { ...state, introSeen: seen };
 
       return newState;
+    case COMMON_RESET_STATE:
+      return initialState;
     default:
       return state;
   }

@@ -7,6 +7,7 @@ import { SettingsEntryType } from "./types";
 import { setSeenIntro } from "../../store/actions";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import BackBar from "../../components/Navigator/Bars/BackBar/BackBar";
+import { resetState } from "../../store/actions/commonActions";
 
 const settingsEntries: SettingsEntryType[] = [
   {
@@ -20,6 +21,19 @@ const settingsEntries: SettingsEntryType[] = [
     },
   },
 ];
+
+if(__DEV__) {
+  settingsEntries.push({
+    title: "[DEBUG] Reset",
+    description: "Delete all state data",
+    button: {
+      onPress: (dispatch) => () => {
+        dispatch(resetState());
+      },
+      label: "Reset",
+    },
+  });
+}
 
 const renderItem =
   (dispatch: Dispatch<any>) =>

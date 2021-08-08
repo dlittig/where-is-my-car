@@ -1,5 +1,6 @@
-import { Modal, Text } from "@ui-kitten/components";
+import { Modal } from "@ui-kitten/components";
 import React, { FC, useState, useCallback } from "react";
+import { useEffect } from "react";
 import { Dimensions, Image, TouchableOpacity, View } from "react-native";
 import { deleteImageAlert } from "../../alerts/DeleteImageAlert";
 import { ImageGalleryComponentType } from "./types";
@@ -14,8 +15,13 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
       deleteImageAlert(
         () => onDelete && onDelete(photos.filter((item) => item !== photo))
       ),
-    []
+    [photos]
   );
+
+  useEffect(() => {
+    console.log("image gallery updated", photos);
+  }, [photos]);
+
   const [previewVisible, setPreviewVisible] = useState(false);
   const [currentPhoto, setCurrentPhoto] = useState("");
 
@@ -67,7 +73,11 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
             setCurrentPhoto(photo);
             setPreviewVisible(true);
           }}
-          onLongPress={() => enableDelete && deletePhoto(photo)}
+          onLongPress={() => {
+            if (enableDelete) {
+              deletePhoto(photo);
+            }
+          }}
           style={{
             width: "47%",
             height: 200,
@@ -89,4 +99,4 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
   );
 };
 
-export default React.memo(ImageGallery);
+export default ImageGallery;

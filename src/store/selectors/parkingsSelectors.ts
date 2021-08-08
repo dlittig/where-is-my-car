@@ -37,4 +37,4 @@ export const parkingByIdSelector = createCachedSelector(
   parkingsSelector,
   parkingId,
   (parkingsReducer, id) => parkingsReducer.parkings.byId[id]
-)((_state_, id) => id);
+)((_state_, id) => `parkings.byId[${id}]`);

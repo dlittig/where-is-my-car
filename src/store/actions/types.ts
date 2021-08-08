@@ -1,3 +1,4 @@
+import { COMMON_RESET_STATE } from "../constants/commonConstants";
 import {
   PARKING_ADD,
   PARKING_DELETE,
@@ -30,4 +31,13 @@ export type ParkingsActionType = {
     | typeof PARKING_TOGGLE_ACTIVE;
   payload: Parking;
 };
-export type ActionType = ParkingsActionType | SettingsActionType;
+
+type CommonResetStateType = {
+  type: typeof COMMON_RESET_STATE;
+};
+
+export type CommonActionType = CommonResetStateType;
+export type ActionType =
+  | ParkingsActionType
+  | SettingsActionType
+  | CommonActionType;
