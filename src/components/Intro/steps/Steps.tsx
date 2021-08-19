@@ -8,7 +8,10 @@ import style from "./Steps.style";
 import BaseLayout from "../../BaseLayout";
 import { StepsComponentType } from "./types";
 import { setSeenIntro } from "../../../store/actions";
-import { requestLocationPermission } from "../../../utils";
+import {
+  requestLocationPermission,
+  requestNotificationPermission,
+} from "../../../utils";
 import { ToastAndroid } from "react-native";
 
 const BaseStep: FC = ({ children }) => (
@@ -47,10 +50,10 @@ export const StepLocation: FC<StepsComponentType> = ({
         0,
         100
       );
+    } else {
+      // Unlock next step
+      setStepLocks(stepLocks.filter((value) => value !== currentStep));
     }
-
-    // Unlock next step
-    setStepLocks(stepLocks.filter((value) => value !== currentStep));
   };
 
   return (
@@ -67,6 +70,50 @@ export const StepLocation: FC<StepsComponentType> = ({
       <Button
         style={style.mainAction}
         onPress={getLocationPermission}
+        appearance="filled"
+        accessoryLeft={Icons.Grant}
+      >
+        Grant permission
+      </Button>
+    </BaseStep>
+  );
+};
+
+export const StepNotification: FC<StepsComponentType> = ({
+  setStepLocks,
+  stepLocks,
+  currentStep,
+}) => {
+  const getNotificationPermission = async () => {
+    const hasPermission = await requestNotificationPermission();
+
+    if (!hasPermission) {
+      ToastAndroid.showWithGravityAndOffset(
+        "Something went wrong, please try again.",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM,
+        0,
+        100
+      );
+    } else {
+      // Unlock next step
+      setStepLocks(stepLocks.filter((value) => value !== currentStep));
+    }
+  };
+
+  return (
+    <BaseStep>
+      <Text category="h5" style={[style.text, style.headline]}>
+        Notification permission
+      </Text>
+
+      <Text style={style.text}>
+        We need notification permission to remind you of your expiring parking time.
+      </Text>
+
+      <Button
+        style={style.mainAction}
+        onPress={getNotificationPermission}
         appearance="filled"
         accessoryLeft={Icons.Grant}
       >

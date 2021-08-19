@@ -1,5 +1,7 @@
-import * as Location from "expo-location";
 import { Parking } from "../store/types";
+import * as Location from "expo-location";
+import { differenceInSeconds } from "date-fns";
+import * as Notifications from "expo-notifications";
 
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
@@ -47,10 +49,9 @@ export const take = <T extends unknown>(
     ? (suspect[key] as T)
     : fallback;
 
-export const getHoursFromTimestamp = (date: Date) => new Date(date).getHours();
+export const getHoursFromTimestamp = (date: Date) => date.getHours();
 
-export const getMinutesFromTimestamp = (date: Date) =>
-  new Date(date).getMinutes();
+export const getMinutesFromTimestamp = (date: Date) => date.getMinutes();
 
 export const acquireLocation =
   async (): Promise<Location.LocationObject | null> => {
@@ -82,4 +83,45 @@ export const requestLocationPermission = async (): Promise<boolean> => {
   }
 
   return true;
+};
+
+export const requestNotificationPermission = async (): Promise<boolean> => {
+  let notificationStatus: Location.PermissionStatus;
+
+  try {
+    const { status } = await Notifications.requestPermissionsAsync();
+    notificationStatus = status;
+  } catch (e) {
+    console.error(
+      `An error occured when asking for notification permission: ${e}`
+    );
+
+    return false;
+  }
+
+  if (notificationStatus !== "granted") {
+    console.warn(
+      `Notification permission was not granted: ${notificationStatus}`
+    );
+    return false;
+  }
+
+  return true;
+};
+
+export const scheduleNotification = async (target: Date) => {
+  const schedulingOptions = {
+    content: {
+      title: "This is a notification",
+      body: "This is the body",
+      sound: true,
+      priority: Notifications.AndroidNotificationPriority.HIGH,
+      color: "blue",
+    },
+    trigger: {
+      seconds: differenceInSeconds(new Date(), target),
+    },
+  };
+
+  Notifications.scheduleNotificationAsync(schedulingOptions);
 };

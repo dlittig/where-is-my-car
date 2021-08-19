@@ -39,4 +39,6 @@ export type SettingsState = {
   locationPermissionAskAgain: boolean;
   imagePermission: boolean;
   imagePermissionAskAgain: boolean;
+  notificationPermission: boolean;
+  notificationPermissionAskAgain: boolean;
 };

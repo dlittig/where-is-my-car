@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import styles from "./LocationEdit.style";
 import * as Location from "expo-location";
 import List from "../../../components/List";
-import { padd, take } from "../../../utils";
+import { padd, scheduleNotification, take } from "../../../utils";
 import Icons from "../../../components/Icons";
 import { LocationEditScreenType } from "./types";
 import MapView from "../../../components/MapView";
@@ -102,11 +102,27 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       return;
     }
 
+    // TODO Make a util function out of this
+    const reminderDateTime = new Date(
+      `${padd(reminderDate.getFullYear())}-${padd(
+        reminderDate.getMonth() + 1
+      )}-${padd(reminderDate.getDate())}T${getHours()[reminderTimeHours.row]}:${
+        getMinutes()[reminderTimeMinutes.row]
+      }:00`
+    );
     const reminderTime = new Date(
       `1970-01-01T${getHours()[reminderTimeHours.row]}:${
         getMinutes()[reminderTimeMinutes.row]
       }:00`
     ).getTime();
+
+    console.log(
+      `Reminder Time is: ${reminderDateTime}, ${reminderDate.getFullYear()}-${
+        reminderDate.getMonth() + 1
+      }-${reminderDate.getDate()}T${getHours()[reminderTimeHours.row]}:${
+        getMinutes()[reminderTimeMinutes.row]
+      }:00`
+    );
     // TODO: use date-fns to create localized dates
 
     const parkingObject: Parking = {
@@ -122,7 +138,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       unit: paymentUnits[selectedIndexUnit.row],
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
-      photos, // TODO: Not used for now
+      photos,
       locationName: "", // TODO: Not used for now
     };
 
@@ -131,6 +147,9 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     } else {
       dispatch(addParking(parkingObject));
     }
+
+    // TODO: Save resulting id of notification to make them cancelable
+    //scheduleNotification(reminderDateTime);
 
     navigation.goBack();
   };

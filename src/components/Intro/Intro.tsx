@@ -9,6 +9,7 @@ import {
   StepLaunch,
   StepLocation,
   StepMediaLibrary,
+  StepNotification,
 } from "./steps";
 import Icons from "../Icons";
 import style from "./Intro.style";
@@ -30,6 +31,11 @@ const Intro: FC = () => {
       setStepLocks={setStepLocks}
       stepLocks={stepLocks}
     />,
+    <StepNotification
+      currentStep={step}
+      setStepLocks={setStepLocks}
+      stepLocks={stepLocks}
+    />,
     <StepMediaLibrary
       currentStep={step}
       setStepLocks={setStepLocks}
@@ -41,7 +47,7 @@ const Intro: FC = () => {
       stepLocks={stepLocks}
     />,
   ];
-  const maxSteps = 4;
+  const maxSteps = 5;
   const stepForward = () => {
     if (step < maxSteps) {
       setStep(step + 1);
@@ -58,7 +64,7 @@ const Intro: FC = () => {
     // (for example if revisiting the tour)
 
     if (!locationPermission && !stepLocks.includes(2)) {
-      setStepLocks([...stepLocks, 2]);
+      setStepLocks([...stepLocks, 2, 3]);
     }
   }, []);
 

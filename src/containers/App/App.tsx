@@ -13,6 +13,7 @@ import "react-native-get-random-values";
 import { useState } from "react";
 import RenderConditionally from "../../components/RenderConditionally";
 import Intro from "../../components/Intro";
+import NotificationListener from "../../components/NotificationListener";
 
 i18n;
 
@@ -35,6 +36,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <AppThemeContext.Provider value={{ theme, toggleTheme }}>
           <ApplicationProvider {...eva} theme={getEvaTheme()}>
+            <NotificationListener />
             <IconRegistry icons={EvaIconsPack} />
             <StatusBar animated backgroundColor={"#000"} />
             <RenderConditionally truthy={<Navigator />} falsy={<Intro />} />

@@ -13,6 +13,8 @@ const initialState: SettingsState = {
   locationPermissionAskAgain: true,
   imagePermission: false,
   imagePermissionAskAgain: true,
+  notificationPermission: false,
+  notificationPermissionAskAgain: true,
 };
 
 export const settingsReducer = (
