@@ -35,8 +35,15 @@ export const humanReadableMoney = (value: number, unit: string): string => {
   }
 };
 
-export const padd = (elem: number): string =>
-  elem < 10 ? `0${elem}` : `${elem}`;
+export const padd = (elem: number): string => {
+  if (elem >= 0 && elem < 10) {
+    return `0${elem}`;
+  } else if (elem > -10 && elem < 0) {
+    return `-${padd(elem * -1)}`;
+  }
+
+  return `${elem}`;
+};
 
 export const take = <T extends unknown>(
   suspect: Parking,
@@ -124,4 +131,20 @@ export const scheduleNotification = async (target: Date) => {
   };
 
   Notifications.scheduleNotificationAsync(schedulingOptions);
+};
+
+export const getLocalDateTime = (
+  year: string,
+  month: string,
+  day: string,
+  hours: string,
+  minutes: string
+): Date => {
+  const tz = new Date().getTimezoneOffset() / -60;
+  const delta = tz >= 0 ? "+" : "-";
+  const datetime = new Date(
+    `${year}-${month}-${day}T${hours}:${minutes}:00${delta}${padd(tz)}:00`
+  );
+
+  return datetime;
 };

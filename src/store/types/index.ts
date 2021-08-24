@@ -5,9 +5,9 @@ export type PaymentUnitType = "$" | "€" | "CHF" | "¥" | "£";
 export type Parking = {
   id: string;
   name: string;
+  notes: string;
   time: number;
-  reminderTime?: number;
-  reminderDate?: number;
+  reminderDateTime?: Date;
   hasReminder: boolean;
   car: string;
   paid: string;

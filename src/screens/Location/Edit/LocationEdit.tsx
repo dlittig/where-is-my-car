@@ -19,7 +19,12 @@ import { useNavigation } from "@react-navigation/native";
 import styles from "./LocationEdit.style";
 import * as Location from "expo-location";
 import List from "../../../components/List";
-import { padd, scheduleNotification, take } from "../../../utils";
+import {
+  getLocalDateTime,
+  padd,
+  scheduleNotification,
+  take,
+} from "../../../utils";
 import Icons from "../../../components/Icons";
 import { LocationEditScreenType } from "./types";
 import MapView from "../../../components/MapView";
@@ -49,6 +54,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
 
   // States
   const [name, setName] = useState<string>(take(parking, "name", ""));
+  const [notes, setNotes] = useState<string>(take(parking, "notes", ""));
   const [selectedIndexUnit, setSelectedIndexUnit] = useState<IndexPath>(
     new IndexPath(paymentUnits.indexOf(take(parking, "unit", "€")))
   );
@@ -92,10 +98,6 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
   };
 
-  useEffect(() => {
-    console.log("updating locationEdit", photos);
-  });
-
   const onSave = () => {
     // TODO Validate data before save
     if (!location) {
@@ -103,36 +105,31 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
 
     // TODO Make a util function out of this
-    const reminderDateTime = new Date(
-      `${padd(reminderDate.getFullYear())}-${padd(
-        reminderDate.getMonth() + 1
-      )}-${padd(reminderDate.getDate())}T${getHours()[reminderTimeHours.row]}:${
-        getMinutes()[reminderTimeMinutes.row]
-      }:00`
+    // const reminderDateTime = new Date(
+    //   `${padd(reminderDate.getFullYear())}-${padd(
+    //     reminderDate.getMonth() + 1
+    //   )}-${padd(reminderDate.getDate())}T${getHours()[reminderTimeHours.row]}:${
+    //     getMinutes()[reminderTimeMinutes.row]
+    //   }:00`
+    // );
+    const reminderDateTime = getLocalDateTime(
+      padd(reminderDate.getFullYear()),
+      padd(reminderDate.getMonth() + 1),
+      padd(reminderDate.getDate()),
+      getHours()[reminderTimeHours.row],
+      getMinutes()[reminderTimeMinutes.row]
     );
-    const reminderTime = new Date(
-      `1970-01-01T${getHours()[reminderTimeHours.row]}:${
-        getMinutes()[reminderTimeMinutes.row]
-      }:00`
-    ).getTime();
 
-    console.log(
-      `Reminder Time is: ${reminderDateTime}, ${reminderDate.getFullYear()}-${
-        reminderDate.getMonth() + 1
-      }-${reminderDate.getDate()}T${getHours()[reminderTimeHours.row]}:${
-        getMinutes()[reminderTimeMinutes.row]
-      }:00`
-    );
     // TODO: use date-fns to create localized dates
 
     const parkingObject: Parking = {
       id: take(parking, "id", uuidv4()),
       name,
+      notes,
       isActive: take(parking, "isActive", true),
       car: "", // TODO: Not used for now
       time: take(parking, "time", Date.now()),
-      reminderTime: hasReminder ? reminderTime : undefined,
-      reminderDate: hasReminder ? reminderDate.getTime() : undefined,
+      reminderDateTime: hasReminder ? reminderDateTime : undefined,
       hasReminder,
       paid,
       unit: paymentUnits[selectedIndexUnit.row],
@@ -147,6 +144,8 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     } else {
       dispatch(addParking(parkingObject));
     }
+
+    console.log(parkingObject);
 
     // TODO: Save resulting id of notification to make them cancelable
     //scheduleNotification(reminderDateTime);
@@ -243,6 +242,15 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               ))}
             </Select>
           </View>
+
+          <Input
+            label="Notes"
+            multiline
+            textStyle={{ minHeight: 64 }}
+            style={styles.element}
+            value={notes}
+            onChangeText={(nextValue) => setNotes(nextValue)}
+          />
 
           <ImageGallery photos={photos} enableDelete onDelete={setPhotos} />
 

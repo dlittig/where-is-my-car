@@ -1,8 +1,9 @@
 import React, { FC } from "react";
 
+import { View } from "react-native";
 import { useSelector } from "react-redux";
-import { Button, Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
+import { Button, Text } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 
 import List from "../../../components/List";
@@ -11,14 +12,13 @@ import { LocationViewScreenType } from "./types";
 import MapView from "../../../components/MapView";
 import BaseLayout from "../../../components/BaseLayout";
 import MainAction from "../../../components/MainAction";
+import { RootReducerType } from "../../../store/reducers";
+import ImageGallery from "../../../components/ImageGallery";
 import { parkingByIdSelector } from "../../../store/selectors";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
+import { humanReadableDate, humanReadableTime } from "../../../utils";
 import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-import { humanReadableDate, humanReadableTime } from "../../../utils";
-import { Image, View } from "react-native";
-import ImageGallery from "../../../components/ImageGallery";
-import { RootReducerType } from "../../../store/reducers";
 
 type FieldComponentType = {
   description: string;
@@ -64,7 +64,9 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
           {parking.hasReminder && (
             <Field
               description="Reminder"
-              content={humanReadableTime(parking.reminderTime || 0)}
+              content={humanReadableTime(
+                parking.reminderDateTime?.getTime() || 0
+              )}
             />
           )}
           {parking.car.length > 0 && (
@@ -76,6 +78,10 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
               description="Paid"
               content={`${parking.unit} ${parking.paid}`}
             />
+          )}
+
+          {parking.notes.length > 0 && (
+            <Field description="Notes" content={parking.notes} />
           )}
 
           {parking.photos.length > 0 && (

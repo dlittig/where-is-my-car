@@ -25,7 +25,23 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const { t } = useTranslation();
 
   const shouldShake = () =>
-    parking.reminderTime && parking.reminderTime < Date.now();
+    parking.reminderDateTime &&
+    parking.reminderDateTime?.getTime() < Date.now();
+
+  const cardType = () => {
+    if (parking.isActive) {
+      if (
+        parking.reminderDateTime &&
+        parking.reminderDateTime?.getTime() < Date.now()
+      ) {
+        return CARD_TYPE.WARNING;
+      } else {
+        return CARD_TYPE.SUCCESS;
+      }
+    } else {
+      return CARD_TYPE.BASIC;
+    }
+  };
 
   const onPress = () =>
     navigation.navigate(t(APP_LOCATION_VIEW), { id: parking.id });
@@ -37,7 +53,7 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   return (
     <View style={style.container}>
       <BaseCard
-        type={parking.isActive ? CARD_TYPE.SUCCESS : CARD_TYPE.BASIC}
+        type={cardType()}
         appearance="outline"
         footer={() => <ParkingCardFooter parking={parking} />}
         touchableOpacityProps={{ onPress, onLongPress: confirmDelete }}
@@ -55,7 +71,7 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
           <View style={style.detailsContainer}>
             <Text style={style.detailsItems}>
               <Icons.CreditCard style={style.icons} fill="#fff" />
-              {`${parking.unit} ${parking.paid}`}
+              {`${parking.unit} ${parking.paid || "./."}`}
             </Text>
             <Text style={[style.detailsItems]}>
               <Icons.Localize style={style.icons} fill="#fff" />
@@ -68,7 +84,9 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
                   animation={shouldShake() ? "shake" : undefined}
                   fill="#fff"
                 />
-                {humanReadableTime(parking.reminderTime as number)}
+                {humanReadableTime(
+                  parking.reminderDateTime?.getTime() as number
+                )}
               </Text>
             )}
           </View>
