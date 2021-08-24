@@ -1,5 +1,3 @@
-import ParkingCard from "../../components/ParkingCard";
-
 export type PaymentUnitType = "$" | "€" | "CHF" | "¥" | "£";
 
 export type Parking = {
@@ -9,11 +7,9 @@ export type Parking = {
   time: number;
   reminderDateTime?: Date;
   hasReminder: boolean;
-  car: string;
   paid: string;
   longitude: number;
   latitude: number;
-  locationName: string;
   photos: string[];
   unit: PaymentUnitType;
   isActive: boolean;

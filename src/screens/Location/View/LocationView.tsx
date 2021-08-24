@@ -57,10 +57,12 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
           />
 
           <Field description="Name" content={parking.name} />
+
           <Field
             description="Parked"
             content={humanReadableDate(parking.time)}
           />
+
           {parking.hasReminder && (
             <Field
               description="Reminder"
@@ -68,9 +70,6 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
                 parking.reminderDateTime?.getTime() || 0
               )}
             />
-          )}
-          {parking.car.length > 0 && (
-            <Field description="Car" content={parking.car} />
           )}
 
           {parking.paid.length > 0 && (

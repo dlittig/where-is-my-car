@@ -127,7 +127,6 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       name,
       notes,
       isActive: take(parking, "isActive", true),
-      car: "", // TODO: Not used for now
       time: take(parking, "time", Date.now()),
       reminderDateTime: hasReminder ? reminderDateTime : undefined,
       hasReminder,
@@ -136,7 +135,6 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
       photos,
-      locationName: "", // TODO: Not used for now
     };
 
     if (parkingId.length > 0) {
