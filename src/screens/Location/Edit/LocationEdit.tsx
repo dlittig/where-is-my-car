@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 
 import {
   Text,
@@ -11,75 +11,34 @@ import {
   CheckBox,
 } from "@ui-kitten/components";
 import { v4 as uuidv4 } from "uuid";
-import { Image, Platform, View } from "react-native";
+import { View } from "react-native";
+import { useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./LocationEdit.style";
-import * as Location from "expo-location";
 import List from "../../../components/List";
-import {
-  getLocalDateTime,
-  padd,
-  scheduleNotification,
-  take,
-} from "../../../utils";
 import Icons from "../../../components/Icons";
 import { LocationEditScreenType } from "./types";
 import MapView from "../../../components/MapView";
 import BaseLayout from "../../../components/BaseLayout";
 import MainAction from "../../../components/MainAction";
-import { parkingByIdSelector } from "../../../store/selectors";
+import { useParkingsForm } from "../../../hooks/parkings";
+import ImageGallery from "../../../components/ImageGallery";
 import { Parking, paymentUnits } from "../../../store/types";
+import { getLocalDateTime, padd, take } from "../../../utils";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-import { RootReducerType } from "../../../store/reducers";
-import ImageGallery from "../../../components/ImageGallery";
-import { useEffect } from "react";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
 
-// TODO Refactor this component, it is waay to big
 const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   const parkingId = route.params ? (route.params["id"] as string) : "";
-  const parking = useSelector((state: RootReducerType) =>
-    parkingByIdSelector(state, parkingId)
-  );
-
+  const parkingForm = useParkingsForm(parkingId);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  // States
-  const [name, setName] = useState<string>(take(parking, "name", ""));
-  const [notes, setNotes] = useState<string>(take(parking, "notes", ""));
-  const [selectedIndexUnit, setSelectedIndexUnit] = useState<IndexPath>(
-    new IndexPath(paymentUnits.indexOf(take(parking, "unit", "€")))
-  );
-  const [paid, setPaid] = useState<string>(take(parking, "paid", ""));
-  const [reminderDate, setReminderDate] = useState<Date>(
-    new Date(take(parking, "reminderDate", Date.now()))
-  );
-  const [reminderTimeHours, setReminderTimeHours] = useState<IndexPath>(
-    new IndexPath(
-      new Date(take(parking, "reminderTime", Date.now())).getHours()
-    )
-  );
-  // TODO: fails if timer was set to `undefined` (not set)
-  // TODO: There seems to be a timezone conversion that always adds 1h each render of that screen
-  const [location, setLocation] = useState<Location.LocationObject>();
-  const [reminderTimeMinutes, setReminderTimeMinutes] = useState<IndexPath>(
-    new IndexPath(
-      new Date(take(parking, "reminderTime", Date.now())).getMinutes()
-    )
-  ); // TODO: fails if timer was set to `undefined` (not set)
-  const [hasReminder, setHasReminder] = useState<boolean>(
-    take(parking, "hasReminder", true)
-  );
-
-  const [photos, setPhotos] = useState<string[]>(take(parking, "photos", []));
 
   const selectPhotos = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -93,7 +52,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       });
 
       if (!result.cancelled) {
-        setPhotos([...photos, result.uri]);
+        parkingForm.setPhotos([...parkingForm.photos, result.uri]);
       }
     }
   };
@@ -104,37 +63,27 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       return;
     }
 
-    // TODO Make a util function out of this
-    // const reminderDateTime = new Date(
-    //   `${padd(reminderDate.getFullYear())}-${padd(
-    //     reminderDate.getMonth() + 1
-    //   )}-${padd(reminderDate.getDate())}T${getHours()[reminderTimeHours.row]}:${
-    //     getMinutes()[reminderTimeMinutes.row]
-    //   }:00`
-    // );
     const reminderDateTime = getLocalDateTime(
-      padd(reminderDate.getFullYear()),
-      padd(reminderDate.getMonth() + 1),
-      padd(reminderDate.getDate()),
-      getHours()[reminderTimeHours.row],
-      getMinutes()[reminderTimeMinutes.row]
+      padd(parkingForm.reminderDate.getFullYear()),
+      padd(parkingForm.reminderDate.getMonth() + 1),
+      padd(parkingForm.reminderDate.getDate()),
+      getHours()[parkingForm.reminderTimeHours.row],
+      getMinutes()[parkingForm.reminderTimeMinutes.row]
     );
 
-    // TODO: use date-fns to create localized dates
-
     const parkingObject: Parking = {
-      id: take(parking, "id", uuidv4()),
-      name,
-      notes,
-      isActive: take(parking, "isActive", true),
-      time: take(parking, "time", Date.now()),
-      reminderDateTime: hasReminder ? reminderDateTime : undefined,
-      hasReminder,
-      paid,
-      unit: paymentUnits[selectedIndexUnit.row],
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      photos,
+      id: take(parkingForm.parking, "id", uuidv4()),
+      name: parkingForm.name,
+      notes: parkingForm.notes,
+      isActive: take(parkingForm.parking, "isActive", true),
+      time: take(parkingForm.parking, "time", Date.now()),
+      reminderDateTime: parkingForm.hasReminder ? reminderDateTime : undefined,
+      hasReminder: parkingForm.hasReminder,
+      paid: parkingForm.paid,
+      unit: paymentUnits[parkingForm.selectedIndexUnit.row],
+      latitude: parkingForm.location?.coords.latitude || 0,
+      longitude: parkingForm.location?.coords.longitude || 0,
+      photos: parkingForm.photos,
     };
 
     if (parkingId.length > 0) {
@@ -142,8 +91,6 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     } else {
       dispatch(addParking(parkingObject));
     }
-
-    console.log(parkingObject);
 
     // TODO: Save resulting id of notification to make them cancelable
     //scheduleNotification(reminderDateTime);
@@ -160,37 +107,43 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             <MapView
               mode="active"
               withAction
-              onLocationAcquisition={setLocation}
+              onLocationAcquisition={parkingForm.setLocation}
               size={MAP_VIEW_SIZE.NORMAL}
             />
           </View>
           <Input
             label="Name"
             style={styles.element}
-            value={name}
-            onChangeText={(nextValue) => setName(nextValue)}
+            value={parkingForm.name}
+            onChangeText={(nextValue) => parkingForm.setName(nextValue)}
           />
           <CheckBox
-            checked={hasReminder}
-            onChange={(nextChecked: boolean) => setHasReminder(nextChecked)}
+            checked={parkingForm.hasReminder}
+            onChange={(nextChecked: boolean) =>
+              parkingForm.setHasReminder(nextChecked)
+            }
           >
             Set reminder
           </CheckBox>
-          {hasReminder && (
+          {parkingForm.hasReminder && (
             <>
               <Datepicker
                 style={styles.element}
                 label="Reminder date"
-                date={reminderDate}
-                onSelect={(nextDate) => setReminderDate(nextDate)}
+                date={parkingForm.reminderDate}
+                onSelect={(nextDate) => parkingForm.setReminderDate(nextDate)}
               />
               <View style={[styles.inline, styles.element]}>
                 <Select
                   label="Hours"
                   style={styles.hours}
-                  selectedIndex={reminderTimeHours}
-                  value={() => <Text>{getHours()[reminderTimeHours.row]}</Text>}
-                  onSelect={(index) => setReminderTimeHours(index as IndexPath)}
+                  selectedIndex={parkingForm.reminderTimeHours}
+                  value={() => (
+                    <Text>{getHours()[parkingForm.reminderTimeHours.row]}</Text>
+                  )}
+                  onSelect={(index) =>
+                    parkingForm.setReminderTimeHours(index as IndexPath)
+                  }
                 >
                   {getHours().map((hour, index) => (
                     <SelectItem
@@ -202,12 +155,14 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
                 <Select
                   label="Minutes"
                   style={styles.minutes}
-                  selectedIndex={reminderTimeMinutes}
+                  selectedIndex={parkingForm.reminderTimeMinutes}
                   value={() => (
-                    <Text>{getMinutes()[reminderTimeMinutes.row]}</Text>
+                    <Text>
+                      {getMinutes()[parkingForm.reminderTimeMinutes.row]}
+                    </Text>
                   )}
                   onSelect={(index) =>
-                    setReminderTimeMinutes(index as IndexPath)
+                    parkingForm.setReminderTimeMinutes(index as IndexPath)
                   }
                 >
                   {getMinutes().map((minute, index) => (
@@ -225,15 +180,19 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               label="Paid"
               placeholder="0.00"
               style={styles.paid}
-              value={paid}
-              onChangeText={(nextValue) => setPaid(nextValue)}
+              value={parkingForm.paid}
+              onChangeText={(nextValue) => parkingForm.setPaid(nextValue)}
             />
             <Select
               label=" "
               style={styles.unit}
-              selectedIndex={selectedIndexUnit}
-              value={() => <Text>{paymentUnits[selectedIndexUnit.row]}</Text>}
-              onSelect={(index) => setSelectedIndexUnit(index as IndexPath)}
+              selectedIndex={parkingForm.selectedIndexUnit}
+              value={() => (
+                <Text>{paymentUnits[parkingForm.selectedIndexUnit.row]}</Text>
+              )}
+              onSelect={(index) =>
+                parkingForm.setSelectedIndexUnit(index as IndexPath)
+              }
             >
               {paymentUnits.map((unit, index) => (
                 <SelectItem key={`payment-selectitem-${index}`} title={unit} />
@@ -246,11 +205,15 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             multiline
             textStyle={{ minHeight: 64 }}
             style={styles.element}
-            value={notes}
-            onChangeText={(nextValue) => setNotes(nextValue)}
+            value={parkingForm.notes}
+            onChangeText={(nextValue) => parkingForm.setNotes(nextValue)}
           />
 
-          <ImageGallery photos={photos} enableDelete onDelete={setPhotos} />
+          <ImageGallery
+            photos={parkingForm.photos}
+            enableDelete
+            onDelete={parkingForm.setPhotos}
+          />
 
           <Button accessoryLeft={Icons.Add} onPress={selectPhotos}>
             Add photos
