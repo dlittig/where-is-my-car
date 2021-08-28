@@ -1,6 +1,7 @@
 import { Parking } from "../store/types";
 import * as Location from "expo-location";
 import { differenceInSeconds } from "date-fns";
+import * as ImagePicker from "expo-image-picker";
 import * as Notifications from "expo-notifications";
 
 export const humanReadableDate = (time: number): string => {
@@ -115,6 +116,39 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
 
   return true;
 };
+
+export const requestImagePickerPermission = async (): Promise<boolean> => {
+  let imagePickerStatus: ImagePicker.PermissionStatus;
+
+  try {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    imagePickerStatus = status;
+  } catch (e) {
+    console.error(
+      `An error occured when asking for Image Picker permission: ${e}`
+    );
+
+    return false;
+  }
+
+  if (imagePickerStatus !== "granted") {
+    console.warn(
+      `Notification permission was not granted: ${imagePickerStatus}`
+    );
+    return false;
+  }
+
+  return true;
+};
+
+export const launchCamera =
+  async (): Promise<ImagePicker.ImagePickerResult> => {
+    return await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+  };
 
 export const scheduleNotification = async (target: Date) => {
   const schedulingOptions = {

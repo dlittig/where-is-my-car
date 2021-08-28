@@ -26,10 +26,17 @@ import MainAction from "../../../components/MainAction";
 import { useParkingsForm } from "../../../hooks/parkings";
 import ImageGallery from "../../../components/ImageGallery";
 import { Parking, paymentUnits } from "../../../store/types";
-import { getLocalDateTime, padd, take } from "../../../utils";
+import {
+  getLocalDateTime,
+  launchCamera,
+  padd,
+  requestImagePickerPermission,
+  take,
+} from "../../../utils";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
+import { useTranslation } from "react-i18next";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
@@ -39,18 +46,13 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   const parkingForm = useParkingsForm(parkingId);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const selectPhotos = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
-    } else {
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        quality: 1,
-      });
+    const hasPermission = await requestImagePickerPermission();
 
+    if (hasPermission) {
+      const result = await launchCamera();
       if (!result.cancelled) {
         parkingForm.setPhotos([...parkingForm.photos, result.uri]);
       }
@@ -59,7 +61,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
 
   const onSave = () => {
     // TODO Validate data before save
-    if (!location) {
+    if (!parkingForm.location) {
       return;
     }
 
@@ -98,6 +100,8 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     navigation.goBack();
   };
 
+  const text = t("text.location.name");
+
   return (
     <>
       <BackBar title={route.name} />
@@ -112,7 +116,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             />
           </View>
           <Input
-            label="Name"
+            label={t("text.location.name") as string}
             style={styles.element}
             value={parkingForm.name}
             onChangeText={(nextValue) => parkingForm.setName(nextValue)}
@@ -123,19 +127,19 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               parkingForm.setHasReminder(nextChecked)
             }
           >
-            Set reminder
+            {t("text.location.setReminder") as string}
           </CheckBox>
           {parkingForm.hasReminder && (
             <>
               <Datepicker
                 style={styles.element}
-                label="Reminder date"
+                label={t("text.location.reminderDate") as string}
                 date={parkingForm.reminderDate}
                 onSelect={(nextDate) => parkingForm.setReminderDate(nextDate)}
               />
               <View style={[styles.inline, styles.element]}>
                 <Select
-                  label="Hours"
+                  label={t("text.location.hours") as string}
                   style={styles.hours}
                   selectedIndex={parkingForm.reminderTimeHours}
                   value={() => (
@@ -153,7 +157,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
                   ))}
                 </Select>
                 <Select
-                  label="Minutes"
+                  label={t("text.location.minutes") as string}
                   style={styles.minutes}
                   selectedIndex={parkingForm.reminderTimeMinutes}
                   value={() => (
@@ -177,7 +181,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
           )}
           <View style={[styles.inline, styles.element]}>
             <Input
-              label="Paid"
+              label={t("text.location.paid") as string}
               placeholder="0.00"
               style={styles.paid}
               value={parkingForm.paid}
@@ -201,7 +205,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
           </View>
 
           <Input
-            label="Notes"
+            label={t("text.location.notes") as string}
             multiline
             textStyle={{ minHeight: 64 }}
             style={styles.element}
@@ -216,12 +220,12 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
           />
 
           <Button accessoryLeft={Icons.Add} onPress={selectPhotos}>
-            Add photos
+            {t("actions.addPhotos") as string}
           </Button>
         </List>
         <MainAction>
           <Button accessoryLeft={Icons.Save} onPress={onSave}>
-            SAVE
+            {t("actions.save").toUpperCase()}
           </Button>
         </MainAction>
       </BaseLayout>

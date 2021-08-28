@@ -1,27 +1,21 @@
 export const en_US = {
   translation: {
     actions: {
-      add: "Add",
-      cancel: "Cancel",
-      accept: "OK",
+      addPhotos: "Add photos",
       save: "Save",
       edit: "Edit",
-      delete: "Delete",
-      generate: "Generate",
-      addRace: "Race",
-      close: "Close",
-      toggle_all: "Toggle all",
-      got_it: "Got it",
-      leave: "Leave",
-      stay: "Stay",
+      createNew: "Create new",
+      start: "Start",
+      reset: "Reset",
     },
     error: {
       component: "Sorry, something went wrong...",
     },
+    permissions: {},
     empty: {
-      drivers: "Get started by creating some drivers.",
-      sessions: "Get started by creating some drivers via the hamburger menu ",
-      session_view: "Start your session with a random map!",
+      history:
+        "No inactive parkings here. You can create one on the Recent screen",
+      recent: "No parking saved. You can create one with the button below",
     },
     screens: {
       location: {
@@ -37,13 +31,6 @@ export const en_US = {
     },
     about: {
       greeting: "Built with ❤️ by dlittig",
-    },
-    form: {
-      name: "Name",
-      car: "Car of",
-      race_track: "Race track",
-      driver_color: "Driver color",
-      selected_color: "Selected color",
     },
     dialogs: {
       select_drivers: "Select drivers",
@@ -77,55 +64,24 @@ export const en_US = {
         "With the checkbox you can keep track of the fastest round driven.",
     },
     text: {
-      driver: {
-        history: "History",
-        color: "Color",
-        positions: "Positions",
-        stats: "Statistics",
-        all: "All",
-        fastest: "Fastest",
-        races: "Races",
-        place: "Place",
-      },
-      session: {
-        pointScheme: {
-          title: "Point scheme",
-          linear: "Linear",
-          gapped: "Gapped",
-          linearHint:
-            "All drivers get a single point for a position they gain.",
-          gappedHint:
-            "Each position gain gives one point whereas the first gets one additional point.",
-        },
-        carPolicy: {
-          title: "Car policy",
-          shift: "Shift",
-          static: "Static",
-          staticHint: "All cars will appear as suggestion for a new race.",
-          shiftHint:
-            "All cars except the last one will be suggested for a new race.",
-        },
-      },
-      race: {
-        race: "Race",
-        condition: {
-          title: "Weater condition",
-          dry: "Dry",
-          rain: "Rain",
-          night: "Night",
-        },
-      },
-      scoreboard: {
-        driver: "Driver",
-        points: "Points",
-        clipboard: "",
+      location: {
+        name: "Name",
+        setReminder: "Set reminder",
+        reminderDate: "Reminder date",
+        hours: "Hours",
+        minutes: "Minutes",
+        paid: "Paid",
+        unit: "Unit",
+        notes: "Notes",
+        parked: "Parked",
+        reminder: "Reminder",
+        photos: "Photos",
+        photosHint: "You can see the photos in full size when tapping on them.",
       },
       settings: {
-        theme: {
-          title: "Display theme",
-          description: "Adjust how the appearance of the app should look like",
-          light: "Light",
-          dark: "Dark",
+        intro: {
+          title: "Intro",
+          description: "Show the intro screen again",
         },
       },
     },

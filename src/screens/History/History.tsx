@@ -8,10 +8,12 @@ import List from "../../components/List";
 import ParkingCard from "../../components/ParkingCard";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import { parkingsInactiveSortedSelector } from "../../store/selectors";
+import { useTranslation } from "react-i18next";
 
 const History = () => {
   const parkings = useSelector(parkingsInactiveSortedSelector);
   const hasParkings = () => parkings.length > 0;
+  const { t } = useTranslation();
 
   return (
     <BaseLayout level={"2"}>
@@ -25,7 +27,7 @@ const History = () => {
           ))
         ) : (
           <Text style={style.textCenter} appearance="hint">
-            No inactive parkings here. You can create one on the Recent screen
+            {t("empty.history") as string}
           </Text>
         )}
       </List>

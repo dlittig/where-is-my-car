@@ -1,16 +1,15 @@
 import { combineReducers, createStore, Store } from "redux";
-import {
-  persistStore,
-  persistReducer,
-} from "redux-persist";
+import { persistStore, persistReducer, createTransform } from "redux-persist";
 import ExpoFileSystemStorage from "redux-persist-expo-filesystem";
 
 import reducers from "./reducers";
+import { decodeDates, encodeDates } from "./transformer";
 
 const persistConfig = {
   key: "where_is_my_car",
   version: 0, // key has to match the version specified in the migration above
   storage: ExpoFileSystemStorage,
+  transforms: [createTransform(encodeDates, decodeDates)],
 };
 
 const persistedReducer = persistReducer(

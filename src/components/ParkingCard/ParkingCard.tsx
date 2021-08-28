@@ -24,6 +24,8 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  console.log("Parking", parking, typeof parking.reminderDateTime);
+
   const shouldShake = () =>
     parking.reminderDateTime &&
     parking.reminderDateTime?.getTime() < Date.now();

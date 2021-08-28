@@ -56,16 +56,16 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
             longitude={parking.longitude}
           />
 
-          <Field description="Name" content={parking.name} />
+          <Field description={t("text.location.name")} content={parking.name} />
 
           <Field
-            description="Parked"
+            description={t("text.location.parked")}
             content={humanReadableDate(parking.time)}
           />
 
           {parking.hasReminder && (
             <Field
-              description="Reminder"
+              description={t("text.location.reminder")}
               content={humanReadableTime(
                 parking.reminderDateTime?.getTime() || 0
               )}
@@ -74,20 +74,23 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
 
           {parking.paid.length > 0 && (
             <Field
-              description="Paid"
+              description={t("text.location.paid")}
               content={`${parking.unit} ${parking.paid}`}
             />
           )}
 
           {parking.notes.length > 0 && (
-            <Field description="Notes" content={parking.notes} />
+            <Field
+              description={t("text.location.notes")}
+              content={parking.notes}
+            />
           )}
 
           {parking.photos.length > 0 && (
             <>
-              <Field description="Photos" content="" />
+              <Field description={t("text.location.photos")} content="" />
               <Text appearance="hint">
-                You can see the photos in full size when tapping on them.
+                {t("text.location.photosHint") as string}
               </Text>
 
               <ImageGallery photos={parking.photos} />
@@ -96,7 +99,7 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
         </List>
         <MainAction>
           <Button accessoryLeft={Icons.Edit} onPress={onEdit}>
-            EDIT
+            {t("actions.edit").toUpperCase()}
           </Button>
         </MainAction>
       </BaseLayout>

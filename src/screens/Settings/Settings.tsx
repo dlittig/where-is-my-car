@@ -8,32 +8,7 @@ import { setSeenIntro } from "../../store/actions";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import BackBar from "../../components/Navigator/Bars/BackBar/BackBar";
 import { resetState } from "../../store/actions/commonActions";
-
-const settingsEntries: SettingsEntryType[] = [
-  {
-    title: "Intro",
-    description: "Show the intro screen again",
-    button: {
-      onPress: (dispatch) => () => {
-        dispatch(setSeenIntro(false));
-      },
-      label: "Start",
-    },
-  },
-];
-
-if(__DEV__) {
-  settingsEntries.push({
-    title: "[DEBUG] Reset",
-    description: "Delete all state data",
-    button: {
-      onPress: (dispatch) => () => {
-        dispatch(resetState());
-      },
-      label: "Reset",
-    },
-  });
-}
+import { useTranslation } from "react-i18next";
 
 const renderItem =
   (dispatch: Dispatch<any>) =>
@@ -60,10 +35,36 @@ const renderItem =
 
 const Settings = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const settingsEntries: SettingsEntryType[] = [
+    {
+      title: t("text.settings.intro.title"),
+      description: t("text.settings.intro.description"),
+      button: {
+        onPress: (dispatch) => () => {
+          dispatch(setSeenIntro(false));
+        },
+        label: t("actions.start"),
+      },
+    },
+  ];
+
+  if (__DEV__) {
+    settingsEntries.push({
+      title: "[DEBUG] Reset",
+      description: "Delete all state data",
+      button: {
+        onPress: (dispatch) => () => {
+          dispatch(resetState());
+        },
+        label: t("actions.reset"),
+      },
+    });
+  }
 
   return (
     <>
-      <BackBar title="Settings" />
+      <BackBar title={t("screens.settings")} />
       <BaseLayout level="1">
         <List
           data={settingsEntries}

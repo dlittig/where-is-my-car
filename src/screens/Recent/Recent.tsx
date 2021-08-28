@@ -23,6 +23,8 @@ const Recent = () => {
   const parkings = useSelector(parkingsActiveSortedSelector);
   const hasParkings = () => parkings.length > 0;
 
+  console.log(parkings.length);
+
   return (
     <BaseLayout level={"2"}>
       <List spacer middle={!hasParkings()}>
@@ -35,13 +37,13 @@ const Recent = () => {
           ))
         ) : (
           <Text style={style.textCenter} appearance="hint">
-            No parking saved. You can create one with the button below
+            {t("empty.recent") as string}
           </Text>
         )}
       </List>
       <MainAction>
         <Button accessoryLeft={Icons.Add} onPress={onPress}>
-          CREATE NEW
+          {t("actions.createNew").toUpperCase()}
         </Button>
       </MainAction>
     </BaseLayout>

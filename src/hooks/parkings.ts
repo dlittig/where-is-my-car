@@ -20,19 +20,19 @@ export const useParkingsForm = (parkingId: string) => {
   );
   const [paid, setPaid] = useState<string>(take(parking, "paid", ""));
   const [reminderDate, setReminderDate] = useState<Date>(
-    new Date(take(parking, "reminderDate", Date.now()))
+    new Date(take(parking, "reminderDateTime", Date.now()))
   );
   const [location, setLocation] = useState<Location.LocationObject>();
   // TODO: fails if timer was set to `undefined` (not set)
   const [reminderTimeHours, setReminderTimeHours] = useState<IndexPath>(
     new IndexPath(
-      new Date(take(parking, "reminderTime", Date.now())).getHours()
+      new Date(take(parking, "reminderDateTime", Date.now())).getHours()
     )
   );
   // TODO: fails if timer was set to `undefined` (not set)
   const [reminderTimeMinutes, setReminderTimeMinutes] = useState<IndexPath>(
     new IndexPath(
-      new Date(take(parking, "reminderTime", Date.now())).getMinutes()
+      new Date(take(parking, "reminderDateTime", Date.now())).getMinutes()
     )
   );
   const [hasReminder, setHasReminder] = useState<boolean>(
