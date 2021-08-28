@@ -7,6 +7,10 @@ export const en_US = {
       createNew: "Create new",
       start: "Start",
       reset: "Reset",
+      navigateTo: "Navigate to...",
+      stopParking: "Stop parking",
+      startParking: "Park car",
+      getLocation: "Get location"
     },
     error: {
       component: "Sorry, something went wrong...",

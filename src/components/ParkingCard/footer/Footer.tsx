@@ -8,6 +8,7 @@ import Icons from "../../Icons";
 import style from "./Footer.style";
 import { ParkingCardFooterComponentType } from "./types";
 import { toggleActiveParking } from "../../../store/actions";
+import { useTranslation } from "react-i18next";
 
 const shareLocation = (latitude: number, longitude: number) => {
   showLocation({
@@ -22,6 +23,7 @@ const shareLocation = (latitude: number, longitude: number) => {
 
 const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -32,7 +34,7 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
         accessoryLeft={Icons.Navigation}
         onPress={() => shareLocation(parking.latitude, parking.longitude)}
       >
-        Navigate to...
+        {t("actions.navigateTo") as string}
       </Button>
       {parking.isActive ? (
         <Button
@@ -40,12 +42,9 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
           size="small"
           appearance="outline"
           accessoryLeft={Icons.Stop}
-          onPress={() => {
-            console.log("hi");
-            dispatch(toggleActiveParking(parking));
-          }}
+          onPress={() => dispatch(toggleActiveParking(parking))}
         >
-          Stop parking
+          {t("actions.stopParking") as string}
         </Button>
       ) : (
         <Button
@@ -55,7 +54,7 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
           accessoryLeft={Icons.Park}
           onPress={() => dispatch(toggleActiveParking(parking))}
         >
-          Park car
+          {t("actions.startParking") as string}
         </Button>
       )}
     </>

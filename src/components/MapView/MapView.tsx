@@ -11,6 +11,7 @@ import { acquireLocation } from "../../utils";
 import { CONFIGURATION } from "../../config";
 import { Button } from "@ui-kitten/components";
 import Icons from "../Icons";
+import { useTranslation } from "react-i18next";
 
 const MapView: FC<MapViewComponentType> = ({
   size,
@@ -23,6 +24,7 @@ const MapView: FC<MapViewComponentType> = ({
   const [showSkeleton, setShowSkeleton] = useState<boolean>(true);
   const [coordinatesLong, setCoordinatesLong] = useState(longitude);
   const [coordinatesLat, setCoordinatesLat] = useState(latitude);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (mode === "active") {
@@ -92,7 +94,7 @@ const MapView: FC<MapViewComponentType> = ({
           accessoryLeft={Icons.Localize}
           onPress={onAcquireLocation}
         >
-          Get location
+          {t("actions.getLocation") as string}
         </Button>
       )}
     </>
