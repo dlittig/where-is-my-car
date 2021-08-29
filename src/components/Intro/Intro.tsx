@@ -15,11 +15,13 @@ import Icons from "../Icons";
 import style from "./Intro.style";
 import MainAction from "../MainAction";
 import { settingsLocationPermissionSelector } from "../../store/selectors";
+import { useTranslation } from "react-i18next";
 
 const Intro: FC = () => {
   const locationPermission = useSelector(settingsLocationPermissionSelector);
   const [stepLocks, setStepLocks] = useState<number[]>([]);
   const [step, setStep] = useState(1);
+  const { t } = useTranslation();
   const steps = [
     <StepDescription
       currentStep={step}
@@ -72,8 +74,8 @@ const Intro: FC = () => {
     <Layout style={style.screen} level="1">
       <TopNavigation
         alignment="center"
-        title="Yo where is my car?"
-        subtitle="Introduction"
+        title={t("screens.app") as string}
+        subtitle={t("screens.intro") as string}
       />
 
       {steps[step - 1]}
@@ -87,7 +89,7 @@ const Intro: FC = () => {
             appearance="outline"
             disabled={step === 1}
           >
-            Previous
+            {t("actions.previous") as string}
           </Button>
           <Button
             style={style.mainActionButton}
@@ -96,7 +98,7 @@ const Intro: FC = () => {
             appearance="outline"
             disabled={step === maxSteps || stepLocks.includes(step)}
           >
-            Next
+            {t("actions.next") as string}
           </Button>
         </View>
       </MainAction>

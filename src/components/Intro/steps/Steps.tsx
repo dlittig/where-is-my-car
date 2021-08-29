@@ -13,6 +13,7 @@ import {
   requestNotificationPermission,
 } from "../../../utils";
 import { ToastAndroid } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const BaseStep: FC = ({ children }) => (
   <BaseLayout level="1" center padded>
@@ -20,31 +21,33 @@ const BaseStep: FC = ({ children }) => (
   </BaseLayout>
 );
 
-export const StepDescription: FC<StepsComponentType> = () => (
-  <BaseStep>
-    <Text category="h5" style={[style.headline, style.text]}>
-      Welcome to "Yo where is my car?"
-    </Text>
+export const StepDescription: FC<StepsComponentType> = () => {
+  const { t } = useTranslation();
+  return (
+    <BaseStep>
+      <Text category="h5" style={[style.headline, style.text]}>
+        {t("text.intro.description.title") as string}
+      </Text>
 
-    <Text style={style.text}>
-      With this app you can keep track of where you parked your car, remind
-      yourself that a parking ticket is expiring soon and navigate to the
-      parking location.
-    </Text>
-  </BaseStep>
-);
+      <Text style={style.text}>
+        {t("text.intro.description.description") as string}
+      </Text>
+    </BaseStep>
+  );
+};
 
 export const StepLocation: FC<StepsComponentType> = ({
   setStepLocks,
   stepLocks,
   currentStep,
 }) => {
+  const { t } = useTranslation();
   const getLocationPermission = async () => {
     const hasPermission = await requestLocationPermission();
 
     if (!hasPermission) {
       ToastAndroid.showWithGravityAndOffset(
-        "Something went wrong, please try again.",
+        t("error.permissions"),
         ToastAndroid.SHORT,
         ToastAndroid.BOTTOM,
         0,
@@ -59,12 +62,11 @@ export const StepLocation: FC<StepsComponentType> = ({
   return (
     <BaseStep>
       <Text category="h5" style={[style.text, style.headline]}>
-        Location permission
+        {t("text.intro.location.title") as string}
       </Text>
 
       <Text style={style.text}>
-        We need location permission only to acquire your location, when you park
-        your car. It is not used for anything else.
+        {t("text.intro.location.description") as string}
       </Text>
 
       <Button
@@ -73,7 +75,7 @@ export const StepLocation: FC<StepsComponentType> = ({
         appearance="filled"
         accessoryLeft={Icons.Grant}
       >
-        Grant permission
+        {t("actions.grantPermission") as string}
       </Button>
     </BaseStep>
   );
@@ -84,6 +86,7 @@ export const StepNotification: FC<StepsComponentType> = ({
   stepLocks,
   currentStep,
 }) => {
+  const { t } = useTranslation();
   const getNotificationPermission = async () => {
     const hasPermission = await requestNotificationPermission();
 
@@ -104,11 +107,11 @@ export const StepNotification: FC<StepsComponentType> = ({
   return (
     <BaseStep>
       <Text category="h5" style={[style.text, style.headline]}>
-        Notification permission
+        {t("text.intro.notification.title") as string}
       </Text>
 
       <Text style={style.text}>
-        We need notification permission to remind you of your expiring parking time.
+        {t("text.intro.notification.description") as string}
       </Text>
 
       <Button
@@ -117,24 +120,25 @@ export const StepNotification: FC<StepsComponentType> = ({
         appearance="filled"
         accessoryLeft={Icons.Grant}
       >
-        Grant permission
+        {t("actions.grantPermission") as string}
       </Button>
     </BaseStep>
   );
 };
 
 export const StepMediaLibrary: FC<StepsComponentType> = () => {
+  const { t } = useTranslation();
+  // TODO Request permission here
   const getMediaPermission = () => {};
 
   return (
     <BaseStep>
       <Text category="h5" style={[style.text, style.headline]}>
-        Media permission
+        {t("text.intro.media.title") as string}
       </Text>
 
       <Text style={style.text}>
-        We need the media permission, so that you can easily add photos to you
-        parking.
+        {t("text.intro.media.description") as string}
       </Text>
 
       <Button
@@ -143,11 +147,12 @@ export const StepMediaLibrary: FC<StepsComponentType> = () => {
         appearance="filled"
         accessoryLeft={Icons.Grant}
       >
-        Grant permission
+        {t("actions.grantPermission") as string}
       </Button>
 
       <Text appearance="hint" style={style.text}>
-        You can grant the permission later in the settings, too.
+        {/* TODO Provide permission controls in the settings. */}
+        {t("text.intro.media.hint") as string}
       </Text>
     </BaseStep>
   );
@@ -155,6 +160,7 @@ export const StepMediaLibrary: FC<StepsComponentType> = () => {
 
 export const StepLaunch: FC<StepsComponentType> = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const launch = () => {
     dispatch(setSeenIntro(true));
   };
@@ -165,11 +171,11 @@ export const StepLaunch: FC<StepsComponentType> = () => {
         <Icons.Heart fill="#DB2C66" style={style.icon} />
       </Text>
       <Text category="h5" style={[style.text, style.headline]}>
-        Awesome!
+        {t("text.intro.launch.title") as string}
       </Text>
 
       <Text style={style.text}>
-        You can now start using the app and save your parkings!
+        {t("text.intro.launch.description") as string}
       </Text>
 
       <Button
@@ -178,7 +184,7 @@ export const StepLaunch: FC<StepsComponentType> = () => {
         appearance="filled"
         accessoryLeft={Icons.Launch}
       >
-        Launch!
+        {t("actions.launch") as string}
       </Button>
     </BaseStep>
   );

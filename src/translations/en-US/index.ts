@@ -10,10 +10,14 @@ export const en_US = {
       navigateTo: "Navigate to...",
       stopParking: "Stop parking",
       startParking: "Park car",
-      getLocation: "Get location"
+      getLocation: "Get location",
+      previous: "Previous",
+      next: "Next",
+      launch: "Launch!",
+      grantPermission: "Grant permission",
     },
     error: {
-      component: "Sorry, something went wrong...",
+      permissions: "Something went wrong, please try again.",
     },
     permissions: {},
     empty: {
@@ -29,6 +33,7 @@ export const en_US = {
       recent: "Recent",
       history: "History",
       map: "Map",
+      intro: "Introduction",
       settings: "Settings",
       about: "About",
       app: "Yo, where is my car?",
@@ -86,6 +91,34 @@ export const en_US = {
         intro: {
           title: "Intro",
           description: "Show the intro screen again",
+        },
+      },
+      intro: {
+        description: {
+          title: 'Welcome to "Yo, where is my car?"',
+          description:
+            "With this app you can keep track of where you parked your car, remind yourself that a parking ticket is expiring soon and navigate to the parking location.",
+        },
+        location: {
+          title: "Location permission",
+          description:
+            "We need location permission only to acquire your location, when you park your car. It is not used for anything else.",
+        },
+        notification: {
+          title: "Notification permission",
+          description:
+            "We need notification permission to remind you of your expiring parking time.",
+        },
+        media: {
+          title: "Media permission",
+          description:
+            "We need the media permission, so that you can easily add photos to your parking.",
+          hint: "You can grant the permission later in the settings, too.",
+        },
+        launch: {
+          title: "Awesome!",
+          description:
+            "You can now start using the app and save your parkings!",
         },
       },
     },
