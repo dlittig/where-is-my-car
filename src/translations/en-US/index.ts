@@ -42,36 +42,14 @@ export const en_US = {
       greeting: "Built with ❤️ by dlittig",
     },
     dialogs: {
-      select_drivers: "Select drivers",
-      delete_driver: {
-        title: "Confirm deletion",
-        content: "Are you sure you want to delete",
-      },
-      delete_race: {
-        title: "Confirm deletion",
-        content: "Are you sure you want to delete this race?",
-      },
-      delete_session: {
-        title: "Confirm deletion",
-        content: "Are you sure you want to delete the session",
-      },
       leave: {
         title: "Leave screen?",
         content:
           "You might have unsaved changes. Are you sure you want to leave the screen?",
       },
     },
-    toasts: {
-      delete_driver_in_use:
-        "Can not delete driver who participated in sessions",
-      change_driver_failed:
-        "You can't edit the drivers list, because there are races already.",
-      driver_name_empty: "The driver's name can't be empty!",
-    },
-    banner: {
-      fastest_lap:
-        "With the checkbox you can keep track of the fastest round driven.",
-    },
+    toasts: {},
+    banner: {},
     text: {
       location: {
         name: "Name",

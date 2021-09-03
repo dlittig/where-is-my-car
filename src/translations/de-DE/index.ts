@@ -1,28 +1,29 @@
 export const de_DE = {
   translation: {
     actions: {
-      add: "Hinzufügen",
-      cancel: "Abbrechen",
-      accept: "OK",
-      save: "Speichern",
-      edit: "Ändern",
-      delete: "Löschen",
-      generate: "Generieren",
-      addRace: "Rennen",
-      close: "Schließen",
-      toggle_all: "Umschalten",
-      got_it: "Verstanden",
       leave: "Verlassen",
       stay: "Bleiben",
+      addPhotos: "Add photos",
+      createNew: "Create new",
+      start: "Start",
+      reset: "Reset",
+      navigateTo: "Navigate to...",
+      stopParking: "Stop parking",
+      startParking: "Park car",
+      getLocation: "Get location",
+      previous: "Previous",
+      next: "Next",
+      launch: "Launch!",
+      grantPermission: "Grant permission",
     },
     error: {
-      component: "Da ist leider etwas schief gegangen...",
+      permissions: "Something went wrong, please try again.",
     },
+    permissions: {},
     empty: {
-      drivers: "Starten Sie, indem Sie einige Fahrer anlegen.",
-      sessions:
-        "Starten Sie, indem Sie einige Fahrer mit dem Hauptmenü anlegen ",
-      session_view: "Starten Sie die Rennsitzung mit einer zufälligen Strecke!",
+      history: `Keine aktiven Elemente vorhanden. Du kannst ein neues Element im "Neuste" Bildschirm anlegen.`,
+      recent:
+        "Keine Elemente gespeichert. Du kannst ein neues Element mit dem Knopf unten auf dieser Seite anlegen.",
     },
     screens: {
       location: {
@@ -39,99 +40,63 @@ export const de_DE = {
     about: {
       greeting: "Mit ❤️ entwickelt von dlittig",
     },
-    form: {
-      name: "Name",
-      car: "Fahrzeug von",
-      linear: "Linear",
-      gapped: "Abgestuft",
-      race_track: "Rennstrecke",
-      driver_color: "Farbe des Fahrers",
-      selected_color: "Gewählte Farbe",
-    },
     dialogs: {
-      select_drivers: "Fahrer wählen",
-      delete_driver: {
-        title: "Löschen bestätigen",
-        content:
-          "Sind Sie sicher, dass Sie den Fahrer löschen wollen mit dem Namen",
-      },
-      delete_race: {
-        title: "Löschen bestätigen",
-        content: "Sind Sie sicher, dass Sie dieses Rennen löschen wollen?",
-      },
-      delete_session: {
-        title: "Löschen bestätigen",
-        content:
-          "Sind Sie sicher, dass Sie diese Sitzung löschen wollen mit dem Namen",
-      },
       leave: {
         title: "Seite verlassen?",
         content:
           "Es könnten nicht gespeicherte Änderungen vorhanden sein. Seite wirklich verlassen?",
       },
     },
-    toasts: {
-      delete_driver_in_use:
-        "Der Fahrer kann nicht gelöscht werden, da dieser an einer Sitzung teilnimmt.",
-      change_driver_failed:
-        "Sie können die Fahrerliste nicht ändern, da schon Rennen angelegt wurden.",
-      driver_name_empty: "Der Name des Fahrers darf nicht leer sein!",
-    },
-    banner: {
-      fastest_lap:
-        "Mit dem Häkchen können Sie festhalten, welcher Fahrer die schnellste Runde gefahren ist.",
-    },
+    toasts: {},
+    banner: {},
     text: {
-      driver: {
-        history: "Verlauf",
-        color: "Farbe",
-        positions: "Positionen",
-        stats: "Statistiken",
-        all: "Gesamt",
-        fastest: "Schnellste",
-        races: "Rennen",
-        place: "Platz",
-      },
-      session: {
-        pointScheme: {
-          title: "Punkteschema",
-          linear: "Linear",
-          gapped: "Abgestuft",
-          linearHint:
-            "Alle Fahrer erhalten einen Punkt für jede Position, die sie gewinnen.",
-          gappedHint:
-            "Jede Position gibt einen weiteren Punkt, wobei der erste Fahrer einen Weiteren erhält.",
-        },
-        carPolicy: {
-          title: "Fahrzeugregeln",
-          shift: "Wechsel",
-          static: "Statisch",
-          staticHint:
-            "Alle Fahrzeuge werden für das nächste Rennen vorgeschlagen.",
-          shiftHint:
-            "Alle Fahrzeuge, außer das des letzten Fahrers, werden vorgeschlagen.",
-        },
-      },
-      race: {
-        race: "Rennen",
-        condition: {
-          title: "Wetterverhältnisse",
-          dry: "Trocken",
-          rain: "Regen",
-          night: "Nacht",
-        },
-      },
-      scoreboard: {
-        driver: "Fahrer",
-        points: "Punkte",
-        clipboard: "",
+      location: {
+        name: "Name",
+        setReminder: "Erinnerung erstellen",
+        reminderDate: "Erinnerungsdatum",
+        hours: "Stunden",
+        minutes: "Minuten",
+        paid: "Bezahlt",
+        unit: "Einheit",
+        notes: "Notizen",
+        parked: "Geparkt",
+        reminder: "Eerinnerung",
+        photos: "Fotos",
+        photosHint:
+          "Du kannst das Foto in voller Größe betrachten, wenn Du es berührst.",
       },
       settings: {
-        theme: {
-          title: "Farbschema",
-          description: "Passen Sie an, wie die Anwendung aussehen soll",
-          light: "Hell",
-          dark: "Dunkel",
+        intro: {
+          title: "Einleitung",
+          description: "Zeige den Einleitungsbildschirm erneut",
+        },
+      },
+      intro: {
+        description: {
+          title: `Willkommen zu "Ey, wo ist mein Auto?"`,
+          description:
+            "Mit dieser App kannst Du protokollieren wo Du dein Auto geparkt hast, zu diesem Ort navigieren und eine Benachrichtigung erhalten, wenn dein Parkticket davor ist abzulaufen.",
+        },
+        location: {
+          title: "Standortberechtigung",
+          description:
+            "Wir benötigen diese Berechtigung nur um einmalig die Position deines geparkten Autos zu erfassen. Der Standort wird nicht anderweitig verwendet.",
+        },
+        notification: {
+          title: "Benachrichtigungsberechtigung",
+          description:
+            "Wir benötigen diese Berechtigung damit wir Dich über ein ablaufendes Parkticket informieren können.",
+        },
+        media: {
+          title: "Medienberechtigung",
+          description:
+            "Wir benötigen diese Berechtigung, damit Du Fotos zu einer Parkung hinzufügen kannst.",
+          hint: "Du kannst diese Berechtigung auch später in den Einstellungen erteilen.",
+        },
+        launch: {
+          title: "Großartig!",
+          description:
+            "Du kannst diese App jetzt nutzen und deine Parkungen hier ablegen!",
         },
       },
     },
