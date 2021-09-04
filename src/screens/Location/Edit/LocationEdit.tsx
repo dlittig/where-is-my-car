@@ -13,7 +13,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
-import * as ImagePicker from "expo-image-picker";
+import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./LocationEdit.style";
@@ -31,12 +31,12 @@ import {
   launchCamera,
   padd,
   requestImagePickerPermission,
+  scheduleNotification,
   take,
 } from "../../../utils";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-import { useTranslation } from "react-i18next";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
@@ -95,12 +95,10 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
 
     // TODO: Save resulting id of notification to make them cancelable
-    //scheduleNotification(reminderDateTime);
+    scheduleNotification(reminderDateTime);
 
     navigation.goBack();
   };
-
-  const text = t("text.location.name");
 
   return (
     <>
@@ -108,6 +106,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       <BaseLayout level="2">
         <List spacer>
           <View style={styles.element}>
+            {/* Read location from object and display it and offer new location */}
             <MapView
               mode="active"
               withAction

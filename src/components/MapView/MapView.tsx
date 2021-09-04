@@ -1,17 +1,15 @@
-import React, { FC, ReactElement } from "react";
-import ReactNativeMapView, { Marker } from "react-native-maps";
-import NoInteraction from "../NoInteraction";
-import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
+import React, { FC, useEffect, useState } from "react";
 
-import styles, { mapStyle } from "./MapView.style";
-import Skeleton from "./Skeleton";
-import { useEffect } from "react";
-import { useState } from "react";
-import { acquireLocation } from "../../utils";
-import { CONFIGURATION } from "../../config";
 import { Button } from "@ui-kitten/components";
-import Icons from "../Icons";
 import { useTranslation } from "react-i18next";
+import ReactNativeMapView, { Marker } from "react-native-maps";
+
+import Icons from "../Icons";
+import Skeleton from "./Skeleton";
+import NoInteraction from "../NoInteraction";
+import { acquireLocation } from "../../utils";
+import styles, { mapStyle } from "./MapView.style";
+import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
 const MapView: FC<MapViewComponentType> = ({
   size,

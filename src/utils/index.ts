@@ -64,12 +64,24 @@ export const getMinutesFromTimestamp = (date: Date) => date.getMinutes();
 export const acquireLocation =
   async (): Promise<Location.LocationObject | null> => {
     try {
-      return await Location.getCurrentPositionAsync({
-        accuracy: Location.LocationAccuracy.Highest,
-      });
+      if (await Location.hasServicesEnabledAsync()) {
+        return await Location.getCurrentPositionAsync({
+          accuracy: Location.LocationAccuracy.Highest,
+        });
+      } else {
+        console.error(`Location service is not enabled.`);
+        return null;
+      }
     } catch (e) {
-      console.error(`An error occured when acquiring location: ${e}`);
-      return null;
+      // TODO: Reevalute https://github.com/expo/expo/issues/14248
+      try {
+        return await Location.getCurrentPositionAsync({
+          accuracy: Location.LocationAccuracy.Lowest,
+        });
+      } catch (e) {
+        console.error(`An error occured when acquiring location: ${e}`);
+        return null;
+      }
     }
   };
 
@@ -151,16 +163,31 @@ export const launchCamera =
   };
 
 export const scheduleNotification = async (target: Date) => {
+  let secondsDelta = differenceInSeconds(target, new Date());
+
+  if (secondsDelta <= 0) {
+    return;
+  }
+
+  // If notification is being scheduled earlier than 15 minutes, default to 1 min
+  if (secondsDelta > 0 && secondsDelta < 15 * 60) {
+    secondsDelta = 60;
+  } else {
+    secondsDelta = secondsDelta - 15 * 60;
+  }
+
+  console.log(`Seconds until notification gets triggered: ${secondsDelta}`);
+
   const schedulingOptions = {
     content: {
-      title: "This is a notification",
-      body: "This is the body",
+      title: "Ticket is expiring",
+      body: `Your parking expires at ${humanReadableTime(target.getTime())}!`,
       sound: true,
-      priority: Notifications.AndroidNotificationPriority.HIGH,
+      priority: Notifications.AndroidNotificationPriority.MAX,
       color: "blue",
     },
     trigger: {
-      seconds: differenceInSeconds(new Date(), target),
+      seconds: secondsDelta,
     },
   };
 
