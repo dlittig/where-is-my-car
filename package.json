@@ -33,6 +33,7 @@
     "react-native-get-random-values": "^1.7.0",
     "react-native-map-link": "^2.7.28",
     "react-native-maps": "0.28.0",
+    "react-native-notifier": "^1.7.1",
     "react-native-pager-view": "5.0.12",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",

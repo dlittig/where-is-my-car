@@ -1,18 +1,19 @@
-import React from "react";
-import { StatusBar, StyleSheet, Text } from "react-native";
+import React, { useState } from "react";
 
 import * as eva from "@eva-design/eva";
-import { EvaIconsPack } from "@ui-kitten/eva-icons";
-import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
-import { persistor, store } from "../../store/Store";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import i18n from "../../translations/i18n";
-import Navigator from "../../components/Navigator";
 import "react-native-get-random-values";
-import { useState } from "react";
-import RenderConditionally from "../../components/RenderConditionally";
+import { StatusBar } from "react-native";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import { NotifierWrapper } from "react-native-notifier";
+import { PersistGate } from "redux-persist/integration/react";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+
+import i18n from "../../translations/i18n";
 import Intro from "../../components/Intro";
+import Navigator from "../../components/Navigator";
+import { persistor, store } from "../../store/Store";
+import RenderConditionally from "../../components/RenderConditionally";
 import NotificationListener from "../../components/NotificationListener";
 
 i18n;
@@ -37,9 +38,11 @@ export default function App() {
         <AppThemeContext.Provider value={{ theme, toggleTheme }}>
           <ApplicationProvider {...eva} theme={getEvaTheme()}>
             <NotificationListener />
-            <IconRegistry icons={EvaIconsPack} />
-            <StatusBar animated backgroundColor={"#000"} />
-            <RenderConditionally truthy={<Navigator />} falsy={<Intro />} />
+            <NotifierWrapper>
+              <IconRegistry icons={EvaIconsPack} />
+              <StatusBar animated backgroundColor={"#000"} />
+              <RenderConditionally truthy={<Navigator />} falsy={<Intro />} />
+            </NotifierWrapper>
           </ApplicationProvider>
         </AppThemeContext.Provider>
       </PersistGate>

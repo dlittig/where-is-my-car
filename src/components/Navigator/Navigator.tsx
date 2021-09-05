@@ -1,12 +1,11 @@
 import React, { FC } from "react";
+
+import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { withStyles } from "@ui-kitten/components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, TransitionSpecs } from "@react-navigation/stack";
-import { useTranslation } from "react-i18next";
-import Home from "../../screens/Home";
-import LocationEdit from "../../screens/Location/Edit";
-import LocationView from "../../screens/Location/View";
-import Map from "../../screens/Map";
-import Settings from "../../screens/Settings";
+
 import {
   APP_HOME,
   APP_LOCATION_EDIT,
@@ -14,9 +13,13 @@ import {
   APP_MAP,
   APP_SETTINGS,
 } from "./Routes";
-import { View } from "react-native";
-import { withStyles } from "@ui-kitten/components";
+import Map from "../../screens/Map";
+import Home from "../../screens/Home";
+import Settings from "../../screens/Settings";
 import { NavigatorComponentType } from "./types";
+import Navigation from "../../services/navigation";
+import LocationEdit from "../../screens/Location/Edit";
+import LocationView from "../../screens/Location/View";
 
 const Stack = createStackNavigator();
 
@@ -33,7 +36,11 @@ const Navigator: FC<NavigatorComponentType> = ({ eva }) => {
 
   return (
     <View style={[{ flex: 1 }, eva?.style.container]}>
-      <NavigationContainer>
+      <NavigationContainer
+        ref={(navigationRef) => {
+          navigationRef && Navigation.setNavigator(navigationRef);
+        }}
+      >
         <Stack.Navigator initialRouteName={t(APP_HOME)}>
           <Stack.Screen name={t(APP_HOME)} options={options} component={Home} />
           <Stack.Screen

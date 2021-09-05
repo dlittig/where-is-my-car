@@ -74,14 +74,8 @@ export const acquireLocation =
       }
     } catch (e) {
       // TODO: Reevalute https://github.com/expo/expo/issues/14248
-      try {
-        return await Location.getCurrentPositionAsync({
-          accuracy: Location.LocationAccuracy.Lowest,
-        });
-      } catch (e) {
-        console.error(`An error occured when acquiring location: ${e}`);
-        return null;
-      }
+      console.error(`An error occured when acquiring location: ${e}`);
+      return null;
     }
   };
 
@@ -162,7 +156,7 @@ export const launchCamera =
     });
   };
 
-export const scheduleNotification = async (target: Date) => {
+export const scheduleNotification = async (target: Date, payload: Parking) => {
   let secondsDelta = differenceInSeconds(target, new Date());
 
   if (secondsDelta <= 0) {
@@ -185,6 +179,7 @@ export const scheduleNotification = async (target: Date) => {
       sound: true,
       priority: Notifications.AndroidNotificationPriority.MAX,
       color: "blue",
+      data: payload,
     },
     trigger: {
       seconds: secondsDelta,
