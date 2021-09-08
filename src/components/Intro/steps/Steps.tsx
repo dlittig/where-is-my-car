@@ -1,19 +1,19 @@
 import React, { FC } from "react";
 
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { Button, Text } from "@ui-kitten/components";
 
+import {
+  requestLocationPermission,
+  requestNotificationPermission,
+  showToast,
+} from "../../../utils";
 import Icons from "../../Icons";
 import style from "./Steps.style";
 import BaseLayout from "../../BaseLayout";
 import { StepsComponentType } from "./types";
 import { setSeenIntro } from "../../../store/actions";
-import {
-  requestLocationPermission,
-  requestNotificationPermission,
-} from "../../../utils";
-import { ToastAndroid } from "react-native";
-import { useTranslation } from "react-i18next";
 
 const BaseStep: FC = ({ children }) => (
   <BaseLayout level="1" center padded>
@@ -46,13 +46,7 @@ export const StepLocation: FC<StepsComponentType> = ({
     const hasPermission = await requestLocationPermission();
 
     if (!hasPermission) {
-      ToastAndroid.showWithGravityAndOffset(
-        t("error.permissions"),
-        ToastAndroid.SHORT,
-        ToastAndroid.BOTTOM,
-        0,
-        100
-      );
+      showToast(t("error.permissions"));
     } else {
       // Unlock next step
       setStepLocks(stepLocks.filter((value) => value !== currentStep));
@@ -91,13 +85,7 @@ export const StepNotification: FC<StepsComponentType> = ({
     const hasPermission = await requestNotificationPermission();
 
     if (!hasPermission) {
-      ToastAndroid.showWithGravityAndOffset(
-        "Something went wrong, please try again.",
-        ToastAndroid.SHORT,
-        ToastAndroid.BOTTOM,
-        0,
-        100
-      );
+      showToast("Something went wrong, please try again.");
     } else {
       // Unlock next step
       setStepLocks(stepLocks.filter((value) => value !== currentStep));

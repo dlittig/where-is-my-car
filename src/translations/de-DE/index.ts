@@ -37,9 +37,6 @@ export const de_DE = {
       about: "Über",
       app: "Ey, wo ist mein Auto?",
     },
-    about: {
-      greeting: "Mit ❤️ entwickelt von dlittig",
-    },
     dialogs: {
       leave: {
         title: "Seite verlassen?",
@@ -69,6 +66,10 @@ export const de_DE = {
         intro: {
           title: "Einleitung",
           description: "Zeige den Einleitungsbildschirm erneut",
+        },
+        about: {
+          title: "Über",
+          description: "Mit ❤️ entwickelt von dlittig",
         },
       },
       intro: {

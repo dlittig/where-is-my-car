@@ -1,14 +1,16 @@
 import React, { Dispatch } from "react";
 
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { Button, Divider, List, ListItem } from "@ui-kitten/components";
 
+import { showToast } from "../../utils";
+import pack from "../../../package.json";
 import { SettingsEntryType } from "./types";
 import { setSeenIntro } from "../../store/actions";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import BackBar from "../../components/Navigator/Bars/BackBar/BackBar";
 import { resetState } from "../../store/actions/commonActions";
-import { useTranslation } from "react-i18next";
 
 const renderItem =
   (dispatch: Dispatch<any>) =>
@@ -45,6 +47,16 @@ const Settings = () => {
           dispatch(setSeenIntro(false));
         },
         label: t("actions.start"),
+      },
+    },
+    {
+      title: t("text.settings.about.title"),
+      description: t("text.settings.about.description"),
+      button: {
+        onPress: (dispatch) => () => {
+          showToast(`😀 App Version: v${pack.version}`);
+        },
+        label: t("actions.version"),
       },
     },
   ];

@@ -1,5 +1,6 @@
 import { Parking } from "../store/types";
 import * as Location from "expo-location";
+import { ToastAndroid } from "react-native";
 import { differenceInSeconds } from "date-fns";
 import * as ImagePicker from "expo-image-picker";
 import * as Notifications from "expo-notifications";
@@ -69,12 +70,12 @@ export const acquireLocation =
           accuracy: Location.LocationAccuracy.Highest,
         });
       } else {
-        console.error(`Location service is not enabled.`);
+        showToast(`Location service is not enabled.`);
         return null;
       }
     } catch (e) {
       // TODO: Reevalute https://github.com/expo/expo/issues/14248
-      console.error(`An error occured when acquiring location: ${e}`);
+      showToast(`Location could not be acquired.`);
       return null;
     }
   };
@@ -203,4 +204,14 @@ export const getLocalDateTime = (
   );
 
   return datetime;
+};
+
+export const showToast = (text: string) => {
+  ToastAndroid.showWithGravityAndOffset(
+    text,
+    ToastAndroid.SHORT,
+    ToastAndroid.BOTTOM,
+    0,
+    100
+  );
 };

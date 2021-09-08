@@ -1,6 +1,7 @@
 export const en_US = {
   translation: {
     actions: {
+      version: "Version",
       addPhotos: "Add photos",
       save: "Save",
       edit: "Edit",
@@ -38,9 +39,6 @@ export const en_US = {
       about: "About",
       app: "Yo, where is my car?",
     },
-    about: {
-      greeting: "Built with ❤️ by dlittig",
-    },
     dialogs: {
       leave: {
         title: "Leave screen?",
@@ -69,6 +67,10 @@ export const en_US = {
         intro: {
           title: "Intro",
           description: "Show the intro screen again",
+        },
+        about: {
+          title: "About",
+          description: "Built with ❤️ by dlittig",
         },
       },
       intro: {
