@@ -88,12 +88,13 @@ export const requestLocationPermission = async (): Promise<boolean> => {
     locationStatus = status;
   } catch (e) {
     console.error(`An error occured when asking for location permission: ${e}`);
-
+    showToast("An error occured when asking for location permission");
     return false;
   }
 
-  if (locationStatus !== "granted") {
+  if (locationStatus !== Location.PermissionStatus.GRANTED) {
     console.warn(`Location permission was not granted: ${locationStatus}`);
+    showToast(`Location permission was not granted: ${locationStatus}`);
     return false;
   }
 
@@ -138,7 +139,7 @@ export const requestImagePickerPermission = async (): Promise<boolean> => {
     return false;
   }
 
-  if (imagePickerStatus !== "granted") {
+  if (imagePickerStatus !== ImagePicker.PermissionStatus.GRANTED) {
     console.warn(
       `Notification permission was not granted: ${imagePickerStatus}`
     );

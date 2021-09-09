@@ -7,7 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
-  "version": "0.0.1",
+  "version": "0.0.1-alpha1",
   "dependencies": {
     "@eva-design/eva": "^2.1.0",
     "@react-native-community/masked-view": "0.1.10",
