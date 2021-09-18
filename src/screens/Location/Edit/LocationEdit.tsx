@@ -95,7 +95,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
 
     // TODO: Save resulting id of notification to make them cancelable
-    scheduleNotification(reminderDateTime);
+    scheduleNotification(reminderDateTime, parkingObject);
 
     navigation.goBack();
   };
@@ -109,6 +109,8 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             {/* Read location from object and display it and offer new location */}
             <MapView
               mode="active"
+              latitude={parkingForm.location?.coords.latitude}
+              longitude={parkingForm.location?.coords.longitude}
               withAction
               onLocationAcquisition={parkingForm.setLocation}
               size={MAP_VIEW_SIZE.NORMAL}

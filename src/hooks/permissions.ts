@@ -9,8 +9,8 @@ import { acquireLocation } from "../utils";
 export const useLocation = (delay = true) => {
   const [location, setLocation] = useState<Location.LocationObject>({
     coords: {
-      latitude: 0,
-      longitude: 0,
+      latitude: -1,
+      longitude: -1,
     },
   } as Location.LocationObject);
   const [error, setError] = useState<string>("");

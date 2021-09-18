@@ -25,7 +25,15 @@ const MapView: FC<MapViewComponentType> = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (mode === "active") {
+    console.log("On mount", longitude, latitude);
+    if (
+      mode === "active" &&
+      longitude &&
+      longitude < 0 &&
+      latitude &&
+      latitude < 0
+    ) {
+      console.log("Acquiring location...");
       acquireLocation().then((location) => {
         if (location && onLocationAcquisition) {
           setCoordinatesLong(location.coords.longitude);

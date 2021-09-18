@@ -22,7 +22,14 @@ export const useParkingsForm = (parkingId: string) => {
   const [reminderDate, setReminderDate] = useState<Date>(
     new Date(take(parking, "reminderDateTime", Date.now()))
   );
-  const [location, setLocation] = useState<Location.LocationObject>();
+
+  const coords = {
+    coords: {
+      latitude: take(parking, "latitude", -1),
+      longitude: take(parking, "longitude", -1),
+    },
+  } as Location.LocationObject;
+  const [location, setLocation] = useState<Location.LocationObject>(coords);
   // TODO: fails if timer was set to `undefined` (not set)
   const [reminderTimeHours, setReminderTimeHours] = useState<IndexPath>(
     new IndexPath(
