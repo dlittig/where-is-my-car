@@ -5,9 +5,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build": "expo build:android -t apk"
   },
-  "version": "0.0.1-alpha1",
+  "version": "0.0.1-alpha2",
   "dependencies": {
     "@eva-design/eva": "^2.1.0",
     "@react-native-community/masked-view": "0.1.10",
@@ -30,7 +31,7 @@
     "react-i18next": "^11.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
-    "react-native-get-random-values": "^1.7.0",
+    "react-native-get-random-values": "~1.7.0",
     "react-native-map-link": "^2.7.28",
     "react-native-maps": "0.28.0",
     "react-native-notifier": "^1.7.1",
