@@ -4,6 +4,7 @@ import { ToastAndroid } from "react-native";
 import { differenceInSeconds } from "date-fns";
 import * as ImagePicker from "expo-image-picker";
 import * as Notifications from "expo-notifications";
+import { showLocation } from "react-native-map-link";
 
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
@@ -215,4 +216,15 @@ export const showToast = (text: string) => {
     0,
     100
   );
+};
+
+export const routeToLocation = (latitude: number, longitude: number) => {
+  showLocation({
+    latitude,
+    longitude,
+    dialogTitle: "Navigate to your parking", // optional (default: 'Open in Maps')
+    dialogMessage: "What app would you like to use?", // optional (default: 'What app would you like to use?')
+    cancelText: "Cancel", // optional (default: 'Cancel')
+    naverCallerName: "de.dlittig.whereismycar", // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
+  });
 };

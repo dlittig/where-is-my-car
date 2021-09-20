@@ -1,26 +1,15 @@
 import React, { FC } from "react";
 
+import { View } from "react-native";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { Button } from "@ui-kitten/components";
-import { showLocation } from "react-native-map-link";
 
 import Icons from "../../Icons";
 import style from "./Footer.style";
+import { routeToLocation } from "../../../utils";
 import { ParkingCardFooterComponentType } from "./types";
 import { toggleActiveParking } from "../../../store/actions";
-import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-
-const shareLocation = (latitude: number, longitude: number) => {
-  showLocation({
-    latitude,
-    longitude,
-    dialogTitle: "Navigate to your parking", // optional (default: 'Open in Maps')
-    dialogMessage: "What app would you like to use?", // optional (default: 'What app would you like to use?')
-    cancelText: "Cancel", // optional (default: 'Cancel')
-    naverCallerName: "de.dlittig.whereismycar", // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
-  });
-};
 
 const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
   const dispatch = useDispatch();
@@ -56,7 +45,7 @@ const ParkingCardFooter: FC<ParkingCardFooterComponentType> = ({ parking }) => {
         size="small"
         appearance="ghost"
         accessoryLeft={Icons.Navigation}
-        onPress={() => shareLocation(parking.latitude, parking.longitude)}
+        onPress={() => routeToLocation(parking.latitude, parking.longitude)}
       >
         {t("actions.navigate") as string}
       </Button>

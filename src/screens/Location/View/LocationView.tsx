@@ -16,7 +16,11 @@ import { RootReducerType } from "../../../store/reducers";
 import ImageGallery from "../../../components/ImageGallery";
 import { parkingByIdSelector } from "../../../store/selectors";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
-import { humanReadableDate, humanReadableTime } from "../../../utils";
+import {
+  humanReadableDate,
+  humanReadableTime,
+  routeToLocation,
+} from "../../../utils";
 import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 
@@ -96,7 +100,9 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
             </Text>
             <Button
               style={style.cardAction}
-              onPress={() => {}}
+              onPress={() =>
+                routeToLocation(parking.latitude, parking.longitude)
+              }
               appearance="outline"
             >
               {t("actions.navigate") as string}
