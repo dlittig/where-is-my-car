@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
-import { Text } from "@ui-kitten/components";
+import { Button, Layout, Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,6 +18,7 @@ import { ParkingCardComponentType } from "./types";
 import { deleteParking } from "../../store/actions";
 import { APP_LOCATION_VIEW } from "../Navigator/Routes";
 import { deleteParkingAlert } from "../../alerts";
+import Stats from "../Stats";
 
 const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const navigation = useNavigation();
@@ -30,21 +31,6 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
     parking.reminderDateTime &&
     parking.reminderDateTime?.getTime() < Date.now();
 
-  const cardType = () => {
-    if (parking.isActive) {
-      if (
-        parking.reminderDateTime &&
-        parking.reminderDateTime?.getTime() < Date.now()
-      ) {
-        return CARD_TYPE.WARNING;
-      } else {
-        return CARD_TYPE.SUCCESS;
-      }
-    } else {
-      return CARD_TYPE.BASIC;
-    }
-  };
-
   const onPress = () =>
     navigation.navigate(t(APP_LOCATION_VIEW), { id: parking.id });
 
@@ -55,7 +41,6 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   return (
     <View style={style.container}>
       <BaseCard
-        type={cardType()}
         appearance="outline"
         footer={() => <ParkingCardFooter parking={parking} />}
         touchableOpacityProps={{ onPress, onLongPress: confirmDelete }}
@@ -67,30 +52,35 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
           longitude={parking.longitude}
         />
         <BaseCard.Content>
-          <Text category="h6" style={style.parkingName}>
-            {parking.name}
-          </Text>
-          <View style={style.detailsContainer}>
-            <Text style={style.detailsItems}>
-              <Icons.CreditCard style={style.icons} fill="#fff" />
-              {`${parking.unit} ${parking.paid || "./."}`}
+          <Layout style={style.header} level="2">
+            <Text category="h6" style={style.parkingName}>
+              {parking.name}
             </Text>
-            <Text style={[style.detailsItems]}>
-              <Icons.Localize style={style.icons} fill="#fff" />
-              {humanReadableTime(parking.time)}
-            </Text>
-            {parking.hasReminder && (
-              <Text style={style.detailsItems}>
-                <Icons.Clock
-                  style={style.icons}
-                  animation={shouldShake() ? "shake" : undefined}
-                  fill="#fff"
-                />
-                {humanReadableTime(
-                  parking.reminderDateTime?.getTime() as number
-                )}
-              </Text>
+            {parking.paid.length > 0 && (
+              <Button
+                style={style.paidButton}
+                size="tiny"
+                accessoryLeft={
+                  <Icons.CreditCard style={style.icons} fill="#fff" />
+                }
+              >
+                {`${parking.paid}${parking.unit}`}
+              </Button>
             )}
+          </Layout>
+          <View style={style.detailsContainer}>
+            <Stats hint="Parked" value={humanReadableTime(parking.time)} />
+            <Stats
+              hint="Reminder"
+              value={
+                parking.hasReminder
+                  ? humanReadableTime(
+                      parking.reminderDateTime?.getTime() as number
+                    )
+                  : "Not set"
+              }
+            />
+            <Stats hint="Photos" value={parking.photos.length} />
           </View>
         </BaseCard.Content>
       </BaseCard>

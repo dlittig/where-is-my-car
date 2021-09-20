@@ -7,7 +7,7 @@ export const de_DE = {
       createNew: "Create new",
       start: "Start",
       reset: "Reset",
-      navigateTo: "Navigate to...",
+      navigate: "Navigate",
       stopParking: "Stop parking",
       startParking: "Park car",
       getLocation: "Get location",

@@ -8,7 +8,7 @@ export const en_US = {
       createNew: "Create new",
       start: "Start",
       reset: "Reset",
-      navigateTo: "Navigate to...",
+      navigate: "Navigate",
       stopParking: "Stop parking",
       startParking: "Park car",
       getLocation: "Get location",

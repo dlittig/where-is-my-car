@@ -10,7 +10,7 @@ export enum CARD_TYPE {
 }
 
 export type BaseCardComponentType = {
-  type: CARD_TYPE;
+  type?: CARD_TYPE;
   appearance?: "filled" | "outline";
   footer?: any;
   touchableOpacityProps: Record<string, any>;

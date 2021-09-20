@@ -8,14 +8,16 @@ const style = StyleSheet.create({
     textAlignVertical: "bottom",
   },
   parkingName: {
-    marginBottom: 6,
+    marginHorizontal: 16,
+    marginVertical: 14,
   },
   detailsContainer: {
     display: "flex",
     flexDirection: "row",
     width: "100%",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
+    marginTop: 24,
   },
   alignRight: {
     textAlign: "center",
@@ -25,6 +27,19 @@ const style = StyleSheet.create({
   },
   container: {
     marginVertical: 10,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 4,
+    marginHorizontal: -8,
+    paddingRight: 8,
+  },
+  paidButton: {
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    borderRadius: 24,
   },
 });
 
