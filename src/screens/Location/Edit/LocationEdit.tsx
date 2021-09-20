@@ -104,7 +104,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     <>
       <BackBar title={route.name} />
       <BaseLayout level="2">
-        <List spacer>
+        <List spacer padding>
           <View style={styles.element}>
             {/* Read location from object and display it and offer new location */}
             <MapView
@@ -184,6 +184,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             <Input
               label={t("text.location.paid") as string}
               placeholder="0.00"
+              keyboardType="decimal-pad"
               style={styles.paid}
               value={parkingForm.paid}
               onChangeText={(nextValue) => parkingForm.setPaid(nextValue)}

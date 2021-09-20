@@ -17,7 +17,7 @@ const History = () => {
 
   return (
     <BaseLayout level={"2"}>
-      <List spacer middle={!hasParkings()}>
+      <List padding spacer middle={!hasParkings()}>
         {hasParkings() ? (
           parkings.map((parking, index) => (
             <ParkingCard

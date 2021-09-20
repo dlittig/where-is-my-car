@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button, Text } from "@ui-kitten/components";
+import { Button, Card, Text } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
 
 import List from "../../../components/List";
@@ -20,17 +20,8 @@ import { humanReadableDate, humanReadableTime } from "../../../utils";
 import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 
-type FieldComponentType = {
-  description: string;
-  content: string;
-};
-
-const Field: FC<FieldComponentType> = ({ description, content }) => (
-  <View style={{ marginVertical: 10 }}>
-    <Text category="h6">{description}:</Text>
-    <Text>{content}</Text>
-  </View>
-);
+import style from "./LocationView.style";
+import Field from "./Field";
 
 const LocationView: FC<LocationViewScreenType> = ({ route }) => {
   const navigation = useNavigation();
@@ -49,52 +40,107 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
       <BackBar title={route.name} />
       <BaseLayout level="2">
         <List spacer>
-          <MapView
-            mode="passive"
-            size={MAP_VIEW_SIZE.NORMAL}
-            latitude={parking.latitude}
-            longitude={parking.longitude}
-          />
+          <View>
+            <MapView
+              mode="passive"
+              size={MAP_VIEW_SIZE.NORMAL}
+              latitude={parking.latitude}
+              longitude={parking.longitude}
+            />
+          </View>
 
-          <Field description={t("text.location.name")} content={parking.name} />
+          <Card
+            appearance="outline"
+            disabled
+            style={style.card}
+            footer={() => (
+              <View style={style.footer}>
+                <Text category="s1">Details</Text>
+                <View style={style.detailsContainer}>
+                  <Button
+                    style={style.pill}
+                    size="tiny"
+                    accessoryLeft={
+                      <Icons.CreditCard style={style.icons} fill="#fff" />
+                    }
+                  >
+                    {parking.paid.length > 0
+                      ? `${parking.paid}${parking.unit}`
+                      : "Free parking"}
+                  </Button>
+
+                  {parking.isActive && (
+                    <Button
+                      style={style.pill}
+                      size="tiny"
+                      status="success"
+                      accessoryLeft={
+                        <Icons.Heart style={style.icons} fill="#fff" />
+                      }
+                    >
+                      Active
+                    </Button>
+                  )}
+                </View>
+              </View>
+            )}
+          >
+            <Text style={style.cardTitle} category="h6">
+              {parking.name}
+            </Text>
+            <Text style={style.parkedHint} appearance="hint" category="p2">
+              Parked
+            </Text>
+            <Text style={style.parkedValue} category="h6">
+              {humanReadableTime(parking.time)}
+            </Text>
+            <Button
+              style={style.cardAction}
+              onPress={() => {}}
+              appearance="outline"
+            >
+              {t("actions.navigate") as string}
+            </Button>
+          </Card>
 
           <Field
-            description={t("text.location.parked")}
-            content={humanReadableDate(parking.time)}
+            description={t("text.location.reminder")}
+            content={
+              parking.hasReminder
+                ? `A reminder has been set for ${humanReadableDate(
+                    parking.reminderDateTime?.getTime() as number
+                  )} at ${humanReadableTime(
+                    parking.reminderDateTime?.getTime() as number
+                  )}.`
+                : "No reminder has been set"
+            }
           />
 
-          {parking.hasReminder && (
-            <Field
-              description={t("text.location.reminder")}
-              content={humanReadableTime(
-                parking.reminderDateTime?.getTime() || 0
-              )}
-            />
-          )}
+          <Field
+            description={t("text.location.notes")}
+            content={
+              parking.notes.length > 0
+                ? parking.notes
+                : "No notes have been added."
+            }
+          />
 
-          {parking.paid.length > 0 && (
-            <Field
-              description={t("text.location.paid")}
-              content={`${parking.unit} ${parking.paid}`}
-            />
-          )}
+          <Field description={t("text.location.photos")} content="" />
 
-          {parking.notes.length > 0 && (
-            <Field
-              description={t("text.location.notes")}
-              content={parking.notes}
-            />
-          )}
-
-          {parking.photos.length > 0 && (
+          {parking.photos.length > 0 ? (
             <>
-              <Field description={t("text.location.photos")} content="" />
-              <Text appearance="hint">
+              <Text appearance="hint" style={style.description}>
                 {t("text.location.photosHint") as string}
               </Text>
 
-              <ImageGallery photos={parking.photos} />
+              <View style={style.imageGallery}>
+                <ImageGallery photos={parking.photos} />
+              </View>
             </>
+          ) : (
+            <Text appearance="hint" style={style.description}>
+              No photos to display.
+            </Text>
           )}
         </List>
         <MainAction>
