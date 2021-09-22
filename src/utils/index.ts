@@ -63,6 +63,11 @@ export const getHoursFromTimestamp = (date: Date) => date.getHours();
 
 export const getMinutesFromTimestamp = (date: Date) => date.getMinutes();
 
+export const enableLocation = async () => {
+  await Location.enableNetworkProviderAsync();
+  return null;
+};
+
 export const acquireLocation =
   async (): Promise<Location.LocationObject | null> => {
     try {

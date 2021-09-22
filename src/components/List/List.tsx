@@ -4,8 +4,14 @@ import BaseLayout from "../BaseLayout";
 
 import style from "./List.style";
 
-const List: FC<ListComponentType> = ({ children, spacer, middle, padding }) => (
-  <BaseLayout level="2">
+const List: FC<ListComponentType> = ({
+  level = "2",
+  children,
+  spacer,
+  middle,
+  padding,
+}) => (
+  <BaseLayout level={level}>
     <ScrollView
       style={[style.container, padding && style.padding]}
       contentContainerStyle={middle === true && style.middle}

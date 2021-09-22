@@ -7,7 +7,7 @@ import ReactNativeMapView, { Marker } from "react-native-maps";
 import Icons from "../Icons";
 import Skeleton from "./Skeleton";
 import NoInteraction from "../NoInteraction";
-import { acquireLocation } from "../../utils";
+import { acquireLocation, enableLocation } from "../../utils";
 import styles, { mapStyle } from "./MapView.style";
 import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
@@ -33,18 +33,19 @@ const MapView: FC<MapViewComponentType> = ({
       latitude &&
       latitude < 0
     ) {
-      console.log("Acquiring location...");
-      acquireLocation().then((location) => {
-        if (location && onLocationAcquisition) {
-          setCoordinatesLong(location.coords.longitude);
-          setCoordinatesLat(location.coords.latitude);
-          onLocationAcquisition(location);
+      enableLocation().then(() => {
+        acquireLocation().then((location) => {
+          if (location && onLocationAcquisition) {
+            setCoordinatesLong(location.coords.longitude);
+            setCoordinatesLat(location.coords.latitude);
+            onLocationAcquisition(location);
 
-          setShowSkeleton(false);
-        } else {
-          setCoordinatesLong(0);
-          setCoordinatesLat(0);
-        }
+            setShowSkeleton(false);
+          } else {
+            setCoordinatesLong(0);
+            setCoordinatesLat(0);
+          }
+        });
       });
     } else {
       setShowSkeleton(false);
@@ -97,10 +98,21 @@ const MapView: FC<MapViewComponentType> = ({
       {withAction && (
         <Button
           status="primary"
+          appearance="filled"
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: 30,
+            marginRight: 10,
+            marginTop: -60,
+            marginBottom: 30,
+            alignSelf: "flex-end",
+          }}
           accessoryLeft={Icons.Localize}
           onPress={onAcquireLocation}
         >
-          {t("actions.getLocation") as string}
+          {""}
+          {/*{t("actions.getLocation") as string}*/}
         </Button>
       )}
     </>

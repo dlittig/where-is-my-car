@@ -104,7 +104,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     <>
       <BackBar title={route.name} />
       <BaseLayout level="2">
-        <List spacer padding>
+        <List level="1" spacer padding>
           <View style={styles.element}>
             {/* Read location from object and display it and offer new location */}
             <MapView
@@ -221,11 +221,16 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             onDelete={parkingForm.setPhotos}
           />
 
-          <Button accessoryLeft={Icons.Add} onPress={selectPhotos}>
+          <Button
+            size="small"
+            appearance="outline"
+            accessoryLeft={Icons.Add}
+            onPress={selectPhotos}
+          >
             {t("actions.addPhotos") as string}
           </Button>
         </List>
-        <MainAction>
+        <MainAction border>
           <Button accessoryLeft={Icons.Save} onPress={onSave}>
             {t("actions.save").toUpperCase()}
           </Button>

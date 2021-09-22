@@ -8,6 +8,10 @@ const style = StyleSheet.create({
     width: "100%",
     padding: 16,
   },
+  border: {
+    borderTopWidth: 1,
+    borderTopColor: "#0f0f0f",
+  },
 });
 
 export default style;
