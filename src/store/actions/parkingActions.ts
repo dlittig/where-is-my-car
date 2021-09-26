@@ -3,6 +3,7 @@ import {
   PARKING_DELETE,
   PARKING_UPDATE,
   PARKING_TOGGLE_ACTIVE,
+  PARKING_SEARCH,
 } from "../constants/parkingConstants";
 import { Parking } from "../types";
 import { ActionType } from "./types";
@@ -25,4 +26,9 @@ export const updateParking = (parking: Parking): ActionType => ({
 export const toggleActiveParking = (parking: Parking): ActionType => ({
   type: PARKING_TOGGLE_ACTIVE,
   payload: parking,
+});
+
+export const searchParking = (search: string): ActionType => ({
+  type: PARKING_SEARCH,
+  payload: search,
 });

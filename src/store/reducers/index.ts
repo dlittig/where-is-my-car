@@ -1,5 +1,6 @@
-import { parkingsReducer, ParkingsState } from "./parkingReducer";
-import { SettingsState, settingsReducer } from "./settingsReducer";
+import { parkingsReducer } from "./parkingReducer";
+import { settingsReducer } from "./settingsReducer";
+import { ParkingsState, SettingsState } from "../types";
 
 export type RootReducerType = {
   parkingsReducer: ParkingsState;

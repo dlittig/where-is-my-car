@@ -2,6 +2,7 @@ import { COMMON_RESET_STATE } from "../constants/commonConstants";
 import {
   PARKING_ADD,
   PARKING_DELETE,
+  PARKING_SEARCH,
   PARKING_TOGGLE_ACTIVE,
   PARKING_UPDATE,
 } from "../constants/parkingConstants";
@@ -23,14 +24,19 @@ type SeenIntroAction = {
 
 export type SettingsActionType = ApplyThemeAction | SeenIntroAction;
 
-export type ParkingsActionType = {
-  type:
-    | typeof PARKING_ADD
-    | typeof PARKING_UPDATE
-    | typeof PARKING_DELETE
-    | typeof PARKING_TOGGLE_ACTIVE;
-  payload: Parking;
-};
+export type ParkingsActionType =
+  | {
+      type:
+        | typeof PARKING_ADD
+        | typeof PARKING_UPDATE
+        | typeof PARKING_DELETE
+        | typeof PARKING_TOGGLE_ACTIVE;
+      payload: Parking;
+    }
+  | {
+      type: typeof PARKING_SEARCH;
+      payload: string;
+    };
 
 type CommonResetStateType = {
   type: typeof COMMON_RESET_STATE;

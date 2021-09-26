@@ -5,6 +5,7 @@ import {
   PARKING_UPDATE,
   PARKING_DELETE,
   PARKING_TOGGLE_ACTIVE,
+  PARKING_SEARCH,
 } from "../constants/parkingConstants";
 import { Parking, ParkingsState } from "../types";
 
@@ -14,6 +15,7 @@ const initialState: ParkingsState = {
     allIds: [],
   },
   sortedParkings: [],
+  search: "",
 };
 
 export const parkingsReducer = (
@@ -22,6 +24,7 @@ export const parkingsReducer = (
 ): ParkingsState => {
   let newState = {} as ParkingsState;
   let parking: Parking;
+  let search: string;
 
   switch (action.type) {
     case PARKING_ADD:
@@ -54,9 +57,7 @@ export const parkingsReducer = (
       return newState;
     case PARKING_DELETE:
       parking = action.payload;
-      newState = {
-        ...state,
-      };
+      newState = { ...state };
 
       newState.parkings.allIds = newState.parkings.allIds.filter(
         (item) => item !== parking.id
@@ -66,6 +67,12 @@ export const parkingsReducer = (
       );
       delete newState.parkings.byId[parking.id];
 
+      return newState;
+    case PARKING_SEARCH:
+      search = action.payload;
+      newState = { ...state };
+
+      newState.search = search;
       return newState;
     case COMMON_RESET_STATE:
       return initialState;

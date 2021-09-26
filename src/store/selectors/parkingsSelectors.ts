@@ -1,5 +1,6 @@
 import createCachedSelector from "re-reselect";
 import { RootReducerType } from "../reducers";
+import { parkingsReducer } from "../reducers/parkingReducer";
 import { Parking, ParkingsState } from "../types";
 
 const parkingsSelector = (state: RootReducerType): ParkingsState =>
@@ -38,3 +39,8 @@ export const parkingByIdSelector = createCachedSelector(
   parkingId,
   (parkingsReducer, id) => parkingsReducer.parkings.byId[id]
 )((_state_, id) => `parkings.byId[${id}]`);
+
+export const parkingSearchFilterSelector = createCachedSelector(
+  parkingsSelector,
+  (parkingsReducer) => parkingsReducer.search
+)((_state_) => "parkings.search");

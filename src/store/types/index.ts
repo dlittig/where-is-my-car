@@ -24,6 +24,7 @@ export type ParkingsState = {
     allIds: Array<Parking["id"]>;
   };
   sortedParkings: string[];
+  search: string;
 };
 
 export const paymentUnits: PaymentUnitType[] = ["€", "$", "CHF", "¥", "£"];
