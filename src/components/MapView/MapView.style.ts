@@ -18,6 +18,15 @@ export default StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  locateButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 30,
+    marginRight: 10,
+    marginTop: -60,
+    marginBottom: 30,
+    alignSelf: "flex-end",
+  },
 });
 
 export const mapStyle = [

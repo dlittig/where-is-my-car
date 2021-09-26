@@ -20,6 +20,16 @@ const style = StyleSheet.create({
   unit: {
     width: "30%",
   },
+  notesText: {
+    minHeight: 64,
+  },
+  reminderButton: {
+    marginTop: 6,
+  },
+  photos: {
+    fontSize: 12,
+    marginVertical: 4,
+  },
 });
 
 export default style;

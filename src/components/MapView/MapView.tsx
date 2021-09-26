@@ -8,7 +8,7 @@ import Icons from "../Icons";
 import Skeleton from "./Skeleton";
 import NoInteraction from "../NoInteraction";
 import { acquireLocation, enableLocation } from "../../utils";
-import styles, { mapStyle } from "./MapView.style";
+import style, { mapStyle } from "./MapView.style";
 import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
 const MapView: FC<MapViewComponentType> = ({
@@ -68,9 +68,9 @@ const MapView: FC<MapViewComponentType> = ({
         <NoInteraction
           condition={size !== MAP_VIEW_SIZE.FULL}
           style={[
-            styles.container,
-            size === MAP_VIEW_SIZE.CARD && styles.card,
-            size === MAP_VIEW_SIZE.NORMAL && styles.normal,
+            style.container,
+            size === MAP_VIEW_SIZE.CARD && style.card,
+            size === MAP_VIEW_SIZE.NORMAL && style.normal,
           ]}
         >
           {coordinatesLong && coordinatesLat && (
@@ -82,7 +82,7 @@ const MapView: FC<MapViewComponentType> = ({
                 latitudeDelta: 0.003,
                 longitudeDelta: 0.005,
               }}
-              style={styles.map}
+              style={style.map}
             >
               <Marker
                 coordinate={{
@@ -99,15 +99,7 @@ const MapView: FC<MapViewComponentType> = ({
         <Button
           status="primary"
           appearance="filled"
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: 30,
-            marginRight: 10,
-            marginTop: -60,
-            marginBottom: 30,
-            alignSelf: "flex-end",
-          }}
+          style={style.locateButton}
           accessoryLeft={Icons.Localize}
           onPress={onAcquireLocation}
         >

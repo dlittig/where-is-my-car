@@ -128,7 +128,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             appearance="outline"
             size="small"
             accessoryLeft={parkingForm.hasReminder ? Icons.Remove : Icons.Clock}
-            style={{marginTop: 6}}
+            style={styles.reminderButton}
           >
             {parkingForm.hasReminder
               ? (t("text.location.removeReminder") as string)
@@ -212,17 +212,13 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
           <Input
             label={t("text.location.notes") as string}
             multiline
-            textStyle={{ minHeight: 64 }}
+            textStyle={styles.notesText}
             style={styles.element}
             value={parkingForm.notes}
             onChangeText={(nextValue) => parkingForm.setNotes(nextValue)}
           />
 
-          <Text
-            appearance="hint"
-            category="p2"
-            style={{ fontSize: 12, marginVertical: 4 }}
-          >
+          <Text appearance="hint" category="p2" style={styles.photos}>
             Photos
           </Text>
 

@@ -1,11 +1,12 @@
 import React, { FC, useState, useCallback } from "react";
-
 import { Modal } from "@ui-kitten/components";
 import { Dimensions, Image, TouchableOpacity, View } from "react-native";
 
 import { ImageGalleryComponentType } from "./types";
 import MemoizedImage from "./MemoizedImage/MemoizedImage";
 import { deleteImageAlert } from "../../alerts/DeleteImageAlert";
+
+import style from "./ImageGallery.style";
 
 const ImageGallery: FC<ImageGalleryComponentType> = ({
   photos,
@@ -29,19 +30,10 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
   };
 
   return (
-    <View
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        flexDirection: "row",
-      }}
-    >
+    <View style={style.container}>
       <Modal
         visible={previewVisible}
-        backdropStyle={{
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
+        backdropStyle={style.modalBackground}
         onBackdropPress={closePreview}
       >
         <TouchableOpacity
@@ -52,15 +44,7 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
             marginBottom: 20,
           }}
         >
-          <Image
-            source={{ uri: currentPhoto }}
-            style={{
-              width: "100%",
-              height: "100%",
-              resizeMode: "cover",
-              borderRadius: 5,
-            }}
-          />
+          <Image source={{ uri: currentPhoto }} style={style.image} />
         </TouchableOpacity>
       </Modal>
 
