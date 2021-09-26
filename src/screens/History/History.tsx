@@ -1,35 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { useDispatch, useSelector } from "react-redux";
-import { Input, Layout, Text } from "@ui-kitten/components";
+import { useSelector } from "react-redux";
+import { Text } from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
 
-import style from "./History.style";
-import List from "../../components/List";
-import ParkingCard from "../../components/ParkingCard";
-import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import {
   parkingSearchFilterSelector,
   parkingsInactiveSortedSelector,
 } from "../../store/selectors";
-import { useTranslation } from "react-i18next";
+import style from "./History.style";
+import List from "../../components/List";
 import { Parking } from "../../store/types";
-import { searchParking } from "../../store/actions";
-import { useDebounce } from "use-debounce/lib";
+import Searchbar from "../../components/Searchbar";
+import ParkingCard from "../../components/ParkingCard";
+import BaseLayout from "../../components/BaseLayout/BaseLayout";
 
 const History = () => {
-  const dispatch = useDispatch();
   const parkings = useSelector(parkingsInactiveSortedSelector);
   const hasParkings = () => parkings.length > 0;
   const { t } = useTranslation();
 
   // Keep track of search and debounce
   const searchState = useSelector(parkingSearchFilterSelector);
-  const [search, setSearch] = useState("");
-  const [value] = useDebounce(search, 500);
-
-  useEffect(() => {
-    dispatch(searchParking(value));
-  }, [value]);
 
   const searchFilter = (value: Parking) => {
     if (searchState.length === 0) return true;
@@ -41,13 +33,7 @@ const History = () => {
 
   return (
     <BaseLayout level={"2"}>
-      <Layout level="1" style={style.search}>
-        <Input
-          placeholder="Search"
-          size="small"
-          onChangeText={(value) => setSearch(value)}
-        />
-      </Layout>
+      <Searchbar />
 
       <List padding spacer middle={!hasParkings()}>
         {hasParkings() ? (
