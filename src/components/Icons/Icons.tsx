@@ -15,9 +15,11 @@ const Icons = {
   Next: (props: any) => <Icon {...props} name="arrow-right-outline" />,
   Park: (props: any) => <Icon {...props} name="flag-outline" />,
   Previous: (props: any) => <Icon {...props} name="arrow-left-outline" />,
+  Remove: (props: any) => <Icon {...props} name="trash-2-outline" />,
   Save: (props: any) => <Icon {...props} name="checkmark-outline" />,
   Settings: (props: any) => <Icon {...props} name="settings-outline" />,
   Stop: (props: any) => <Icon {...props} name="slash-outline" />,
 };
 
 export default Icons;
+

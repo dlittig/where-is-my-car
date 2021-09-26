@@ -9,6 +9,7 @@ import {
   IndexPath,
   Datepicker,
   CheckBox,
+  Card,
 } from "@ui-kitten/components";
 import { v4 as uuidv4 } from "uuid";
 import { View } from "react-native";
@@ -122,18 +123,20 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             value={parkingForm.name}
             onChangeText={(nextValue) => parkingForm.setName(nextValue)}
           />
-          <CheckBox
-            checked={parkingForm.hasReminder}
-            onChange={(nextChecked: boolean) =>
-              parkingForm.setHasReminder(nextChecked)
-            }
+          <Button
+            onPress={() => parkingForm.setHasReminder(!parkingForm.hasReminder)}
+            appearance="outline"
+            size="small"
+            accessoryLeft={parkingForm.hasReminder ? Icons.Remove : Icons.Clock}
+            style={{marginTop: 6}}
           >
-            {t("text.location.setReminder") as string}
-          </CheckBox>
+            {parkingForm.hasReminder
+              ? (t("text.location.removeReminder") as string)
+              : (t("text.location.setReminder") as string)}
+          </Button>
           {parkingForm.hasReminder && (
-            <>
+            <Card appearance="outline">
               <Datepicker
-                style={styles.element}
                 label={t("text.location.reminderDate") as string}
                 date={parkingForm.reminderDate}
                 onSelect={(nextDate) => parkingForm.setReminderDate(nextDate)}
@@ -178,7 +181,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
                   ))}
                 </Select>
               </View>
-            </>
+            </Card>
           )}
           <View style={[styles.inline, styles.element]}>
             <Input
@@ -214,6 +217,14 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             value={parkingForm.notes}
             onChangeText={(nextValue) => parkingForm.setNotes(nextValue)}
           />
+
+          <Text
+            appearance="hint"
+            category="p2"
+            style={{ fontSize: 12, marginVertical: 4 }}
+          >
+            Photos
+          </Text>
 
           <ImageGallery
             photos={parkingForm.photos}

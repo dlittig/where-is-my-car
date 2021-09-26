@@ -52,6 +52,7 @@ export const en_US = {
       location: {
         name: "Name",
         setReminder: "Set reminder",
+        removeReminder: "Remove reminder",
         reminderDate: "Reminder date",
         hours: "Hours",
         minutes: "Minutes",
