@@ -1,4 +1,5 @@
 import createCachedSelector from "re-reselect";
+import { searchFilter } from "../../utils";
 import { RootReducerType } from "../reducers";
 import { parkingsReducer } from "../reducers/parkingReducer";
 import { Parking, ParkingsState } from "../types";
@@ -44,3 +45,18 @@ export const parkingSearchFilterSelector = createCachedSelector(
   parkingsSelector,
   (parkingsReducer) => parkingsReducer.search
 )((_state_) => "parkings.search");
+
+export const parkingLimitSelector = createCachedSelector(
+  parkingsSelector,
+  (parkingsReducer) => parkingsReducer.currentLimit
+)((_state_) => "parkings.currentLimit");
+
+export const parkingFilteredPaginatedSelector = createCachedSelector(
+  parkingsInactiveSortedSelector,
+  parkingSearchFilterSelector,
+  parkingLimitSelector,
+  (inactiveParkings, search, currentLimit) =>
+    inactiveParkings
+      .filter((value) => searchFilter(value, search))
+      .slice(0, currentLimit + 1)
+)((_state) => "parkings.filtered.paginated");

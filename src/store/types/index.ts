@@ -25,6 +25,7 @@ export type ParkingsState = {
   };
   sortedParkings: string[];
   search: string;
+  currentLimit: number;
 };
 
 export const paymentUnits: PaymentUnitType[] = ["€", "$", "CHF", "¥", "£"];

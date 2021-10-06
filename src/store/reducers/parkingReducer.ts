@@ -6,8 +6,11 @@ import {
   PARKING_DELETE,
   PARKING_TOGGLE_ACTIVE,
   PARKING_SEARCH,
+  PARKING_INCREASE_CURRENT_LIMIT,
 } from "../constants/parkingConstants";
 import { Parking, ParkingsState } from "../types";
+
+const INCREASE_LIMIT_AMOUNT = 10;
 
 const initialState: ParkingsState = {
   parkings: {
@@ -16,6 +19,7 @@ const initialState: ParkingsState = {
   },
   sortedParkings: [],
   search: "",
+  currentLimit: 10,
 };
 
 export const parkingsReducer = (
@@ -73,6 +77,11 @@ export const parkingsReducer = (
       newState = { ...state };
 
       newState.search = search;
+      return newState;
+    case PARKING_INCREASE_CURRENT_LIMIT:
+      newState = { ...state };
+
+      newState.currentLimit = state.currentLimit + INCREASE_LIMIT_AMOUNT;
       return newState;
     case COMMON_RESET_STATE:
       return initialState;

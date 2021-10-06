@@ -233,3 +233,12 @@ export const routeToLocation = (latitude: number, longitude: number) => {
     naverCallerName: "de.dlittig.whereismycar", // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
   });
 };
+
+export const searchFilter = (value: Parking, state: string) => {
+  if (state.length === 0) return true;
+
+  return (
+    value.notes.toLowerCase().includes(state.toLowerCase()) ||
+    value.name.toLowerCase().includes(state.toLowerCase())
+  );
+};

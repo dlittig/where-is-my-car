@@ -2,6 +2,7 @@ import { COMMON_RESET_STATE } from "../constants/commonConstants";
 import {
   PARKING_ADD,
   PARKING_DELETE,
+  PARKING_INCREASE_CURRENT_LIMIT,
   PARKING_SEARCH,
   PARKING_TOGGLE_ACTIVE,
   PARKING_UPDATE,
@@ -36,6 +37,9 @@ export type ParkingsActionType =
   | {
       type: typeof PARKING_SEARCH;
       payload: string;
+    }
+  | {
+      type: typeof PARKING_INCREASE_CURRENT_LIMIT;
     };
 
 type CommonResetStateType = {
