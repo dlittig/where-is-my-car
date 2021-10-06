@@ -14,6 +14,11 @@ import { Parking } from "../../store/types";
 import Searchbar from "../../components/Searchbar";
 import ParkingCard from "../../components/ParkingCard";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
+import { FlatList, ListRenderItemInfo, View } from "react-native";
+
+const renderItem = ({ item }: ListRenderItemInfo<Parking>) => (
+  <ParkingCard parking={item} key={`recent-parking-card-${item.id}`} />
+);
 
 const History = () => {
   const parkings = useSelector(parkingsInactiveSortedSelector);
@@ -27,7 +32,8 @@ const History = () => {
     if (searchState.length === 0) return true;
 
     return (
-      value.notes.includes(searchState) || value.name.includes(searchState)
+      value.notes.toLowerCase().includes(searchState.toLowerCase()) ||
+      value.name.toLowerCase().includes(searchState.toLowerCase())
     );
   };
 
@@ -35,22 +41,21 @@ const History = () => {
     <BaseLayout level={"2"}>
       <Searchbar />
 
-      <List padding spacer middle={!hasParkings()}>
-        {hasParkings() ? (
-          parkings
-            .filter(searchFilter)
-            .map((parking, index) => (
-              <ParkingCard
-                parking={parking}
-                key={`recent-parking-card-${index}`}
-              />
-            ))
-        ) : (
+      {hasParkings() ? (
+        <FlatList
+          style={style.list}
+          data={parkings.filter(searchFilter)}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          ListFooterComponent={<View style={style.spacer}></View>}
+        />
+      ) : (
+        <List padding middle>
           <Text style={style.textCenter} appearance="hint">
             {t("empty.history") as string}
           </Text>
-        )}
-      </List>
+        </List>
+      )}
     </BaseLayout>
   );
 };
