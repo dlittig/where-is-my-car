@@ -1,8 +1,8 @@
 import createCachedSelector from "re-reselect";
 import { searchFilter } from "../../utils";
 import { RootReducerType } from "../reducers";
-import { parkingsReducer } from "../reducers/parkingReducer";
-import { Parking, ParkingsState } from "../types";
+import { ParkingsState } from "../types";
+import { appLimitSelector, appSearchFilterSelector } from "./appSelectors";
 
 const parkingsSelector = (state: RootReducerType): ParkingsState =>
   state.parkingsReducer;
@@ -41,22 +41,15 @@ export const parkingByIdSelector = createCachedSelector(
   (parkingsReducer, id) => parkingsReducer.parkings.byId[id]
 )((_state_, id) => `parkings.byId[${id}]`);
 
-export const parkingSearchFilterSelector = createCachedSelector(
-  parkingsSelector,
-  (parkingsReducer) => parkingsReducer.search
-)((_state_) => "parkings.search");
-
-export const parkingLimitSelector = createCachedSelector(
-  parkingsSelector,
-  (parkingsReducer) => parkingsReducer.currentLimit
-)((_state_) => "parkings.currentLimit");
-
-export const parkingFilteredPaginatedSelector = createCachedSelector(
+export const parkingInactiveFilteredSelector = createCachedSelector(
   parkingsInactiveSortedSelector,
-  parkingSearchFilterSelector,
-  parkingLimitSelector,
-  (inactiveParkings, search, currentLimit) =>
-    inactiveParkings
-      .filter((value) => searchFilter(value, search))
-      .slice(0, currentLimit + 1)
+  appSearchFilterSelector,
+  (inactiveParkings, search) =>
+    inactiveParkings.filter((value) => searchFilter(value, search))
+)((_state) => "parkings.filtered");
+
+export const parkingInactiveFilteredPaginatedSelector = createCachedSelector(
+  parkingInactiveFilteredSelector,
+  appLimitSelector,
+  (inactiveParkings, currentLimit) => inactiveParkings.slice(0, currentLimit)
 )((_state) => "parkings.filtered.paginated");

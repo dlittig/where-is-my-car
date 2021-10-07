@@ -1,9 +1,11 @@
+import {
+  APP_INCREASE_CURRENT_LIMIT,
+  APP_SEARCH,
+} from "../constants/appConstants";
 import { COMMON_RESET_STATE } from "../constants/commonConstants";
 import {
   PARKING_ADD,
   PARKING_DELETE,
-  PARKING_INCREASE_CURRENT_LIMIT,
-  PARKING_SEARCH,
   PARKING_TOGGLE_ACTIVE,
   PARKING_UPDATE,
 } from "../constants/parkingConstants";
@@ -25,21 +27,22 @@ type SeenIntroAction = {
 
 export type SettingsActionType = ApplyThemeAction | SeenIntroAction;
 
-export type ParkingsActionType =
+export type ParkingsActionType = {
+  type:
+    | typeof PARKING_ADD
+    | typeof PARKING_UPDATE
+    | typeof PARKING_DELETE
+    | typeof PARKING_TOGGLE_ACTIVE;
+  payload: Parking;
+};
+
+export type AppActionType =
   | {
-      type:
-        | typeof PARKING_ADD
-        | typeof PARKING_UPDATE
-        | typeof PARKING_DELETE
-        | typeof PARKING_TOGGLE_ACTIVE;
-      payload: Parking;
+      type: typeof APP_INCREASE_CURRENT_LIMIT;
     }
   | {
-      type: typeof PARKING_SEARCH;
+      type: typeof APP_SEARCH;
       payload: string;
-    }
-  | {
-      type: typeof PARKING_INCREASE_CURRENT_LIMIT;
     };
 
 type CommonResetStateType = {
@@ -50,4 +53,5 @@ export type CommonActionType = CommonResetStateType;
 export type ActionType =
   | ParkingsActionType
   | SettingsActionType
+  | AppActionType
   | CommonActionType;

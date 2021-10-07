@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
   spacer: {
     height: 10,
   },
+  loadMore: {
+    marginBottom: 20,
+  },
 });
 
 export default styles;

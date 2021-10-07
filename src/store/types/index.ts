@@ -24,6 +24,9 @@ export type ParkingsState = {
     allIds: Array<Parking["id"]>;
   };
   sortedParkings: string[];
+};
+
+export type AppState = {
   search: string;
   currentLimit: number;
 };
