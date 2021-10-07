@@ -2,30 +2,27 @@ import React, { FC } from "react";
 
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
-import { Button, Layout, Text } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
+import { Button, Layout, Text } from "@ui-kitten/components";
 
 import Icons from "../Icons";
+import Stats from "../Stats";
 import MapView from "../MapView";
 import BaseCard from "../BaseCard";
 import style from "./ParkingCard.style";
 import ParkingCardFooter from "./footer";
-import { CARD_TYPE } from "../BaseCard/types";
 import { humanReadableTime } from "../../utils";
 import { MAP_VIEW_SIZE } from "../MapView/types";
+import { deleteParkingAlert } from "../../alerts";
 import { ParkingCardComponentType } from "./types";
 import { deleteParking } from "../../store/actions";
 import { APP_LOCATION_VIEW } from "../Navigator/Routes";
-import { deleteParkingAlert } from "../../alerts";
-import Stats from "../Stats";
 
 const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
-  console.log("Parking", parking, typeof parking.reminderDateTime);
 
   const shouldShake = () =>
     parking.reminderDateTime &&

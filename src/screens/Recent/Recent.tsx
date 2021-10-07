@@ -8,9 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import style from "./Recent.style";
 import List from "../../components/List";
 import Icons from "../../components/Icons";
-import { ParkingsState } from "../../store/types";
 import MainAction from "../../components/MainAction";
-import { RootReducerType } from "../../store/reducers";
 import ParkingCard from "../../components/ParkingCard";
 import { parkingsActiveSortedSelector } from "../../store/selectors";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
@@ -22,8 +20,6 @@ const Recent = () => {
   const onPress = () => navigation.navigate(t(APP_LOCATION_EDIT));
   const parkings = useSelector(parkingsActiveSortedSelector);
   const hasParkings = () => parkings.length > 0;
-
-  console.log(parkings.length);
 
   return (
     <BaseLayout level={"2"}>

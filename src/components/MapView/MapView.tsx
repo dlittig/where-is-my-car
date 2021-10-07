@@ -7,8 +7,8 @@ import ReactNativeMapView, { Marker } from "react-native-maps";
 import Icons from "../Icons";
 import Skeleton from "./Skeleton";
 import NoInteraction from "../NoInteraction";
-import { acquireLocation, enableLocation } from "../../utils";
 import style, { mapStyle } from "./MapView.style";
+import { acquireLocation, enableLocation } from "../../utils";
 import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
 const MapView: FC<MapViewComponentType> = ({
@@ -25,7 +25,6 @@ const MapView: FC<MapViewComponentType> = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    console.log("On mount", longitude, latitude);
     if (
       mode === "active" &&
       longitude &&
