@@ -7,9 +7,7 @@ export type RootReducerType = {
   settingsReducer: SettingsState;
 };
 
-const RootReducer = {
+export const RootReducer = {
   parkingsReducer,
   settingsReducer,
 };
-
-export default RootReducer;
