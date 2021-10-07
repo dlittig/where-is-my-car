@@ -10,6 +10,7 @@ i18n
     lng: ExpoLocalization ? ExpoLocalization.locale : "en-US",
     preload: ["en-US", "de-DE"],
     fallbackLng: "en-US",
+    compatibilityJSON: "v3",
     interpolation: {
       escapeValue: false,
     },
