@@ -28,11 +28,13 @@ import { useParkingsForm } from "../../../hooks/parkings";
 import ImageGallery from "../../../components/ImageGallery";
 import { Parking, paymentUnits } from "../../../store/types";
 import {
+  cancelNotification,
   getLocalDateTime,
   launchCamera,
   padd,
   requestImagePickerPermission,
-  scheduleNotification,
+  scheduleCreationNotification,
+  scheduleExpirationNotification,
   take,
 } from "../../../utils";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
@@ -60,7 +62,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
   };
 
-  const onSave = () => {
+  const onSave = async () => {
     // TODO Validate data before save
     if (!parkingForm.location) {
       return;
@@ -87,16 +89,38 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       latitude: parkingForm.location?.coords.latitude || 0,
       longitude: parkingForm.location?.coords.longitude || 0,
       photos: parkingForm.photos,
+      scheduledNotification: take(
+        parkingForm.parking,
+        "scheduledNotification",
+        undefined
+      ),
     };
+
+    // Schedule notification and cancel previously existing ones
+    if (
+      parkingObject.scheduledNotification &&
+      parkingObject.scheduledNotification.length > 0
+    ) {
+      await cancelNotification(parkingObject.scheduledNotification);
+    }
+
+    if (parkingForm.hasReminder) {
+      const notificationId = await scheduleExpirationNotification(
+        reminderDateTime,
+        parkingObject
+      );
+
+      if (notificationId) {
+        parkingObject.scheduledNotification = notificationId;
+      }
+    }
 
     if (parkingId.length > 0) {
       dispatch(updateParking(parkingObject));
     } else {
       dispatch(addParking(parkingObject));
+      scheduleCreationNotification(parkingObject);
     }
-
-    // TODO: Save resulting id of notification to make them cancelable
-    scheduleNotification(reminderDateTime, parkingObject);
 
     navigation.goBack();
   };

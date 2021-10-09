@@ -13,6 +13,7 @@ export type Parking = {
   photos: string[];
   unit: PaymentUnitType;
   isActive: boolean;
+  scheduledNotification?: string;
   [k: string]: unknown;
 };
 

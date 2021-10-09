@@ -5,6 +5,7 @@ import { differenceInSeconds } from "date-fns";
 import * as ImagePicker from "expo-image-picker";
 import * as Notifications from "expo-notifications";
 import { showLocation } from "react-native-map-link";
+import { NOTIFICATION_KIND } from "../components/NotificationListener/types";
 
 export const humanReadableDate = (time: number): string => {
   const date: Date = new Date(time);
@@ -164,7 +165,10 @@ export const launchCamera =
     });
   };
 
-export const scheduleNotification = async (target: Date, payload: Parking) => {
+export const scheduleExpirationNotification = async (
+  target: Date,
+  payload: Parking
+): Promise<string | undefined> => {
   let secondsDelta = differenceInSeconds(target, new Date());
 
   if (secondsDelta <= 0) {
@@ -178,8 +182,6 @@ export const scheduleNotification = async (target: Date, payload: Parking) => {
     secondsDelta = secondsDelta - 15 * 60;
   }
 
-  console.log(`Seconds until notification gets triggered: ${secondsDelta}`);
-
   const schedulingOptions = {
     content: {
       title: "Ticket is expiring",
@@ -187,14 +189,40 @@ export const scheduleNotification = async (target: Date, payload: Parking) => {
       sound: true,
       priority: Notifications.AndroidNotificationPriority.MAX,
       color: "blue",
-      data: payload,
+      data: {
+        type: NOTIFICATION_KIND.EXPIRE,
+        payload,
+      },
     },
     trigger: {
       seconds: secondsDelta,
     },
   };
 
+  return await Notifications.scheduleNotificationAsync(schedulingOptions);
+};
+
+export const scheduleCreationNotification = async (payload: Parking) => {
+  const schedulingOptions = {
+    content: {
+      title: "Car parked",
+      body: `Top to navigate.`,
+      sound: true,
+      priority: Notifications.AndroidNotificationPriority.LOW,
+      color: "#666",
+      data: {
+        type: NOTIFICATION_KIND.CREATE,
+        payload,
+      },
+    },
+    trigger: null,
+  };
+
   Notifications.scheduleNotificationAsync(schedulingOptions);
+};
+
+export const cancelNotification = async (id: string) => {
+  await Notifications.cancelScheduledNotificationAsync(id);
 };
 
 export const getLocalDateTime = (
