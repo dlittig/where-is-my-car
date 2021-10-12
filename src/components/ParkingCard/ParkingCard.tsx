@@ -24,10 +24,6 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const shouldShake = () =>
-    parking.reminderDateTime &&
-    parking.reminderDateTime?.getTime() < Date.now();
-
   const onPress = () =>
     navigation.navigate(t(APP_LOCATION_VIEW), { id: parking.id });
 

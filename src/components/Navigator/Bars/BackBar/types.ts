@@ -2,5 +2,5 @@ import { ReactElement } from "react";
 
 export type BackBarComponentType = {
   title: string;
-  accessoryRight?: () => ReactElement;
+  accessoryRight?: (x: any) => ReactElement;
 };
