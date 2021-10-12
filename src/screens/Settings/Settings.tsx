@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button, Divider, List, ListItem } from "@ui-kitten/components";
 
-import { showToast } from "../../utils";
+import { randomEmoji, showToast } from "../../utils";
 import pack from "../../../package.json";
 import { SettingsEntryType } from "./types";
 import { setSeenIntro } from "../../store/actions";
@@ -54,7 +54,7 @@ const Settings = () => {
       description: t("text.settings.about.description"),
       button: {
         onPress: (dispatch) => () => {
-          showToast(`😀 App Version: v${pack.version}`);
+          showToast(`${randomEmoji()} Version: v${pack.version}`);
         },
         label: t("actions.version"),
       },
