@@ -19,3 +19,6 @@ export const searchFilter = (value: Parking, state: string) => {
     value.name.toLowerCase().includes(state.toLowerCase())
   );
 };
+
+export const isValidParkingForm = (parking: any) =>
+  parking.name.length > 0 && !parking.location;

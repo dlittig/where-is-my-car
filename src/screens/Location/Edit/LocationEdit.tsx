@@ -30,6 +30,7 @@ import { Parking, paymentUnits } from "../../../store/types";
 import {
   cancelNotification,
   getLocalDateTime,
+  isValidParkingForm,
   launchCamera,
   padd,
   requestImagePickerPermission,
@@ -63,8 +64,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   };
 
   const onSave = async () => {
-    // TODO Validate data before save
-    if (!parkingForm.location) {
+    if (!isValidParkingForm(parkingForm)) {
       return;
     }
 
