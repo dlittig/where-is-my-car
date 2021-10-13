@@ -2,9 +2,23 @@ import * as Location from "expo-location";
 import { showLocation } from "react-native-map-link";
 import { showToast } from "./ui";
 
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(() => resolve(), ms));
+
 export const enableLocation = async () => {
-  await Location.enableNetworkProviderAsync();
-  return null;
+  const status = await Location.getProviderStatusAsync();
+
+  if (!status.networkAvailable) {
+    try {
+      await Location.enableNetworkProviderAsync();
+      await wait(200);
+    } catch (e) {
+      showToast(`Access to location was denied.`);
+      return false;
+    }
+  }
+
+  return true;
 };
 
 export const acquireLocation =
