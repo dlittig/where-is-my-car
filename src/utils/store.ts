@@ -21,4 +21,4 @@ export const searchFilter = (value: Parking, state: string) => {
 };
 
 export const isValidParkingForm = (parking: any) =>
-  parking.name.length > 0 && !parking.location;
+  parking.name.length > 0 && parking.location;
