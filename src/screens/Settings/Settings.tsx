@@ -4,7 +4,11 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button, Divider, List, ListItem } from "@ui-kitten/components";
 
-import { randomEmoji, showToast } from "../../utils";
+import {
+  randomEmoji,
+  requestImagePickerPermission,
+  showToast,
+} from "../../utils";
 import pack from "../../../package.json";
 import { SettingsEntryType } from "./types";
 import { setSeenIntro } from "../../store/actions";
@@ -53,10 +57,20 @@ const Settings = () => {
       title: t("text.settings.about.title"),
       description: t("text.settings.about.description"),
       button: {
-        onPress: (dispatch) => () => {
+        onPress: () => () => {
           showToast(`${randomEmoji()} Version: v${pack.version}`);
         },
         label: t("actions.version"),
+      },
+    },
+    {
+      title: t("text.settings.mediaPermission.title"),
+      description: t("text.settings.mediaPermission.description"),
+      button: {
+        onPress: () => () => {
+          requestImagePickerPermission();
+        },
+        label: t("actions.grantPermission"),
       },
     },
   ];
