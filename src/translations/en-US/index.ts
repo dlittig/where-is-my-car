@@ -73,6 +73,10 @@ export const en_US = {
           title: "About",
           description: "Built with ❤️ by dlittig",
         },
+        mediaPermission: {
+          title: "Permission",
+          description: "Grant media permission",
+        },
       },
       intro: {
         description: {

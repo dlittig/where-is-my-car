@@ -3,21 +3,21 @@ export const de_DE = {
     actions: {
       leave: "Verlassen",
       stay: "Bleiben",
-      addPhotos: "Add photos",
-      createNew: "Create new",
+      addPhotos: "Fotos hinzufügen",
+      createNew: "Erstellen",
       start: "Start",
-      reset: "Reset",
-      navigate: "Navigate",
-      stopParking: "Stop parking",
-      startParking: "Park car",
-      getLocation: "Get location",
-      previous: "Previous",
-      next: "Next",
-      launch: "Launch!",
-      grantPermission: "Grant permission",
+      reset: "Zurücksetzen",
+      navigate: "Navigieren",
+      stopParking: "Beenden",
+      startParking: "Auto parken",
+      getLocation: "Orten",
+      previous: "Zurück",
+      next: "Weiter",
+      launch: "Starten!",
+      grantPermission: "Berechtigung erteilen",
     },
     error: {
-      permissions: "Something went wrong, please try again.",
+      permissions: "Da ist etwas schief gelaufen. Versuche es noch einmal.",
     },
     permissions: {},
     empty: {
@@ -57,7 +57,7 @@ export const de_DE = {
         unit: "Einheit",
         notes: "Notizen",
         parked: "Geparkt",
-        reminder: "Eerinnerung",
+        reminder: "Erinnerung",
         photos: "Fotos",
         photosHint:
           "Du kannst das Foto in voller Größe betrachten, wenn Du es berührst.",
@@ -70,6 +70,10 @@ export const de_DE = {
         about: {
           title: "Über",
           description: "Mit ❤️ entwickelt von dlittig",
+        },
+        mediaPermission: {
+          title: "Berechtigung",
+          description: "Medienberechtigung erteilen",
         },
       },
       intro: {
