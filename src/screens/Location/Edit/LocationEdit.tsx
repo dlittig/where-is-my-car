@@ -34,6 +34,7 @@ import {
   launchCamera,
   padd,
   requestImagePickerPermission,
+  requestNotificationPermission,
   scheduleCreationNotification,
   scheduleExpirationNotification,
   take,
@@ -105,13 +106,17 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     }
 
     if (parkingForm.hasReminder) {
-      const notificationId = await scheduleExpirationNotification(
-        reminderDateTime,
-        parkingObject
-      );
+      const permissionStatus = await requestNotificationPermission();
 
-      if (notificationId) {
-        parkingObject.scheduledNotification = notificationId;
+      if (permissionStatus) {
+        const notificationId = await scheduleExpirationNotification(
+          reminderDateTime,
+          parkingObject
+        );
+
+        if (notificationId) {
+          parkingObject.scheduledNotification = notificationId;
+        }
       }
     }
 
@@ -119,7 +124,11 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       dispatch(updateParking(parkingObject));
     } else {
       dispatch(addParking(parkingObject));
-      scheduleCreationNotification(parkingObject);
+      const permissionStatus = await requestNotificationPermission();
+
+      if (permissionStatus) {
+        scheduleCreationNotification(parkingObject);
+      }
     }
 
     navigation.goBack();
