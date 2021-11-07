@@ -12,6 +12,7 @@ import {
   acquireLocation,
   enableLocation,
   requestLocationPermission,
+  showToast,
 } from "../../utils";
 import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
@@ -59,10 +60,17 @@ const MapView: FC<MapViewComponentType> = ({
     }
   }, []);
 
+  useEffect(() => {
+    showToast(`Update: Long ${coordinatesLong}; Lat ${coordinatesLat}`);
+  }, [coordinatesLat, coordinatesLong]);
+
   const onAcquireLocation = async () => {
     const location = await acquireLocation();
 
     if (location && onLocationAcquisition) {
+      showToast(
+        `Cords 1: Long ${location.coords.longitude}; Lat ${location.coords.latitude}`
+      );
       setCoordinatesLong(location.coords.longitude);
       setCoordinatesLat(location.coords.latitude);
       onLocationAcquisition(location);
