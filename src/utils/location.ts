@@ -26,7 +26,9 @@ export const acquireLocation =
     try {
       if (await Location.hasServicesEnabledAsync()) {
         return await Location.getCurrentPositionAsync({
-          accuracy: Location.LocationAccuracy.Highest,
+          accuracy: Location.LocationAccuracy.BestForNavigation,
+          timeInterval: 50,
+          distanceInterval: 3,
         });
       } else {
         showToast(`Location service is not enabled.`);
