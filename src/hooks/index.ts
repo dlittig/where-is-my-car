@@ -1,2 +1,2 @@
-export * from "./parkings"
+export * from "./parkings";
 export * from "./permissions";

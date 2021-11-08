@@ -4,16 +4,15 @@ import { Button } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
 import ReactNativeMapView, { Marker } from "react-native-maps";
 
-import Icons from "../Icons";
-import Skeleton from "./Skeleton";
-import NoInteraction from "../NoInteraction";
-import style, { mapStyle } from "./MapView.style";
 import {
   acquireLocation,
   enableLocation,
   requestLocationPermission,
-  showToast,
 } from "../../utils";
+import Icons from "../Icons";
+import Skeleton from "./Skeleton";
+import NoInteraction from "../NoInteraction";
+import style, { mapStyle } from "./MapView.style";
 import { MapViewComponentType, MAP_VIEW_SIZE } from "./types";
 
 const MapView: FC<MapViewComponentType> = ({
@@ -27,6 +26,7 @@ const MapView: FC<MapViewComponentType> = ({
   const [showSkeleton, setShowSkeleton] = useState<boolean>(true);
   const [coordinatesLong, setCoordinatesLong] = useState(longitude);
   const [coordinatesLat, setCoordinatesLat] = useState(latitude);
+  // useLocationRefresh(mode === "active", 2, 100);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -60,17 +60,10 @@ const MapView: FC<MapViewComponentType> = ({
     }
   }, []);
 
-  useEffect(() => {
-    showToast(`Update: Long ${coordinatesLong}; Lat ${coordinatesLat}`);
-  }, [coordinatesLat, coordinatesLong]);
-
   const onAcquireLocation = async () => {
     const location = await acquireLocation();
 
     if (location && onLocationAcquisition) {
-      showToast(
-        `Cords 1: Long ${location.coords.longitude}; Lat ${location.coords.latitude}`
-      );
       setCoordinatesLong(location.coords.longitude);
       setCoordinatesLat(location.coords.latitude);
       onLocationAcquisition(location);

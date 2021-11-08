@@ -25,11 +25,32 @@ export const acquireLocation =
   async (): Promise<Location.LocationObject | null> => {
     try {
       if (await Location.hasServicesEnabledAsync()) {
-        return await Location.getCurrentPositionAsync({
-          accuracy: Location.LocationAccuracy.BestForNavigation,
-          timeInterval: 50,
-          distanceInterval: 3,
-        });
+        let retryCount = 1;
+        const result: Location.LocationObject | null = await new Promise(
+          async (resolve) => {
+            let subscription = await Location.watchPositionAsync(
+              {
+                accuracy: Location.LocationAccuracy.BestForNavigation,
+                timeInterval: 100,
+              },
+              async (location) => {
+                if (retryCount < 2) {
+                  ++retryCount;
+                } else {
+                  if (subscription) {
+                    subscription.remove();
+
+                    resolve(location);
+                  } else {
+                    resolve(null);
+                  }
+                }
+              }
+            );
+          }
+        );
+
+        return result;
       } else {
         showToast(`Location service is not enabled.`);
         return null;
