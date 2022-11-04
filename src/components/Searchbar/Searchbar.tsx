@@ -2,7 +2,7 @@ import { Input, Layout } from "@ui-kitten/components";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { useDebounce } from "use-debounce/lib";
+import { useDebounce } from "use-debounce";
 import { searchParking } from "../../store/actions";
 import Icons from "../Icons";
 
