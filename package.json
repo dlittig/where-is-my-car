@@ -9,7 +9,10 @@
     "build": "expo build:android -t apk && expo publish",
     "lint": "eslint ./src"
   },
-  "version": "0.4.0",
+  "version": "0.4.1",
+  "resolutions": {
+    "@types/react": "^17"
+  },
   "dependencies": {
     "@eva-design/eva": "^2.1.0",
     "@react-native-community/masked-view": "0.1.11",
