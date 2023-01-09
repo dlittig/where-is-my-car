@@ -4,20 +4,24 @@ import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { Button, Layout, Text } from "@ui-kitten/components";
+import { Avatar, Button, Card } from "react-native-paper";
 
-import Icons from "../Icons";
 import Stats from "../Stats";
 import MapView from "../MapView";
-import BaseCard from "../BaseCard";
 import style from "./ParkingCard.style";
-import ParkingCardFooter from "./footer";
-import { humanReadableTime } from "../../utils";
 import { MAP_VIEW_SIZE } from "../MapView/types";
 import { deleteParkingAlert } from "../../alerts";
 import { ParkingCardComponentType } from "./types";
-import { deleteParking } from "../../store/actions";
 import { APP_LOCATION_VIEW } from "../Navigator/Routes";
+import { humanReadableTime, routeToLocation } from "../../utils";
+import { deleteParking, toggleActiveParking } from "../../store/actions";
+
+const LeftAccessoryPaid: FC = (props) => (
+  <Avatar.Icon {...props} icon="cash-100" />
+);
+const LeftAccessoryParked: FC = (props) => (
+  <Avatar.Icon {...props} icon="map-marker" />
+);
 
 const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const navigation = useNavigation();
@@ -25,42 +29,39 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
   const { t } = useTranslation();
 
   const onPress = () =>
-    navigation.navigate(t(APP_LOCATION_VIEW), { id: parking.id });
+    navigation.navigate(
+      t(APP_LOCATION_VIEW) as never,
+      { id: parking.id } as never
+    );
 
   const confirmDelete = () => {
     deleteParkingAlert(parking.name, () => dispatch(deleteParking(parking)));
   };
 
+  const subtitleProps: Record<string, string> = {};
+
+  if (parking.paid.length > 0)
+    subtitleProps.subtitle = `${parking.paid}${parking.unit}`;
+
   return (
     <View style={style.container}>
-      <BaseCard
-        appearance="outline"
-        footer={() => <ParkingCardFooter parking={parking} />}
-        touchableOpacityProps={{ onPress, onLongPress: confirmDelete }}
-      >
-        <MapView
-          mode="passive"
-          size={MAP_VIEW_SIZE.CARD}
-          latitude={parking.latitude}
-          longitude={parking.longitude}
+      <Card mode="outlined" {...{ onPress, onLongPress: confirmDelete }}>
+        <Card.Title
+          title={parking.name}
+          left={
+            parking.paid.length > 0 ? LeftAccessoryPaid : LeftAccessoryParked
+          }
+          {...subtitleProps}
         />
-        <BaseCard.Content>
-          <Layout style={style.header} level="2">
-            <Text category="h6" style={style.parkingName}>
-              {parking.name}
-            </Text>
-            {parking.paid.length > 0 && (
-              <Button
-                style={style.paidButton}
-                size="tiny"
-                accessoryLeft={
-                  <Icons.CreditCard style={style.icons} fill="#fff" />
-                }
-              >
-                {`${parking.paid}${parking.unit}`}
-              </Button>
-            )}
-          </Layout>
+        <Card.Content>
+          <View style={style.mapContainer}>
+            <MapView
+              mode="passive"
+              size={MAP_VIEW_SIZE.CARD}
+              latitude={parking.latitude}
+              longitude={parking.longitude}
+            />
+          </View>
           <View style={style.detailsContainer}>
             <Stats hint="Parked" value={humanReadableTime(parking.time)} />
             <Stats
@@ -75,8 +76,34 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
             />
             <Stats hint="Photos" value={parking.photos.length} />
           </View>
-        </BaseCard.Content>
-      </BaseCard>
+        </Card.Content>
+        <Card.Actions>
+          {parking.isActive ? (
+            <Button
+              compact
+              mode="elevated"
+              onPress={() => dispatch(toggleActiveParking(parking))}
+            >
+              {t("actions.stopParking") as string}
+            </Button>
+          ) : (
+            <Button
+              compact
+              mode="elevated"
+              onPress={() => dispatch(toggleActiveParking(parking))}
+            >
+              {t("actions.startParking") as string}
+            </Button>
+          )}
+          <Button
+            compact
+            mode="outlined"
+            onPress={() => routeToLocation(parking.latitude, parking.longitude)}
+          >
+            {t("actions.navigate") as string}
+          </Button>
+        </Card.Actions>
+      </Card>
     </View>
   );
 };

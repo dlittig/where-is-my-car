@@ -6,7 +6,7 @@ export default StyleSheet.create({
     height: 150,
   },
   card: {
-    marginHorizontal: -24,
+    marginLeft: -15,
     marginTop: -15,
     marginBottom: 10,
   },

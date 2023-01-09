@@ -7,6 +7,9 @@ const style = StyleSheet.create({
     marginRight: 6,
     textAlignVertical: "bottom",
   },
+  mapContainer: {
+    marginTop: 20,
+  },
   parkingName: {
     marginHorizontal: 16,
     marginVertical: 14,
@@ -17,7 +20,7 @@ const style = StyleSheet.create({
     width: "100%",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    marginTop: 24,
+    marginVertical: 24,
   },
   alignRight: {
     textAlign: "center",

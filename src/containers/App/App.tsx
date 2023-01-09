@@ -7,6 +7,7 @@ import { StatusBar } from "react-native";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { NotifierWrapper } from "react-native-notifier";
 import { PersistGate } from "redux-persist/integration/react";
+import { MD3DarkTheme, Provider as PaperProvider } from "react-native-paper";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 
 import i18n from "../../translations/i18n";
@@ -35,16 +36,18 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppThemeContext.Provider value={{ theme, toggleTheme }}>
-          <ApplicationProvider {...eva} theme={getEvaTheme()}>
-            <NotificationListener />
-            <NotifierWrapper>
-              <IconRegistry icons={EvaIconsPack} />
-              <StatusBar animated backgroundColor={"#000"} />
-              <RenderConditionally truthy={<Navigator />} falsy={<Intro />} />
-            </NotifierWrapper>
-          </ApplicationProvider>
-        </AppThemeContext.Provider>
+        <PaperProvider theme={MD3DarkTheme}>
+          <AppThemeContext.Provider value={{ theme, toggleTheme }}>
+            <ApplicationProvider {...eva} theme={getEvaTheme()}>
+              <NotificationListener />
+              <NotifierWrapper>
+                <IconRegistry icons={EvaIconsPack} />
+                <StatusBar animated backgroundColor={"#000"} />
+                <RenderConditionally truthy={<Navigator />} falsy={<Intro />} />
+              </NotifierWrapper>
+            </ApplicationProvider>
+          </AppThemeContext.Provider>
+        </PaperProvider>
       </PersistGate>
     </Provider>
   );

@@ -1,6 +1,6 @@
-import { Divider } from "@ui-kitten/components";
 import React, { FC } from "react";
 import { View } from "react-native";
+import { Divider } from "react-native-paper";
 
 import { ContentComponentType } from "./types";
 
