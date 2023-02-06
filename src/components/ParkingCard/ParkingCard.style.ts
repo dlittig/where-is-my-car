@@ -30,6 +30,8 @@ const style = StyleSheet.create({
   },
   container: {
     marginVertical: 10,
+    marginBottom: 10,
+    paddingBottom: 0,
   },
   header: {
     flexDirection: "row",
