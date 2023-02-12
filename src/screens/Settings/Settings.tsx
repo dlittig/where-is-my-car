@@ -1,8 +1,8 @@
-import React, { Dispatch } from "react";
+import React from "react";
 
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button, Divider, List, ListItem } from "@ui-kitten/components";
+import { List, Button as PaperButton, Divider } from "react-native-paper";
 
 import {
   randomEmoji,
@@ -10,93 +10,89 @@ import {
   showToast,
 } from "../../utils";
 import pack from "../../../package.json";
-import { SettingsEntryType } from "./types";
 import { setSeenIntro } from "../../store/actions";
+import { resetState } from "../../store/actions/commonActions";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
 import BackBar from "../../components/Navigator/Bars/BackBar/BackBar";
-import { resetState } from "../../store/actions/commonActions";
-
-const renderItem =
-  (dispatch: Dispatch<any>) =>
-  ({ item, index }: { item: SettingsEntryType; index: number }) =>
-    (
-      <ListItem
-        title={item.title}
-        description={item.description}
-        accessoryRight={() =>
-          item.button ? (
-            <Button
-              size="small"
-              appearance="outline"
-              onPress={item.button.onPress(dispatch)}
-            >
-              {item.button.label}
-            </Button>
-          ) : (
-            <></>
-          )
-        }
-      />
-    );
 
 const Settings = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const settingsEntries: SettingsEntryType[] = [
-    {
-      title: t("text.settings.intro.title"),
-      description: t("text.settings.intro.description"),
-      button: {
-        onPress: (dispatch) => () => {
-          dispatch(setSeenIntro(false));
-        },
-        label: t("actions.start"),
-      },
-    },
-    {
-      title: t("text.settings.about.title"),
-      description: t("text.settings.about.description"),
-      button: {
-        onPress: () => () => {
-          showToast(`${randomEmoji()} Version: v${pack.version}`);
-        },
-        label: t("actions.version"),
-      },
-    },
-    {
-      title: t("text.settings.mediaPermission.title"),
-      description: t("text.settings.mediaPermission.description"),
-      button: {
-        onPress: () => () => {
-          requestImagePickerPermission();
-        },
-        label: t("actions.grantPermission"),
-      },
-    },
-  ];
-
-  if (__DEV__) {
-    settingsEntries.push({
-      title: "[DEBUG] Reset",
-      description: "Delete all state data",
-      button: {
-        onPress: (dispatch) => () => {
-          dispatch(resetState());
-        },
-        label: t("actions.reset"),
-      },
-    });
-  }
 
   return (
     <>
       <BackBar title={t("screens.settings")} />
-      <BaseLayout level="1">
-        <List
-          data={settingsEntries}
-          ItemSeparatorComponent={Divider}
-          renderItem={renderItem(dispatch)}
-        />
+      <BaseLayout>
+        <List.Section>
+          <List.Item
+            title={t("text.settings.intro.title")}
+            description={t("text.settings.intro.description")}
+            right={(props) => (
+              <PaperButton
+                mode="outlined"
+                onPress={() => {
+                  dispatch(setSeenIntro(false));
+                }}
+                {...props}
+              >
+                {t("actions.start")}
+              </PaperButton>
+            )}
+          />
+          <List.Item
+            title={t("text.settings.about.title")}
+            description={t("text.settings.about.description")}
+            right={(props) => (
+              <PaperButton
+                mode="outlined"
+                onPress={() => {
+                  showToast(`${randomEmoji()} Version: v${pack.version}`);
+                }}
+                {...props}
+              >
+                {t("actions.version")}
+              </PaperButton>
+            )}
+          />
+          <List.Item
+            title={t("text.settings.mediaPermission.title")}
+            description={t("text.settings.mediaPermission.description")}
+            right={(props) => (
+              <PaperButton
+                mode="outlined"
+                onPress={() => {
+                  requestImagePickerPermission();
+                }}
+                {...props}
+              >
+                {t("actions.grantPermission")}
+              </PaperButton>
+            )}
+          />
+        </List.Section>
+        {__DEV__ && (
+          <>
+            <Divider />
+            <List.Section>
+              <List.Subheader>Development</List.Subheader>
+              <List.Item
+                title="Reset"
+                description="Delete all state data"
+                right={(props) => (
+                  <PaperButton
+                    mode="outlined"
+                    onPress={() => {
+                      dispatch(resetState());
+                    }}
+                    {...props}
+                  >
+                    {t("actions.reset")}
+                  </PaperButton>
+                )}
+              />
+            </List.Section>
+          </>
+        )}
       </BaseLayout>
     </>
   );

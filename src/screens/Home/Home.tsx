@@ -1,41 +1,37 @@
-import React, { FC } from "react";
-import { Tab, TabBar } from "@ui-kitten/components";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { BottomNavigation } from "react-native-paper";
 
 import Recent from "../Recent";
 import History from "../History";
-import { HomeScreenType } from "./types";
-import { APP_HISTORY, APP_RECENT } from "../../components/Navigator/Routes";
-
-import BaseLayout from "../../components/BaseLayout";
 import TopBar from "../../components/Navigator/Bars/TopBar";
-
-const { Navigator, Screen } = createMaterialTopTabNavigator();
-
-const TopTabBar: FC<HomeScreenType> = ({ navigation, state }) => (
-  <TabBar
-    selectedIndex={state.index}
-    onSelect={(index) => navigation.navigate(state.routeNames[index])}
-  >
-    {state.routeNames.map((routeName, index) => (
-      <Tab key={`tab-${routeName}-${index}`} title={routeName} />
-    ))}
-  </TabBar>
-);
+import { APP_HISTORY, APP_RECENT } from "../../components/Navigator/Routes";
 
 const Home = () => {
   const { t } = useTranslation();
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    {
+      key: "recent",
+      title: t(APP_RECENT),
+      focusedIcon: "calendar-today",
+    },
+    { key: "history", title: t(APP_HISTORY), focusedIcon: "history" },
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    recent: Recent,
+    history: History,
+  });
 
   return (
     <>
       <TopBar />
-      <BaseLayout level="1">
-        <Navigator tabBar={(props) => <TopTabBar {...props} />}>
-          <Screen name={t(APP_RECENT)} component={Recent} />
-          <Screen name={t(APP_HISTORY)} component={History} />
-        </Navigator>
-      </BaseLayout>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
     </>
   );
 };

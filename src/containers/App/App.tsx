@@ -16,6 +16,7 @@ import Navigator from "../../components/Navigator";
 import { persistor, store } from "../../store/Store";
 import RenderConditionally from "../../components/RenderConditionally";
 import NotificationListener from "../../components/NotificationListener";
+import { CombinedDarkTheme } from "../../utils/theme";
 
 i18n;
 
@@ -36,7 +37,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PaperProvider theme={MD3DarkTheme}>
+        <PaperProvider theme={CombinedDarkTheme}>
           <AppThemeContext.Provider value={{ theme, toggleTheme }}>
             <ApplicationProvider {...eva} theme={getEvaTheme()}>
               <NotificationListener />

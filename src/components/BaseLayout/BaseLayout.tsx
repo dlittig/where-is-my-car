@@ -1,25 +1,23 @@
 import React, { FC } from "react";
-import { Layout } from "@ui-kitten/components";
-import { BaseLayoutComponentType } from "./types";
+import { View } from "react-native";
 
 import BaseLayoutStyle from "./BaseLayout.style";
+import { BaseLayoutComponentType } from "./types";
 
 const BaseLayout: FC<BaseLayoutComponentType> = ({
-  level,
   children,
   center,
   padded,
 }) => (
-  <Layout
+  <View
     style={[
       BaseLayoutStyle.container,
       center && BaseLayoutStyle.center,
       padded && BaseLayoutStyle.padded,
     ]}
-    level={level}
   >
     {children}
-  </Layout>
+  </View>
 );
 
 export default BaseLayout;

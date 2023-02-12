@@ -2,7 +2,6 @@ import React, { FC } from "react";
 
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { withStyles } from "@ui-kitten/components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, TransitionSpecs } from "@react-navigation/stack";
 
@@ -20,6 +19,7 @@ import { NavigatorComponentType } from "./types";
 import Navigation from "../../services/navigation";
 import LocationEdit from "../../screens/Location/Edit";
 import LocationView from "../../screens/Location/View";
+import { CombinedDarkTheme } from "../../utils/theme";
 
 const Stack = createStackNavigator();
 
@@ -35,11 +35,12 @@ const Navigator: FC<NavigatorComponentType> = ({ eva }) => {
   const { t } = useTranslation();
 
   return (
-    <View style={[{ flex: 1 }, eva?.style.container]}>
+    <View style={[{ flex: 1 }]}>
       <NavigationContainer
         ref={(navigationRef) => {
           navigationRef && Navigation.setNavigator(navigationRef);
         }}
+        theme={CombinedDarkTheme}
       >
         <Stack.Navigator initialRouteName={t(APP_HOME)}>
           <Stack.Screen name={t(APP_HOME)} options={options} component={Home} />
@@ -65,8 +66,4 @@ const Navigator: FC<NavigatorComponentType> = ({ eva }) => {
   );
 };
 
-export default withStyles(Navigator, (theme) => ({
-  container: {
-    backgroundColor: theme["background-basic-color-3"],
-  },
-}));
+export default Navigator;

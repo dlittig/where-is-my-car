@@ -9,7 +9,7 @@
     "build": "expo build:android -t apk && expo publish",
     "lint": "eslint ./src"
   },
-  "version": "0.4.1",
+  "version": "0.5.0",
   "resolutions": {
     "@types/react": "^17"
   },
