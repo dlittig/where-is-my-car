@@ -9,7 +9,7 @@
     "build": "expo build:android -t apk && expo publish",
     "lint": "eslint ./src"
   },
-  "version": "0.5.0",
+  "version": "0.6.0",
   "resolutions": {
     "@types/react": "^17"
   },
@@ -42,6 +42,8 @@
     "react-native-notifier": "^1.7.1",
     "react-native-pager-view": "5.4.15",
     "react-native-paper": "^5.1.2",
+    "react-native-paper-autocomplete": "^0.11.7",
+    "react-native-paper-dates": "^0.12.0",
     "react-native-reanimated": "~2.8.0",
     "react-native-safe-area-context": "4.2.4",
     "react-native-screens": "~3.11.1",

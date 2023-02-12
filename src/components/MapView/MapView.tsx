@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { Button } from "@ui-kitten/components";
 import { useTranslation } from "react-i18next";
+import { IconButton } from "react-native-paper";
 import ReactNativeMapView, { Marker } from "react-native-maps";
 
 import {
@@ -9,7 +9,6 @@ import {
   enableLocation,
   requestLocationPermission,
 } from "../../utils";
-import Icons from "../Icons";
 import Skeleton from "./Skeleton";
 import NoInteraction from "../NoInteraction";
 import style, { mapStyle } from "./MapView.style";
@@ -104,16 +103,13 @@ const MapView: FC<MapViewComponentType> = ({
         </NoInteraction>
       </Skeleton>
       {withAction && (
-        <Button
-          status="primary"
-          appearance="filled"
+        <IconButton
+          mode="contained-tonal"
           style={style.locateButton}
-          accessoryLeft={Icons.Localize}
+          icon="map-marker"
+          size={30}
           onPress={onAcquireLocation}
-        >
-          {""}
-          {/*{t("actions.getLocation") as string}*/}
-        </Button>
+        />
       )}
     </>
   );

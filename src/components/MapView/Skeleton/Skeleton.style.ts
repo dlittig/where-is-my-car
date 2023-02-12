@@ -6,6 +6,9 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: 290,
+    height: 296,
+  },
+  progressbar: {
+    width: "100%",
   },
 });

@@ -2,8 +2,6 @@ import React, { FC } from "react";
 
 import {
   Text,
-  Button,
-  Input,
   Select,
   SelectItem,
   IndexPath,
@@ -42,6 +40,7 @@ import {
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
+import { Button, TextInput } from "react-native-paper";
 
 const getHours = () => [...Array(24).keys()].map((key) => padd(key));
 const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
@@ -137,7 +136,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   return (
     <>
       <BackBar title={route.name} />
-      <BaseLayout level="2">
+      <BaseLayout>
         <List level="1" spacer padding>
           <View style={styles.element}>
             {/* Read location from object and display it and offer new location */}
@@ -150,17 +149,18 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               size={MAP_VIEW_SIZE.NORMAL}
             />
           </View>
-          <Input
+          <TextInput
             label={t("text.location.name") as string}
             style={styles.element}
             value={parkingForm.name}
-            onChangeText={(nextValue) => parkingForm.setName(nextValue)}
+            mode="outlined"
+            onChangeText={parkingForm.setName}
           />
           <Button
             onPress={() => parkingForm.setHasReminder(!parkingForm.hasReminder)}
-            appearance="outline"
-            size="small"
-            accessoryLeft={parkingForm.hasReminder ? Icons.Remove : Icons.Clock}
+            mode="outlined"
+            compact
+            icon={parkingForm.hasReminder ? "calendar-remove" : "calendar"}
             style={styles.reminderButton}
           >
             {parkingForm.hasReminder
@@ -217,13 +217,14 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             </Card>
           )}
           <View style={[styles.inline, styles.element]}>
-            <Input
+            <TextInput
               label={t("text.location.paid") as string}
+              mode="outlined"
               placeholder="0.00"
               keyboardType="decimal-pad"
               style={styles.paid}
               value={parkingForm.paid}
-              onChangeText={(nextValue) => parkingForm.setPaid(nextValue)}
+              onChangeText={parkingForm.setPaid}
             />
             <Select
               label=" "
@@ -242,10 +243,11 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             </Select>
           </View>
 
-          <Input
+          <TextInput
             label={t("text.location.notes") as string}
             multiline
-            textStyle={styles.notesText}
+            mode="outlined"
+            contentStyle={styles.notesText}
             style={styles.element}
             value={parkingForm.notes}
             onChangeText={(nextValue) => parkingForm.setNotes(nextValue)}
@@ -261,17 +263,12 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             onDelete={parkingForm.setPhotos}
           />
 
-          <Button
-            size="small"
-            appearance="outline"
-            accessoryLeft={Icons.Add}
-            onPress={selectPhotos}
-          >
+          <Button compact mode="outlined" icon="plus" onPress={selectPhotos}>
             {t("actions.addPhotos") as string}
           </Button>
         </List>
         <MainAction border>
-          <Button accessoryLeft={Icons.Save} onPress={onSave}>
+          <Button mode="contained" icon="check" onPress={onSave}>
             {t("actions.save").toUpperCase()}
           </Button>
         </MainAction>
