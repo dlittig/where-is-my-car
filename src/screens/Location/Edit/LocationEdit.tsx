@@ -1,30 +1,12 @@
 import React, { FC } from "react";
 
-import {
-  Text,
-  Select,
-  SelectItem,
-  IndexPath,
-  Datepicker,
-  CheckBox,
-  Card,
-} from "@ui-kitten/components";
 import { v4 as uuidv4 } from "uuid";
 import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
+import { Button, Surface, TextInput, Text } from "react-native-paper";
 
-import styles from "./LocationEdit.style";
-import List from "../../../components/List";
-import Icons from "../../../components/Icons";
-import { LocationEditScreenType } from "./types";
-import MapView from "../../../components/MapView";
-import BaseLayout from "../../../components/BaseLayout";
-import MainAction from "../../../components/MainAction";
-import { useParkingsForm } from "../../../hooks/parkings";
-import ImageGallery from "../../../components/ImageGallery";
-import { Parking, paymentUnits } from "../../../store/types";
 import {
   cancelNotification,
   getLocalDateTime,
@@ -35,15 +17,24 @@ import {
   requestNotificationPermission,
   scheduleCreationNotification,
   scheduleExpirationNotification,
+  showToast,
   take,
 } from "../../../utils";
+import styles from "./LocationEdit.style";
+import List from "../../../components/List";
+import { Parking } from "../../../store/types";
+import { LocationEditScreenType } from "./types";
+import MapView from "../../../components/MapView";
+import UnitInput from "../../../components/UnitInput";
+import BaseLayout from "../../../components/BaseLayout";
+import MainAction from "../../../components/MainAction";
+import { useParkingsForm } from "../../../hooks/parkings";
+import ImageGallery from "../../../components/ImageGallery";
+import DateTimeInput from "../../../components/DateTimeInput";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-import { Button, TextInput } from "react-native-paper";
-
-const getHours = () => [...Array(24).keys()].map((key) => padd(key));
-const getMinutes = () => [...Array(60).keys()].map((key) => padd(key));
+import { DATE_TIME_INPUT_MODE } from "../../../components/DateTimeInput/types";
 
 const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
   const parkingId = route.params ? (route.params["id"] as string) : "";
@@ -65,6 +56,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
 
   const onSave = async () => {
     if (!isValidParkingForm(parkingForm)) {
+      showToast("Not valid form!");
       return;
     }
 
@@ -72,8 +64,8 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       padd(parkingForm.reminderDate.getFullYear()),
       padd(parkingForm.reminderDate.getMonth() + 1),
       padd(parkingForm.reminderDate.getDate()),
-      getHours()[parkingForm.reminderTimeHours.row],
-      getMinutes()[parkingForm.reminderTimeMinutes.row]
+      padd(parkingForm.reminderTime.getHours()),
+      padd(parkingForm.reminderTime.getMinutes())
     );
 
     const parkingObject: Parking = {
@@ -85,7 +77,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
       reminderDateTime: parkingForm.hasReminder ? reminderDateTime : undefined,
       hasReminder: parkingForm.hasReminder,
       paid: parkingForm.paid,
-      unit: paymentUnits[parkingForm.selectedIndexUnit.row],
+      unit: parkingForm.unit,
       latitude: parkingForm.location?.coords.latitude || 0,
       longitude: parkingForm.location?.coords.longitude || 0,
       photos: parkingForm.photos,
@@ -168,53 +160,20 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               : (t("text.location.setReminder") as string)}
           </Button>
           {parkingForm.hasReminder && (
-            <Card appearance="outline">
-              <Datepicker
+            <Surface elevation={3} style={styles.surface}>
+              <DateTimeInput
                 label={t("text.location.reminderDate") as string}
-                date={parkingForm.reminderDate}
-                onSelect={(nextDate) => parkingForm.setReminderDate(nextDate)}
+                value={parkingForm.reminderDate}
+                mode={DATE_TIME_INPUT_MODE.date}
+                onChange={parkingForm.setReminderDate}
               />
-              <View style={[styles.inline, styles.element]}>
-                <Select
-                  label={t("text.location.hours") as string}
-                  style={styles.hours}
-                  selectedIndex={parkingForm.reminderTimeHours}
-                  value={() => (
-                    <Text>{getHours()[parkingForm.reminderTimeHours.row]}</Text>
-                  )}
-                  onSelect={(index) =>
-                    parkingForm.setReminderTimeHours(index as IndexPath)
-                  }
-                >
-                  {getHours().map((hour, index) => (
-                    <SelectItem
-                      key={`reminder-time-selectitem-hour-${index}`}
-                      title={hour}
-                    />
-                  ))}
-                </Select>
-                <Select
-                  label={t("text.location.minutes") as string}
-                  style={styles.minutes}
-                  selectedIndex={parkingForm.reminderTimeMinutes}
-                  value={() => (
-                    <Text>
-                      {getMinutes()[parkingForm.reminderTimeMinutes.row]}
-                    </Text>
-                  )}
-                  onSelect={(index) =>
-                    parkingForm.setReminderTimeMinutes(index as IndexPath)
-                  }
-                >
-                  {getMinutes().map((minute, index) => (
-                    <SelectItem
-                      key={`reminder-time-selectitem-minute-${index}`}
-                      title={minute}
-                    />
-                  ))}
-                </Select>
-              </View>
-            </Card>
+              <DateTimeInput
+                label={t("text.location.reminderTime") as string}
+                value={parkingForm.reminderTime}
+                mode={DATE_TIME_INPUT_MODE.time}
+                onChange={parkingForm.setReminderTime}
+              />
+            </Surface>
           )}
           <View style={[styles.inline, styles.element]}>
             <TextInput
@@ -226,21 +185,10 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
               value={parkingForm.paid}
               onChangeText={parkingForm.setPaid}
             />
-            <Select
-              label=" "
-              style={styles.unit}
-              selectedIndex={parkingForm.selectedIndexUnit}
-              value={() => (
-                <Text>{paymentUnits[parkingForm.selectedIndexUnit.row]}</Text>
-              )}
-              onSelect={(index) =>
-                parkingForm.setSelectedIndexUnit(index as IndexPath)
-              }
-            >
-              {paymentUnits.map((unit, index) => (
-                <SelectItem key={`payment-selectitem-${index}`} title={unit} />
-              ))}
-            </Select>
+            <UnitInput
+              value={parkingForm.unit}
+              onChange={parkingForm.setUnit}
+            />
           </View>
 
           <TextInput
@@ -253,7 +201,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
             onChangeText={(nextValue) => parkingForm.setNotes(nextValue)}
           />
 
-          <Text appearance="hint" category="p2" style={styles.photos}>
+          <Text variant="labelMedium" style={styles.photos}>
             Photos
           </Text>
 

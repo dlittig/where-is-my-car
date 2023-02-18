@@ -54,6 +54,7 @@ export const en_US = {
         setReminder: "Set reminder",
         removeReminder: "Remove reminder",
         reminderDate: "Reminder date",
+        reminderTime: "Reminder time",
         hours: "Hours",
         minutes: "Minutes",
         paid: "Paid",

@@ -30,6 +30,12 @@ const style = StyleSheet.create({
     fontSize: 12,
     marginVertical: 4,
   },
+  surface: {
+    padding: 16,
+    marginVertical: 16,
+    borderRadius: 16,
+    display: "flex",
+  },
 });
 
 export default style;
