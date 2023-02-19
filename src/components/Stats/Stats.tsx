@@ -1,16 +1,14 @@
 import React, { FC } from "react";
 import { View } from "react-native";
-import { Text } from "@ui-kitten/components";
-import { StatsComponentType } from "./types";
+import { Text } from "react-native-paper";
 
 import style from "./Stats.style";
+import { StatsComponentType } from "./types";
 
 const Stats: FC<StatsComponentType> = ({ hint, value }) => (
   <View style={style.container}>
-    <Text category="s2">{value}</Text>
-    <Text appearance="hint" category="c2">
-      {hint}
-    </Text>
+    <Text variant="bodyLarge">{value}</Text>
+    <Text variant="labelLarge">{hint}</Text>
   </View>
 );
 

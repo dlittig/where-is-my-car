@@ -1,8 +1,6 @@
 import { Parking } from "../../store/types";
 
-export type NotificationListenerComponentType = {
-  eva?: Record<string, any>;
-};
+export type NotificationListenerComponentType = {};
 
 export enum NOTIFICATION_KIND {
   EXPIRE = "EXPIRE",

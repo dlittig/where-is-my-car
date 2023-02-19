@@ -15,11 +15,10 @@ import {
 import Map from "../../screens/Map";
 import Home from "../../screens/Home";
 import Settings from "../../screens/Settings";
-import { NavigatorComponentType } from "./types";
 import Navigation from "../../services/navigation";
+import { CombinedDarkTheme } from "../../utils/theme";
 import LocationEdit from "../../screens/Location/Edit";
 import LocationView from "../../screens/Location/View";
-import { CombinedDarkTheme } from "../../utils/theme";
 
 const Stack = createStackNavigator();
 
@@ -31,7 +30,7 @@ const options = {
   },
 };
 
-const Navigator: FC<NavigatorComponentType> = ({ eva }) => {
+const Navigator: FC = () => {
   const { t } = useTranslation();
 
   return (

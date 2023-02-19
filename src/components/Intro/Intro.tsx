@@ -2,7 +2,8 @@ import React, { FC, useEffect, useState } from "react";
 
 import { View } from "react-native";
 import { useSelector } from "react-redux";
-import { Button, Layout, TopNavigation } from "@ui-kitten/components";
+import { useTranslation } from "react-i18next";
+import { Appbar, Button } from "react-native-paper";
 
 import {
   StepDescription,
@@ -11,11 +12,10 @@ import {
   StepMediaLibrary,
   StepNotification,
 } from "./steps";
-import Icons from "../Icons";
 import style from "./Intro.style";
 import MainAction from "../MainAction";
+import BaseLayout from "../BaseLayout";
 import { settingsLocationPermissionSelector } from "../../store/selectors";
-import { useTranslation } from "react-i18next";
 
 const Intro: FC = () => {
   const locationPermission = useSelector(settingsLocationPermissionSelector);
@@ -70,13 +70,12 @@ const Intro: FC = () => {
     }
   }, []);
 
+  // style={style.screen}
   return (
-    <Layout style={style.screen} level="1">
-      <TopNavigation
-        alignment="center"
-        title={t("screens.app") as string}
-        subtitle={t("screens.intro") as string}
-      />
+    <BaseLayout style={style.mainView}>
+      <Appbar.Header mode="center-aligned">
+        <Appbar.Content title={t("screens.app") as string} />
+      </Appbar.Header>
 
       {steps[step - 1]}
 
@@ -84,25 +83,28 @@ const Intro: FC = () => {
         <View style={style.mainAction}>
           <Button
             style={style.mainActionButton}
-            accessoryLeft={Icons.Previous}
+            icon="chevron-left"
             onPress={stepBackward}
-            appearance="outline"
+            mode="contained-tonal"
             disabled={step === 1}
           >
             {t("actions.previous") as string}
           </Button>
           <Button
             style={style.mainActionButton}
-            accessoryRight={Icons.Next}
+            icon="chevron-right"
+            contentStyle={{
+              flexDirection: "row-reverse",
+            }}
             onPress={stepForward}
-            appearance="outline"
+            mode="contained-tonal"
             disabled={step === maxSteps || stepLocks.includes(step)}
           >
             {t("actions.next") as string}
           </Button>
         </View>
       </MainAction>
-    </Layout>
+    </BaseLayout>
   );
 };
 

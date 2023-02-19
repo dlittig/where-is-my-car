@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button, Text } from "@ui-kitten/components";
+import { Button, Text } from "react-native-paper";
 
 import {
   requestLocationPermission,
@@ -16,7 +16,7 @@ import { StepsComponentType } from "./types";
 import { setSeenIntro } from "../../../store/actions";
 
 const BaseStep: FC = ({ children }) => (
-  <BaseLayout level="1" center padded>
+  <BaseLayout center padded>
     {children}
   </BaseLayout>
 );
@@ -25,7 +25,7 @@ export const StepDescription: FC<StepsComponentType> = () => {
   const { t } = useTranslation();
   return (
     <BaseStep>
-      <Text category="h5" style={[style.headline, style.text]}>
+      <Text variant="headlineMedium" style={[style.headline, style.text]}>
         {t("text.intro.description.title") as string}
       </Text>
 
@@ -55,7 +55,7 @@ export const StepLocation: FC<StepsComponentType> = ({
 
   return (
     <BaseStep>
-      <Text category="h5" style={[style.text, style.headline]}>
+      <Text variant="headlineMedium" style={[style.text, style.headline]}>
         {t("text.intro.location.title") as string}
       </Text>
 
@@ -66,8 +66,8 @@ export const StepLocation: FC<StepsComponentType> = ({
       <Button
         style={style.mainAction}
         onPress={getLocationPermission}
-        appearance="filled"
-        accessoryLeft={Icons.Grant}
+        mode="contained-tonal"
+        icon="shield-key"
       >
         {t("actions.grantPermission") as string}
       </Button>
@@ -94,7 +94,7 @@ export const StepNotification: FC<StepsComponentType> = ({
 
   return (
     <BaseStep>
-      <Text category="h5" style={[style.text, style.headline]}>
+      <Text variant="headlineMedium" style={[style.text, style.headline]}>
         {t("text.intro.notification.title") as string}
       </Text>
 
@@ -105,8 +105,8 @@ export const StepNotification: FC<StepsComponentType> = ({
       <Button
         style={style.mainAction}
         onPress={getNotificationPermission}
-        appearance="filled"
-        accessoryLeft={Icons.Grant}
+        mode="contained-tonal"
+        icon="shield-key"
       >
         {t("actions.grantPermission") as string}
       </Button>
@@ -121,7 +121,7 @@ export const StepMediaLibrary: FC<StepsComponentType> = () => {
 
   return (
     <BaseStep>
-      <Text category="h5" style={[style.text, style.headline]}>
+      <Text variant="headlineMedium" style={[style.text, style.headline]}>
         {t("text.intro.media.title") as string}
       </Text>
 
@@ -132,13 +132,13 @@ export const StepMediaLibrary: FC<StepsComponentType> = () => {
       <Button
         style={style.mainAction}
         onPress={getMediaPermission}
-        appearance="filled"
-        accessoryLeft={Icons.Grant}
+        mode="contained-tonal"
+        icon="shield-key"
       >
         {t("actions.grantPermission") as string}
       </Button>
 
-      <Text appearance="hint" style={style.text}>
+      <Text variant="bodyMedium" style={style.text}>
         {/* TODO Provide permission controls in the settings. */}
         {t("text.intro.media.hint") as string}
       </Text>
@@ -158,7 +158,7 @@ export const StepLaunch: FC<StepsComponentType> = () => {
       <Text>
         <Icons.Heart fill="#DB2C66" style={style.icon} />
       </Text>
-      <Text category="h5" style={[style.text, style.headline]}>
+      <Text variant="headlineMedium" style={[style.text, style.headline]}>
         {t("text.intro.launch.title") as string}
       </Text>
 
@@ -169,8 +169,8 @@ export const StepLaunch: FC<StepsComponentType> = () => {
       <Button
         style={style.mainAction}
         onPress={launch}
-        appearance="filled"
-        accessoryLeft={Icons.Launch}
+        mode="contained-tonal"
+        icon="rocket-launch"
       >
         {t("actions.launch") as string}
       </Button>

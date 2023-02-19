@@ -1,20 +1,21 @@
 import React, { FC } from "react";
-import { BaseCardComponentType } from "./types";
+import { Card, Divider } from "react-native-paper";
 
 import Content from "./Content";
-import { Card } from "react-native-paper";
+import { BaseCardComponentType } from "./types";
 
 const BaseCard: FC<BaseCardComponentType> & { Content: typeof Content } = ({
   children,
   appearance,
   footer,
   touchableOpacityProps,
+  cardStyle,
+  contentStyle,
 }) => (
-  <Card mode={appearance} {...touchableOpacityProps}>
-    <Card.Content>
-      {children}
-      {footer}
-    </Card.Content>
+  <Card mode={appearance} style={cardStyle} {...touchableOpacityProps}>
+    <Card.Content style={contentStyle}>{children}</Card.Content>
+    <Divider />
+    {footer}
   </Card>
 );
 

@@ -9,19 +9,16 @@
     "build": "expo build:android -t apk && expo publish",
     "lint": "eslint ./src"
   },
-  "version": "0.6.0",
+  "version": "0.7.0",
   "resolutions": {
     "@types/react": "^17"
   },
   "dependencies": {
-    "@eva-design/eva": "^2.1.0",
     "@react-native-community/datetimepicker": "6.1.2",
     "@react-native-community/masked-view": "0.1.11",
     "@react-navigation/material-top-tabs": "^6.5.1",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/stack": "^6.3.10",
-    "@ui-kitten/components": "^5.1.0",
-    "@ui-kitten/eva-icons": "^5.1.0",
     "date-fns": "^2.29.3",
     "expo": "^45.0.0",
     "expo-image-picker": "~13.1.1",

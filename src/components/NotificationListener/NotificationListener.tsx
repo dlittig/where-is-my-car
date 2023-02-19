@@ -2,19 +2,18 @@ import React, { useEffect, useCallback, FC } from "react";
 
 import { Vibration } from "react-native";
 import { useTranslation } from "react-i18next";
-import { withStyles } from "@ui-kitten/components";
 import * as Notifications from "expo-notifications";
 import { Notifier, NotifierComponents } from "react-native-notifier";
 
-import { Parking } from "../../store/types";
-import Navigation from "../../services/navigation";
-import { APP_LOCATION_VIEW } from "../Navigator/Routes";
 import {
-  NotificationListenerComponentType,
   NotificationData,
   NOTIFICATION_KIND,
+  NotificationListenerComponentType,
 } from "./types";
+import { Parking } from "../../store/types";
 import { routeToLocation } from "../../utils";
+import Navigation from "../../services/navigation";
+import { APP_LOCATION_VIEW } from "../Navigator/Routes";
 
 const handleNotificationPress = (
   response: Notifications.NotificationResponse
@@ -50,9 +49,7 @@ const handleNotification = async (notification: Notifications.Notification) => {
   }
 };
 
-const NotificationListener: FC<NotificationListenerComponentType> = ({
-  eva,
-}) => {
+const NotificationListener: FC<NotificationListenerComponentType> = () => {
   const { t } = useTranslation();
   const VIBRATION_PATTERN: number[] = [
     800, 200, 800, 200, 800, 800, 200, 800, 200,
@@ -71,17 +68,7 @@ const NotificationListener: FC<NotificationListenerComponentType> = ({
           duration: 10000,
           showAnimationDuration: 800,
           Component: NotifierComponents.Notification,
-          componentProps: {
-            containerStyle: {
-              backgroundColor: eva?.style.container.backgroundColor,
-            },
-            descriptionStyle: {
-              color: eva?.style.container.textColor,
-            },
-            titleStyle: {
-              color: eva?.style.container.textColor,
-            },
-          },
+          componentProps: {},
           onPress: () => {
             Navigation.navigate(t(APP_LOCATION_VIEW), { id: payload.id });
           },
@@ -111,9 +98,4 @@ const NotificationListener: FC<NotificationListenerComponentType> = ({
   return <></>;
 };
 
-export default withStyles(NotificationListener, (theme) => ({
-  container: {
-    backgroundColor: theme["background-basic-color-3"],
-    textColor: theme["text-basic-color"],
-  },
-}));
+export default NotificationListener;

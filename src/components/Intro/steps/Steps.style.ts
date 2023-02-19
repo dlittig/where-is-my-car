@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 const style = StyleSheet.create({
   text: {
     textAlign: "center",
-    lineHeight: 24,
     marginVertical: 10,
   },
   headline: {

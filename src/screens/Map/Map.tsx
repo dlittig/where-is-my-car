@@ -1,6 +1,6 @@
 import React from "react";
-import { Text } from "@ui-kitten/components";
-import BaseLayout from "../../components/BaseLayout/BaseLayout";
+import { Text } from "react-native-paper";
+import BaseLayout from "../../components/BaseLayout";
 
 const Map = () => (
   <BaseLayout level={"2"}>

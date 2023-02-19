@@ -1,5 +1,5 @@
 import React, { FC, useState, useCallback } from "react";
-import { Modal } from "@ui-kitten/components";
+import { Modal, Portal } from "react-native-paper";
 import { Dimensions, Image, TouchableOpacity, View } from "react-native";
 
 import { ImageGalleryComponentType } from "./types";
@@ -31,22 +31,24 @@ const ImageGallery: FC<ImageGalleryComponentType> = ({
 
   return (
     <View style={style.container}>
-      <Modal
-        visible={previewVisible}
-        backdropStyle={style.modalBackground}
-        onBackdropPress={closePreview}
-      >
-        <TouchableOpacity
-          onPress={closePreview}
-          style={{
-            width: Dimensions.get("screen").width,
-            height: Dimensions.get("screen").height,
-            marginBottom: 20,
-          }}
+      <Portal>
+        <Modal
+          onDismiss={closePreview}
+          visible={previewVisible}
+          style={style.modalBackground}
         >
-          <Image source={{ uri: currentPhoto }} style={style.image} />
-        </TouchableOpacity>
-      </Modal>
+          <TouchableOpacity
+            onPress={closePreview}
+            style={{
+              width: Dimensions.get("screen").width,
+              height: Dimensions.get("screen").height,
+              marginBottom: 20,
+            }}
+          >
+            <Image source={{ uri: currentPhoto }} style={style.image} />
+          </TouchableOpacity>
+        </Modal>
+      </Portal>
 
       {photos.map((photo, index) => (
         <MemoizedImage

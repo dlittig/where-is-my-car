@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { Button, Card, Text, TopNavigationAction } from "@ui-kitten/components";
+import { Appbar, Button, Chip, Text } from "react-native-paper";
 
 import {
   humanReadableDate,
@@ -14,9 +14,9 @@ import {
 import Field from "./Field";
 import style from "./LocationView.style";
 import List from "../../../components/List";
-import Icons from "../../../components/Icons";
 import { LocationViewScreenType } from "./types";
 import MapView from "../../../components/MapView";
+import BaseCard from "../../../components/BaseCard";
 import { deleteParkingAlert } from "../../../alerts";
 import { deleteParking } from "../../../store/actions";
 import BaseLayout from "../../../components/BaseLayout";
@@ -25,12 +25,8 @@ import { RootReducerType } from "../../../store/reducers";
 import ImageGallery from "../../../components/ImageGallery";
 import { parkingByIdSelector } from "../../../store/selectors";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
-import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
-
-const DeleteAction = (props: any) => (
-  <TopNavigationAction icon={Icons.Delete} onPress={props.onPress} />
-);
+import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 
 const LocationView: FC<LocationViewScreenType> = ({ route }) => {
   const { t } = useTranslation();
@@ -42,7 +38,10 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
   );
 
   const onEdit = () => {
-    navigation.navigate(t(APP_LOCATION_EDIT), { id: parkingId });
+    navigation.navigate(
+      t(APP_LOCATION_EDIT) as never,
+      { id: parkingId } as never
+    );
   };
 
   const confirmDelete = () => {
@@ -58,9 +57,11 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
         <>
           <BackBar
             title={route.name}
-            accessoryRight={() => <DeleteAction onPress={confirmDelete} />}
+            accessoryRight={() => (
+              <Appbar.Action icon="delete-outline" onPress={confirmDelete} />
+            )}
           />
-          <BaseLayout level="2">
+          <BaseLayout>
             <List spacer>
               <View>
                 <MapView
@@ -71,49 +72,36 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
                 />
               </View>
 
-              <Card
-                appearance="outline"
-                disabled
-                style={style.card}
-                footer={() => (
+              <BaseCard
+                appearance="elevated"
+                cardStyle={style.card}
+                contentStyle={style.cardContent}
+                footer={
                   <View style={style.footer}>
-                    <Text category="s1">Details</Text>
+                    <Text variant="titleMedium">Details</Text>
                     <View style={style.detailsContainer}>
-                      <Button
-                        style={style.pill}
-                        size="tiny"
-                        accessoryLeft={
-                          <Icons.CreditCard style={style.icons} fill="#fff" />
-                        }
-                      >
+                      <Chip icon="credit-card-outline" style={style.chip}>
                         {parking.paid.length > 0
                           ? `${parking.paid}${parking.unit}`
                           : "Free parking"}
-                      </Button>
+                      </Chip>
 
                       {parking.isActive && (
-                        <Button
-                          style={style.pill}
-                          size="tiny"
-                          status="success"
-                          accessoryLeft={
-                            <Icons.Heart style={style.icons} fill="#fff" />
-                          }
-                        >
+                        <Chip icon="heart" style={style.chip} mode="outlined">
                           Active
-                        </Button>
+                        </Chip>
                       )}
                     </View>
                   </View>
-                )}
+                }
               >
-                <Text style={style.cardTitle} category="h6">
+                <Text style={style.cardTitle} variant="titleLarge">
                   {parking.name}
                 </Text>
-                <Text style={style.parkedHint} appearance="hint" category="p2">
+                <Text style={style.parkedHint} variant="titleMedium">
                   Parked
                 </Text>
-                <Text style={style.parkedValue} category="h6">
+                <Text style={style.parkedValue} variant="bodyMedium">
                   {humanReadableTime(parking.time)}
                 </Text>
                 <Button
@@ -121,11 +109,11 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
                   onPress={() =>
                     routeToLocation(parking.latitude, parking.longitude)
                   }
-                  appearance="outline"
+                  mode="contained-tonal"
                 >
                   {t("actions.navigate") as string}
                 </Button>
-              </Card>
+              </BaseCard>
 
               <Field
                 description={t("text.location.reminder")}
@@ -153,7 +141,7 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
 
               {parking.photos.length > 0 ? (
                 <>
-                  <Text appearance="hint" style={style.description}>
+                  <Text variant="bodyMedium" style={style.description}>
                     {t("text.location.photosHint") as string}
                   </Text>
 
@@ -162,13 +150,13 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
                   </View>
                 </>
               ) : (
-                <Text appearance="hint" style={style.description}>
+                <Text variant="bodyMedium" style={style.description}>
                   No photos to display.
                 </Text>
               )}
             </List>
             <MainAction>
-              <Button accessoryLeft={Icons.Edit} onPress={onEdit}>
+              <Button mode="contained" icon="pencil" onPress={onEdit}>
                 {t("actions.edit").toUpperCase()}
               </Button>
             </MainAction>

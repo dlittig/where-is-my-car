@@ -8,10 +8,12 @@ const BaseLayout: FC<BaseLayoutComponentType> = ({
   children,
   center,
   padded,
+  style,
 }) => (
   <View
     style={[
       BaseLayoutStyle.container,
+      style,
       center && BaseLayoutStyle.center,
       padded && BaseLayoutStyle.padded,
     ]}

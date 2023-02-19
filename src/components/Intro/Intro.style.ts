@@ -1,10 +1,7 @@
 import { StyleSheet } from "react-native";
+import { CombinedDarkTheme } from "../../utils/theme";
 
 const style = StyleSheet.create({
-  screen: {
-    flex: 1,
-    height: "100%",
-  },
   mainAction: {
     display: "flex",
     flexDirection: "row",
@@ -13,6 +10,9 @@ const style = StyleSheet.create({
   },
   mainActionButton: {
     width: "45%",
+  },
+  mainView: {
+    backgroundColor: CombinedDarkTheme.colors.background,
   },
 });
 

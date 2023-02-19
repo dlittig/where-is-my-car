@@ -7,16 +7,17 @@ const style = StyleSheet.create({
     marginTop: -24,
     marginBottom: 8,
   },
+  cardContent: {
+    marginHorizontal: 8,
+    marginBottom: 16,
+  },
   icons: {
     width: 16,
     height: 16,
     marginRight: 6,
     textAlignVertical: "bottom",
   },
-  pill: {
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    borderRadius: 24,
+  chip: {
     marginHorizontal: 4,
   },
   description: {
@@ -37,7 +38,7 @@ const style = StyleSheet.create({
   },
   cardAction: {
     position: "absolute",
-    bottom: 16,
+    bottom: 0,
     right: 16,
   },
   parkedHint: {
