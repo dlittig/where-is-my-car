@@ -35,7 +35,7 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "<insert api key here>"
+          "apiKey": "<api-key>"
         }
       }
     },
