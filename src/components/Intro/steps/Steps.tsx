@@ -2,14 +2,13 @@ import React, { FC } from "react";
 
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Button, Text } from "react-native-paper";
+import { Avatar, Button, Text } from "react-native-paper";
 
 import {
+  showToast,
   requestLocationPermission,
   requestNotificationPermission,
-  showToast,
 } from "../../../utils";
-import Icons from "../../Icons";
 import style from "./Steps.style";
 import BaseLayout from "../../BaseLayout";
 import { StepsComponentType } from "./types";
@@ -156,7 +155,12 @@ export const StepLaunch: FC<StepsComponentType> = () => {
   return (
     <BaseStep>
       <Text>
-        <Icons.Heart fill="#DB2C66" style={style.icon} />
+        <Avatar.Icon
+          size={24}
+          color="#DB2C66"
+          icon="folder"
+          style={style.icon}
+        />
       </Text>
       <Text variant="headlineMedium" style={[style.text, style.headline]}>
         {t("text.intro.launch.title") as string}

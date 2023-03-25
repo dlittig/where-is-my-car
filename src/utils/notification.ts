@@ -70,7 +70,7 @@ export const scheduleCreationNotification = async (payload: Parking) => {
   const schedulingOptions = {
     content: {
       title: "Car parked",
-      body: `Top to navigate.`,
+      body: `Tap to navigate.`,
       sound: true,
       priority: Notifications.AndroidNotificationPriority.LOW,
       color: "#666",
@@ -82,7 +82,7 @@ export const scheduleCreationNotification = async (payload: Parking) => {
     trigger: null,
   };
 
-  Notifications.scheduleNotificationAsync(schedulingOptions);
+  return await Notifications.scheduleNotificationAsync(schedulingOptions);
 };
 
 export const cancelNotification = async (id: string) => {
