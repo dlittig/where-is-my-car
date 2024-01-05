@@ -1,4 +1,4 @@
-import createCachedSelector from "re-reselect";
+import { createCachedSelector } from "re-reselect";
 import { searchFilter } from "../../utils";
 import { RootReducerType } from "../reducers";
 import { ParkingsState } from "../types";

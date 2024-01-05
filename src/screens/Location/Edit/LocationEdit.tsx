@@ -48,8 +48,9 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
 
     if (hasPermission) {
       const result = await launchCamera();
-      if (!result.cancelled) {
-        parkingForm.setPhotos([...parkingForm.photos, result.uri]);
+      if (!result.canceled) {
+        const uris = result.assets.map(image => image.uri);
+        parkingForm.setPhotos([...parkingForm.photos, ...uris]);
       }
     }
   };

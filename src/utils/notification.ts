@@ -1,16 +1,33 @@
-import { Parking } from "../store/types";
+import * as Device from "expo-device";
+import { Platform } from "react-native";
 import * as Location from "expo-location";
-import { humanReadableTime } from "./format";
 import { differenceInSeconds } from "date-fns";
 import * as Notifications from "expo-notifications";
+
+import { Parking } from "../store/types";
+import { humanReadableTime } from "./format";
 import { NOTIFICATION_KIND } from "../components/NotificationListener/types";
 
 export const requestNotificationPermission = async (): Promise<boolean> => {
   let notificationStatus: Location.PermissionStatus;
 
   try {
-    const { status } = await Notifications.requestPermissionsAsync();
-    notificationStatus = status;
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
+    if (Device.isDevice) {
+      const { status } = await Notifications.requestPermissionsAsync();
+      notificationStatus = status;
+    } else {
+      console.error("Notifications only work on real devices");
+      throw "Notifications only work on real devices";
+    }
   } catch (e) {
     console.error(
       `An error occured when asking for notification permission: ${e}`

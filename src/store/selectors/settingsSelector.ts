@@ -1,4 +1,4 @@
-import createCachedSelector from "re-reselect";
+import { createCachedSelector } from "re-reselect";
 import { RootReducerType } from "../reducers";
 import { SettingsState } from "../types";
 
