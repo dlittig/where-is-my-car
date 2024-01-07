@@ -2,7 +2,7 @@
   "expo": {
     "name": "Where is my car?",
     "slug": "where-is-my-car",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",

@@ -13,8 +13,9 @@ import style from "./Steps.style";
 import BaseLayout from "../../BaseLayout";
 import { StepsComponentType } from "./types";
 import { setSeenIntro } from "../../../store/actions";
+import { ChildrenComponentType } from "../../../utils/types";
 
-const BaseStep: FC = ({ children }) => (
+const BaseStep: FC<ChildrenComponentType> = ({ children }) => (
   <BaseLayout center padded>
     {children}
   </BaseLayout>
@@ -116,7 +117,7 @@ export const StepNotification: FC<StepsComponentType> = ({
 export const StepMediaLibrary: FC<StepsComponentType> = () => {
   const { t } = useTranslation();
   // TODO Request permission here
-  const getMediaPermission = () => {};
+  const getMediaPermission = () => { };
 
   return (
     <BaseStep>

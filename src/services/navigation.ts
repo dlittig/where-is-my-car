@@ -1,6 +1,6 @@
 import { CommonActions, NavigationContainerRef } from "@react-navigation/core";
 
-type Navigator = NavigationContainerRef;
+type Navigator = NavigationContainerRef<{}>;
 
 let _navigator: Navigator; // eslint-disable-line
 

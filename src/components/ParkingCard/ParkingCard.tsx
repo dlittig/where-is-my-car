@@ -30,8 +30,7 @@ const ParkingCard: FC<ParkingCardComponentType> = ({ parking }) => {
 
   const onPress = () =>
     navigation.navigate(
-      t(APP_LOCATION_VIEW) as never,
-      { id: parking.id } as never
+      ...([t(APP_LOCATION_VIEW), { id: parking.id }] as never)
     );
 
   const confirmDelete = () => {

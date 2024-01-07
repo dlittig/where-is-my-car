@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { View } from "react-native";
+import { BaseLayoutComponentType } from "./types";
 
 import BaseLayoutStyle from "./BaseLayout.style";
-import { BaseLayoutComponentType } from "./types";
 
 const BaseLayout: FC<BaseLayoutComponentType> = ({
   children,

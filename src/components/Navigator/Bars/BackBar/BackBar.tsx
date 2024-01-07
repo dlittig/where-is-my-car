@@ -13,7 +13,7 @@ const BackBar: FC<BackBarComponentType> = ({ title, accessoryRight }) => {
         onPress={() => navigation.canGoBack() && navigation.goBack()}
       />
       <Appbar.Content title={title} />
-      {accessoryRight}
+      <>{accessoryRight}</>
     </Appbar.Header>
   );
 };

@@ -3,7 +3,7 @@ import { Text } from "react-native-paper";
 import BaseLayout from "../../components/BaseLayout";
 
 const Map = () => (
-  <BaseLayout level={"2"}>
+  <BaseLayout>
     <Text>Map View</Text>
   </BaseLayout>
 );

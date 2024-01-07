@@ -31,9 +31,9 @@ import MainAction from "../../../components/MainAction";
 import { useParkingsForm } from "../../../hooks/parkings";
 import ImageGallery from "../../../components/ImageGallery";
 import DateTimeInput from "../../../components/DateTimeInput";
+import BackBar from "../../../components/Navigator/Bars/BackBar";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
 import { addParking, updateParking } from "../../../store/actions";
-import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 import { DATE_TIME_INPUT_MODE } from "../../../components/DateTimeInput/types";
 
 const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
@@ -130,7 +130,7 @@ const LocationEdit: FC<LocationEditScreenType> = ({ route }) => {
     <>
       <BackBar title={route.name} />
       <BaseLayout>
-        <List level="1" spacer padding>
+        <List spacer padding>
           <View style={styles.element}>
             {/* Read location from object and display it and offer new location */}
             <MapView

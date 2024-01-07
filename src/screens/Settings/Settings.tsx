@@ -11,9 +11,9 @@ import {
 } from "../../utils";
 import pack from "../../../package.json";
 import { setSeenIntro } from "../../store/actions";
+import BackBar from "../../components/Navigator/Bars/BackBar";
 import { resetState } from "../../store/actions/commonActions";
 import BaseLayout from "../../components/BaseLayout/BaseLayout";
-import BackBar from "../../components/Navigator/Bars/BackBar/BackBar";
 
 const Settings = () => {
   const dispatch = useDispatch();

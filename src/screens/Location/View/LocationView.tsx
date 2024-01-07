@@ -24,8 +24,8 @@ import MainAction from "../../../components/MainAction";
 import { RootReducerType } from "../../../store/reducers";
 import ImageGallery from "../../../components/ImageGallery";
 import { parkingByIdSelector } from "../../../store/selectors";
+import BackBar from "../../../components/Navigator/Bars/BackBar";
 import { MAP_VIEW_SIZE } from "../../../components/MapView/types";
-import BackBar from "../../../components/Navigator/Bars/BackBar/BackBar";
 import { APP_LOCATION_EDIT } from "../../../components/Navigator/Routes";
 
 const LocationView: FC<LocationViewScreenType> = ({ route }) => {
@@ -39,8 +39,7 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
 
   const onEdit = () => {
     navigation.navigate(
-      t(APP_LOCATION_EDIT) as never,
-      { id: parkingId } as never
+      ...([t(APP_LOCATION_EDIT), { id: parkingId }] as never)
     );
   };
 
@@ -57,9 +56,9 @@ const LocationView: FC<LocationViewScreenType> = ({ route }) => {
         <>
           <BackBar
             title={route.name}
-            accessoryRight={() => (
+            accessoryRight={
               <Appbar.Action icon="delete-outline" onPress={confirmDelete} />
-            )}
+            }
           />
           <BaseLayout>
             <List spacer>
